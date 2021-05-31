@@ -1,0 +1,141 @@
+Website:
+    - No sign up/sign in for User
+    - 
+Domain:
+    - user: abc.com
+    - admin: admin.abc.com (or abc.com/user?)
+
+Priorities:
+- Beautiful design
+
+Page design:
+    * Navbar:
+        + Home Shirts Shorts Shoes My Orders Contact
+        + [x] Home Products My Orders Contact
+    - Home:
+        - Navbar
+        - Hero
+        - Products (See more)
+        - About shop
+        - Contact
+        - Footer
+    - Products:
+        - Navbar
+        - Sort by (not priority)
+        - Product list (price, name, img) + view details (+ descr.) + add to order
+        - Pagination
+        - Footer
+    
+    - My Orders
+        - Items, quantity (add/remove)
+        - Checkout => input form popup
+        - Footer
+    
+Functionalities:
+User:
+    - (UI) can see about Shop, product list (name,price,img,description)
+    - (UI) can sort by fields (not priority)
+    - (UI) can search product name (not priority)
+    - (UI) can add to Orders
+    - input phone, email, name:
+        -> receive order confirmation by email (or phone) with the ordered items
+        -> popup telling user to send money to shop owner with order id + amount => receive 
+        -> popup message saying "will receive call in 12h, COD payment"
+    - messenger icon => user logs in to message shop owner if have any questions
+
+Admin:
+    - Login to portal
+    - Can browse the products:
+        + UI display product lists just like the client site or,
+        + A list without images
+    - Add/Edit/Remove products
+        - Add: click Add button => show form => upload img, input name, price, description, (category, size, color,...) => submit
+        - Edit: click Edit button => show form => edit => submit
+    - Reorder products?
+    - Edit username/password?
+    -----
+    - edit the frontend directly using a csv file then deploy the site themselves! (a lot easier)
+
+App flow:
+- Admin sbumit new data -> add to DB -> FE loads data from DB
+
+Tech: 
+    - React (gatsby?)/Redux for building FE
+    - Tailwind css for styling
+    - xxx for sending email
+    - Messenger API
+    - Node for admin backend / admin portal
+    - JWT for admin authentication 
+    - MongoDB for storing product infos (name, price, image, ...) + admin info (username, password)
+
+Development plan:
+    "Build the core first, start small"
+    
+    Milestone:
+    [Setup]
+    - Set up boiler plate React (Gatsby) + Node + MongoDB
+
+    [Load one product from server to client]
+    - client: /products: load an object {productName: 'Name'} from Node server to React app
+
+    [Design DB - determine columns so that won't have to fix too much later]
+    - DB: product table
+        - id, price, quantity, image
+
+    [Load one product from DB to client]
+    - server: load product name from DB into an object through server
+
+    [Push one product from server to DB]
+    - client: load text (product name) from DB to page
+    - server:  push {productName: 'a'} to DB
+
+    [Submit new product from client to DB through server]
+    - client: /admin: Add button to submit + send POST request from client
+
+    [Implement user authentication]
+    - client: /admin: admin page => basic form to login + POST request 
+    - server: working user authentication, JWT (without DB)
+
+    [Client loads multiple products from DB]:
+    - client: implement map
+
+    (Now we have a website where admin can login to /admin and can add multiple products (object) to DB and client loads them on a page /products)
+
+    [Add products with multiple fields {name, price, description} (without img)]
+    - client: Update the POST request body + update mapping in /products
+    - server: add new fields to DB
+
+    [Admin add products with multiple fields using a form]
+    - client: Make basic form with all fields + pass inputted data from form to submit function
+    
+    [Display products to admin page]
+    - client: loads (map) products from DB through server as list, e.g | 1, name, desc, price
+
+    [Delete products in DB from server]
+    - server: implement delete record by id => test it
+    - client: send delete request (axios)
+
+    [Delete products from /admin page]
+    - client: Remove button next to a product => map to unique ID (React?)
+
+    []
+
+
+
+
+
+    
+
+    
+
+    
+
+
+Example:
+https://tailwindcomponents.com/component/e-commerce-product-listing-page/landing#
+Payment methods: https://7aothuat.com/thanh-toan 
+http://aothuatatshop.com/thanh-toan.html
+
+Concerns:
+- What if they have a LOT of products, cannot make API calls for all of them
+- Security concern
