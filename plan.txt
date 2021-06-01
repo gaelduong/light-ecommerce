@@ -15,6 +15,10 @@ Page design:
     - Home:
         - Navbar
         - Hero
+        - How it works
+            1. COD
+                3 steps: [you order] -> [shop owner confirm] -> [deliver]
+            2. Paypal?
         - Products (See more)
         - About shop
         - Contact
@@ -71,7 +75,13 @@ Tech:
 Development plan:
     "Build the core first, start small"
     
-    Milestone:
+    Milestones:
+
+     ___________________________________________
+    |                                           |
+    |                   ADMIN                   |
+    |___________________________________________|
+
     [Setup]
     - Set up boiler plate React (Gatsby) + Node + MongoDB
 
@@ -99,7 +109,8 @@ Development plan:
     [Client loads multiple products from DB]:
     - client: implement map
 
-    (Now we have a website where admin can login to /admin and can add multiple products (object) to DB and client loads them on a page /products)
+    ***************************************************************************
+    (Now we have a website where admin can login to /admin and can add products (object) to DB and client loads them on page /products)
 
     [Add products with multiple fields {name, price, description} (without img)]
     - client: Update the POST request body + update mapping in /products
@@ -113,23 +124,132 @@ Development plan:
 
     [Delete products in DB from server]
     - server: implement delete record by id => test it
-    - client: send delete request (axios)
 
     [Delete products from /admin page]
-    - client: Remove button next to a product => map to unique ID (React?)
+    - client: Remove button next to a product => map to unique ID (React?) + send delete request (axios)
 
-    []
+    [Edit products in DB from server]
+    - server: implement edit record by id
+
+    [Edit products in DB from /admin page]
+    - client: Edit button next to product (mapped to unique ID) + popup edit form (or redirect to /edit/id?) + edit request (axios)
+
+    [Add product image]
+    - client: implement upload image + update POST request in ADD & EDIT
+    - server: insert image into DB for ADD & EDIT
+
+    (Now we have a website where admin can login to /admin and can add/edit/delete products to DB and client loads them on page /products)
+
+    ***************************************************************************
+
+     ___________________________________________
+    |                                           |
+    |                   USER                    |
+    |___________________________________________|
+    
+
+    [Detail popup / detail page with add to cart button + quantity +/-]
+    - client: for each product, add popup (OR detail page?) showing product description with add to cart button + quantity (load data given unique id)
+
+    [Set up state management on client and define states]
+    - client: definte necessary states (products, cart, language) + setup Redux store to store states
+            - convert React states (products) to Redux state + update code
+
+    [Update Redux store's state when click add to cart]
+    - client: dispatch addToCart action when clicking add to cart
+
+    [Show products with quantity in /myorders]
+    - client: map items from redux store to page /myorders
+
+    (On client, now user can add products with quantity to cart see them in /myorders)   
+    
+    ***************************************************************************
+   
+    [Display quantity button +/- in /myorders]
+    - client: add quantity button next to each item (map to unique id)
+
+    [Update cart state when user clicking on quantity +/-]
+    - client: dispatch action clicking +/-
+
+    (On client, now user can update quantity and remove (when qty=0 show Remove) products from cart in /myorders)
+
+    ***************************************************************************
+
+    [Display user info form + Checkout btn]
+    - client: name, phone, email form => checkout btn
+
+    [Display confirm popup]
+    - client: checkout btn clicked => show popup with {uniqueId}
+
+    [Generate unique order id]
+    - client (or server): generate a random string of 10 numbers (unlikely for 2 orders to have the same id)
+    
+    
+    (On client /products, now user can checkout and is shown a popup message: "Admin will call you in 12h and ship to ur address (COD)")
+
+    ***************************************************************************
+
+    (On client /products, now we have skeleton loading for the products)
+
+    ***************************************************************************
+
+    (On client /products, now there's pagination for products)
+
+    ***************************************************************************
+
+    (On client /products, there are now sidebar displaying different categories) [EXTRA]
+
+    ***************************************************************************
+
+    (On client /products, user can sort by name, price, category) [EXTRA]
+
+    ***************************************************************************
+
+    (On client /products, user can search for product name) [EXTRA]
+
+    ***************************************************************************
 
 
 
+    (Should now have navbar and footer)
+
+    ***************************************************************************
 
 
+    (We now have /home)
+
+    ***************************************************************************
+
+
+    (We now have hero + how it works + product sections in /home)
+
+    ***************************************************************************
     
 
     
+    (Style /home)
+
+    ***************************************************************************
+
+
+    (Style /products)
+
+    ***************************************************************************
 
     
+    (Style /myorders)
 
+    ***************************************************************************
+
+
+    (Style navbar and footer)
+
+    ***************************************************************************
+
+
+    (Style /admin)
+
+    ***************************************************************************
 
 Example:
 https://tailwindcomponents.com/component/e-commerce-product-listing-page/landing#
@@ -138,4 +258,4 @@ http://aothuatatshop.com/thanh-toan.html
 
 Concerns:
 - What if they have a LOT of products, cannot make API calls for all of them
-- Security concern
+- Security concern => how to make sure only admin can access admin page + DB cannot be corrupted + DB should not lose all data (backup?)
