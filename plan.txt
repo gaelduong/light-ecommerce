@@ -184,16 +184,15 @@ Development plan:
     [Generate unique order id]
     - client (or server): generate a random string of 10 numbers (unlikely for 2 orders to have the same id)
     
-    
     (On client /products, now user can checkout and is shown a popup message: "Admin will call you in 12h and ship to ur address (COD)")
 
     ***************************************************************************
 
-    (On client /products, now we have skeleton loading for the products)
+    (On client /products, now we have skeleton loading for the products) [EXTRA]
 
     ***************************************************************************
 
-    (On client /products, now there's pagination for products)
+    (On client /products, now there's pagination for products) [EXTRA]
 
     ***************************************************************************
 
@@ -211,45 +210,76 @@ Development plan:
 
 
 
-    (Should now have navbar and footer)
+
+
+     ___________________________________________
+    |                                           |
+    |                   DESIGN                  |
+    |___________________________________________|
+
+    [Set up html skeleton for navbar and footer]
+    (Should now have unstyled navbar and footer)
 
     ***************************************************************************
 
-
-    (We now have /home)
-
-    ***************************************************************************
-
-
-    (We now have hero + how it works + product sections in /home)
+    [Set up html skeleton for all sections]
+    (We now have /home and hero + how it works + product sections in /home)
 
     ***************************************************************************
     
-
+    [Style hero]
+    [Style How it works]
+    [Style Products (see more)]
+    -> Use tailwind css
+    -> responsive
     
     (Style /home)
 
     ***************************************************************************
-
-
+    [navbar]
+    [Style product list]
+    -> Use tailwind css
+    -> responsive
+    [footer]
     (Style /products)
 
     ***************************************************************************
-
-    
+    [navbar]
+    [Style order list]
+    -> Use tailwind css
+    -> responsive
+    [footer]
     (Style /myorders)
 
     ***************************************************************************
 
+    [Style navbar]
+    [Style footer]
+    -> Use tailwind css
+    -> responsive
 
     (Style navbar and footer)
 
     ***************************************************************************
 
+    [Style login form]
+    -> Use tailwind css
+    -> responsive
+
+    (Style /admin login)
+    ***************************************************************************
+
+
+    [Style product list + style add,edit, delete buttons + style popup add/edit]
+    -> Use tailwind css
+    -> responsive
 
     (Style /admin)
 
     ***************************************************************************
+
+
+    
 
 Example:
 https://tailwindcomponents.com/component/e-commerce-product-listing-page/landing#
