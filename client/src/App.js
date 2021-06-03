@@ -28,7 +28,8 @@ const App = () => {
             <button onClick={addProductHandler}> Add product</button>
             <h2>My products: </h2>
             {products.map((product) => {
-                return <p>{product.name}</p>;
+                const name = product.name;
+                return <p key={name}>{name}</p>;
             })}
         </div>
     );
