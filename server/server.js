@@ -4,8 +4,10 @@ const cors = require("cors");
 
 app.use(cors());
 
+const products = [{ name: "Apple" }, { name: "Orange" }, { name: "Banana" }];
+
 app.get("/products", (req, res) => {
-    res.json({ name: "Deck of Cards" });
+    res.json(products);
 });
 
 const PORT = process.env.PORT || 5000;
