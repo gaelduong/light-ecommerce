@@ -94,9 +94,9 @@ Development plan:
 
     [Load one product from DB to client]
     - server: load product name from DB into an object through server
+    - client: load text (product name) from DB to page
 
     [Push one product from server to DB]
-    - client: load text (product name) from DB to page
     - server:  push {productName: 'a'} to DB
 
     [Submit new product from client to DB through server]
@@ -106,11 +106,14 @@ Development plan:
     - client: /admin: admin page => basic form to login + POST request 
     - server: working user authentication, JWT (without DB)
 
+    [Authentication with DB]
+
     [Client loads multiple products from DB]:
     - client: implement map
 
-    ***************************************************************************
     (Now we have a website where admin can login to /admin and can add products (object) to DB and client loads them on page /products)
+
+    ***************************************************************************
 
     [Add products with multiple fields {name, price, description} (without img)]
     - client: Update the POST request body + update mapping in /products
@@ -140,6 +143,11 @@ Development plan:
 
     (Now we have a website where admin can login to /admin and can add/edit/delete products to DB and client loads them on page /products)
 
+    [Admin edit user and password info]
+    - client: edit form for username and password + send POST request
+    - server: edit username and password to DB through server
+
+
     ***************************************************************************
 
      ___________________________________________
@@ -158,20 +166,20 @@ Development plan:
     [Update Redux store's state when click add to cart]
     - client: dispatch addToCart action when clicking add to cart
 
-    [Show products with quantity in /myorders]
-    - client: map items from redux store to page /myorders
+    [Show products with quantity in /cart]
+    - client: map items from redux store to page /cart
 
-    (On client, now user can add products with quantity to cart see them in /myorders)   
+    (On client, now user can add products with quantity to cart see them in /cart)   
     
     ***************************************************************************
    
-    [Display quantity button +/- in /myorders]
+    [Display quantity button +/- in /cart]
     - client: add quantity button next to each item (map to unique id)
 
     [Update cart state when user clicking on quantity +/-]
     - client: dispatch action clicking +/-
 
-    (On client, now user can update quantity and remove (when qty=0 show Remove) products from cart in /myorders)
+    (On client, now user can update quantity and remove (when qty=0 show Remove) products from cart in /cart)
 
     ***************************************************************************
 
@@ -236,20 +244,18 @@ Development plan:
     (Style /home)
 
     ***************************************************************************
-    [navbar]
     [Style product list]
     -> Use tailwind css
     -> responsive
-    [footer]
     (Style /products)
 
     ***************************************************************************
-    [navbar]
-    [Style order list]
+    [Style product list]
+    [Style form]
+    [Style btns]
     -> Use tailwind css
     -> responsive
-    [footer]
-    (Style /myorders)
+    (Style /cart)
 
     ***************************************************************************
 
@@ -257,7 +263,7 @@ Development plan:
     [Style footer]
     -> Use tailwind css
     -> responsive
-
+    -> design logo icon
     (Style navbar and footer)
 
     ***************************************************************************
@@ -275,6 +281,17 @@ Development plan:
     -> responsive
 
     (Style /admin)
+
+    ***************************************************************************
+
+
+
+    (Add messenger chat)
+
+    ***************************************************************************
+
+    
+    (Add dark mode)
 
     ***************************************************************************
 
