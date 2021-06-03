@@ -1,0 +1,52 @@
+﻿User Stories,Details,Estimated time,Epic
+[Setup],Set up boiler plate React (Gatsby) + Node + MongoDB,2,
+[Load one product from server to client],* client: /products: load an object {productName: 'Name'} from Node server to React app,1,
+[Design DB - determine columns so that won't have to fix too much later],"* DB: product table (id, price, quantity, image)",1,
+[Load one product from DB to client],"* client: load text (product name) from DB to page
+* server: load product name from DB into an object through server ",1,
+[Push one product from server to DB], * server:  push {productName: 'a'} to DB,1,
+[Submit new product from client to DB through server],* client: /admin: Add button to submit + send POST request from client,1,
+[Implement user authentication without DB],,1,
+[Authentication with DB],,1,
+[Client loads multiple products from DB],,0.5,(Now we have a website where admin can login to /admin and can add products (object) to DB and client loads them on page /products)
+"[Add products with multiple fields {name, price, description} (without img)]",,1,
+[Admin add products with multiple fields using a form],,1,
+ [Display products to admin page],,0.5,
+[Delete products in DB from server],,1,
+[Delete products from /admin page],,1,
+[Edit products in DB from server],,1,
+[Edit products in DB from /admin page],,1.5,
+[Add product image],,1,(Now we have a website where admin can login to /admin and can add/edit/delete products to DB and client loads them on page /products)
+[Admin edit user and password info],,2,
+[Detail popup / detail page with add to cart button + quantity +/-],,2,
+[Set up state management on client and define states],,2,
+[Update Redux store's state when click add to cart],,1,
+[Show products with quantity in /cart],,2,"(On client, now user can add products with quantity to cart see them in /cart)  "
+[Display quantity button +/- in /cart],,1,
+[Update cart state when user clicking on quantity +/-],,1,"(On client, now user can update quantity and remove (when qty=0 show Remove) products from cart in /cart)"
+[Display user info form + Checkout btn],,1,
+[Display confirm popup],,1,
+[Generate unique order id],,0.5,"(On client /products, now user can checkout and is shown a popup message: ""Admin will call you in 12h and ship to ur address (COD)"")"
+,,,"(On client /products, now we have skeleton loading for the products) [EXTRA]"
+,,,"(On client /products, now there's pagination for products) [EXTRA]"
+,,,"(On client /products, there are now sidebar displaying different categories) [EXTRA]"
+,,,"(On client /products, user can sort by name, price, category) [EXTRA]"
+,,,"    (On client /products, user can search for product name) [EXTRA]"
+ [Set up html skeleton for navbar and footer],,1,
+[Set up html skeleton for all sections],,1,
+[Style hero],,3,
+[Style How it works],,5,
+[Style Products (see more)],,3,(Style /home)
+[Style product list in /products],,3,(Style /products)
+[Style product list in /cart],,3,
+[Style form],,3,
+[Style btns],,2,(Style /cart)
+[Style navbar],,3,
+[Style footer],,3,(Style navbar and footer)
+[Style login page + login form],,3, (Style /admin login)
+"[Style product list + style add,edit, delete buttons + style popup add/edit]",,4,(Style /admin)
+[Style edit profile page],,3,
+,,,(Add messenger chat + styling) [EXTRA]
+,,,(Add dark mode) [EXTRA]
+(The other 99%),,14,
+,,85,
