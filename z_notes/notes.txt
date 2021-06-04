@@ -1,1 +1,6 @@
 - resolve environment variables
+- when admin add product, need to appear on the screen right after (no refresh)
+- product model: (id, name, price, image, description, category, quantity, isInStock? )
+- redis? (for session and caching)
+- IP access list for DB (right now it's everywhere but should change to specific IP address)
+- Where to store product images? (MongoDB?)
