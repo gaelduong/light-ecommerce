@@ -6,6 +6,7 @@ const serverUrl = process.env.NODE_ENV === "development" ? "http://localhost:500
 
 const App = () => {
     const [products, setProducts] = useState([]);
+    const [productNameInput, setProductNameInput] = useState("");
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -16,21 +17,42 @@ const App = () => {
         fetchProducts();
     }, []);
 
-    const addProductHandler = async () => {
+    const handleChange = (e) => {
+        setProductNameInput(e.target.value);
+    };
+    const handleAddProduct = async (e) => {
+        e.preventDefault();
+
         const { data } = await axios.post(`${serverUrl}/products`, {
-            name: "Watermelon"
+            name: productNameInput
         });
-        console.log(data);
+        const newProducts = [...products];
+        newProducts.push(data);
+        setProducts(newProducts);
+        setProductNameInput("");
     };
 
+    const handleDeleteProduct = async (id) => {};
     return (
         <div className="App">
-            <button onClick={addProductHandler}> Add product</button>
+            <form onSubmit={handleAddProduct}>
+                <label>
+                    Name:
+                    <input type="text" value={productNameInput} onChange={handleChange} />
+                </label>
+                <input type="submit" value="Add product" />
+            </form>
             <h2>My products: </h2>
-            {products.map((product) => {
-                const name = product.name;
-                return <p key={name}>{name}</p>;
-            })}
+            <ol>
+                {products.map(({ _id, name }) => {
+                    return (
+                        <li key={_id}>
+                            <span> {name} </span>
+                            <button onClick={(_id) => handleDeleteProduct(_id)}> X </button>
+                        </li>
+                    );
+                })}
+            </ol>
         </div>
     );
 };

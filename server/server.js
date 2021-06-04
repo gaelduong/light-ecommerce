@@ -9,7 +9,7 @@ app.use(cors());
 
 dbConnect();
 
-const products = [{ name: "Apple" }, { name: "Orange" }, { name: "Banana" }];
+// const products = [{ name: "Apple" }, { name: "Orange" }, { name: "Banana" }];
 
 app.get("/products", async (req, res) => {
     // Retrieve products from DB
@@ -19,6 +19,7 @@ app.get("/products", async (req, res) => {
         res.json(products);
     } catch (error) {
         console.log(error);
+        res.status(500);
     }
 });
 
@@ -27,12 +28,26 @@ app.post("/products", async (req, res) => {
     const newProduct = new Product(product);
     // Insert product to DB
     try {
-        await newProduct.save();
-        console.log("Saved to DB");
+        const addedProduct = await newProduct.save();
+        console.log("Saved to DB successfully");
+        res.json(addedProduct);
     } catch (error) {
         console.log(error);
+        res.status(500);
     }
-    res.send("Success");
+});
+
+app.delete("/products/:id", async (req, res) => {
+    // try {
+    //     const id = req.body.id;
+    //     console.log(id);
+    //     await Product.deleteOne({ id });
+    //     console.log("Delete from DB successfully");
+    // } catch (error) {
+    //     console.log(error);
+    //     res.status(500);
+    // }
+    console.log("dels");
 });
 
 const PORT = process.env.PORT || 5000;
