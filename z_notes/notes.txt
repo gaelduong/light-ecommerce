@@ -4,3 +4,5 @@
 - redis? (for session and caching)
 - IP access list for DB (right now it's everywhere but should change to specific IP address)
 - Where to store product images? (MongoDB?)
+- async => asyncHandler for routes? Why?
+- colored message in terminal
