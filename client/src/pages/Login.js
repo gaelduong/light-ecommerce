@@ -12,6 +12,7 @@ const Login = () => {
                     <b> Password </b>
                 </label>
                 <input type="password" placeholder="Enter password" required />
+                <input type="submit" value="Login" />
             </form>
         </div>
     );
