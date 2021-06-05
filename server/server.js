@@ -9,8 +9,6 @@ app.use(cors());
 
 dbConnect();
 
-// const products = [{ name: "Apple" }, { name: "Orange" }, { name: "Banana" }];
-
 app.get("/products", async (req, res) => {
     // Retrieve products from DB
     try {
