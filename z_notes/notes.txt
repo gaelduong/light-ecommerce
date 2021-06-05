@@ -1,8 +1,11 @@
 - resolve environment variables
-- when admin add product, need to appear on the screen right after (no refresh)
+- [x] when admin add product, need to appear on the screen right after (no refresh)
 - product model: (id, name, price, image, description, category, quantity, isInStock? )
 - redis? (for session and caching)
 - IP access list for DB (right now it's everywhere but should change to specific IP address)
 - Where to store product images? (MongoDB?)
 - async => asyncHandler for routes? Why?
 - colored message in terminal
+- need to have confirmation message for each message (are you sure to delete?, etc.)
+- use throw new error instead of console.log(error) why?
+- error handing for each action (what if it doesn't do what is expected to do? e.g remove product but it doesn't)
