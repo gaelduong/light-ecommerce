@@ -32,7 +32,11 @@ const App = () => {
         setProductNameInput("");
     };
 
-    const handleDeleteProduct = async (id) => {};
+    const handleDeleteProduct = async (e, id) => {
+        const { data } = await axios.delete(`${serverUrl}/products/${id}`);
+        const newProducts = [...products].filter((product) => product._id !== data._id);
+        setProducts(newProducts);
+    };
     return (
         <div className="App">
             <form onSubmit={handleAddProduct}>
@@ -48,7 +52,7 @@ const App = () => {
                     return (
                         <li key={_id}>
                             <span> {name} </span>
-                            <button onClick={(_id) => handleDeleteProduct(_id)}> X </button>
+                            <button onClick={(e) => handleDeleteProduct(e, _id)}> X </button>
                         </li>
                     );
                 })}

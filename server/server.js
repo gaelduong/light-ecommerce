@@ -38,16 +38,15 @@ app.post("/products", async (req, res) => {
 });
 
 app.delete("/products/:id", async (req, res) => {
-    // try {
-    //     const id = req.body.id;
-    //     console.log(id);
-    //     await Product.deleteOne({ id });
-    //     console.log("Delete from DB successfully");
-    // } catch (error) {
-    //     console.log(error);
-    //     res.status(500);
-    // }
-    console.log("dels");
+    try {
+        const removedProduct = await Product.findById(req.params.id);
+        removedProduct.remove();
+        console.log("Delete from DB successfully");
+        res.json(removedProduct);
+    } catch (error) {
+        console.log(error);
+        res.status(500);
+    }
 });
 
 const PORT = process.env.PORT || 5000;
