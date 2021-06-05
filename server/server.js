@@ -47,6 +47,20 @@ app.delete("/products/:id", async (req, res) => {
     }
 });
 
+app.put("/products/:id", async (req, res) => {
+    try {
+        const { name } = req.body;
+        const productToUpdate = await Product.findById(req.params.id);
+        if (productToUpdate) {
+            productToUpdate.name = name;
+        }
+        productToUpdate.save();
+        res.json(productToUpdate);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
