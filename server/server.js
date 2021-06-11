@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const dbConnect = require("./dbConfig");
-const { Product } = require("./models/");
+const { Product, User } = require("./models/");
 const bcrypt = require("bcrypt");
 app.use(express.json());
 app.use(cors());
@@ -74,6 +74,21 @@ app.put("/products_admin/:id", async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+});
+
+// Authentication
+
+app.post("/login", async (req, res) => {
+    const user = await User.findOne({ name: "admin" });
+    if (!user) {
+        return res.sendStatus(403);
+    }
+    const hashedPassword = user.password;
+    const passwordMatched = await bcrypt.compare("test123", hashedPassword);
+    if (!passwordMatched) {
+        return res.sendStatus(403);
+    }
+    return res.json({ name: user.name });
 });
 
 const PORT = process.env.PORT || 5000;
