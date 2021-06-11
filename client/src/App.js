@@ -20,15 +20,9 @@ const App = () => {
                     </ul>
                 </nav>
                 <Switch>
-                    <Route path="/products">
-                        <Products />
-                    </Route>
-                    <Route path="/admin">
-                        <Admin />
-                    </Route>
-                    <Route path="/login">
-                        <Login />
-                    </Route>
+                    <Route path="/products" component={Products} />
+                    <Route path="/admin" component={Admin} />
+                    <Route path="/login" component={Login} />
                 </Switch>
             </div>
         </Router>
