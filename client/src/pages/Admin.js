@@ -13,7 +13,7 @@ const Admin = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             // console.log(process.env.NODE_ENV);
-            const { data } = await axios.get(`${serverUrl}/products`);
+            const { data } = await axios.get(`${serverUrl}/products_admin`);
             setProducts(data);
         };
         fetchProducts();
@@ -26,7 +26,7 @@ const Admin = () => {
     const handleAddProduct = async (e) => {
         e.preventDefault();
 
-        const { data } = await axios.post(`${serverUrl}/products`, {
+        const { data } = await axios.post(`${serverUrl}/products_admin`, {
             name: productNameInput
         });
         const newProducts = [...products];
@@ -36,14 +36,14 @@ const Admin = () => {
     };
 
     const handleDeleteProduct = async (e, id) => {
-        const { data } = await axios.delete(`${serverUrl}/products/${id}`);
+        const { data } = await axios.delete(`${serverUrl}/products_admin/${id}`);
         const newProducts = [...products].filter((product) => product._id !== data._id);
         setProducts(newProducts);
     };
 
     const handleEditProduct = async (e) => {
         e.preventDefault();
-        const { data } = await axios.put(`${serverUrl}/products/${currentProductEditId}`, { name: productNameEdit });
+        const { data } = await axios.put(`${serverUrl}/products_admin/${currentProductEditId}`, { name: productNameEdit });
         const newProducts = products.map((product) => {
             return product._id === currentProductEditId ? data : product;
         });
