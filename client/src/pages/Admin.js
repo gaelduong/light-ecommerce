@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
-const serverUrl = process.env.NODE_ENV === "development" ? "http://localhost:5000" : process.env.REACT_APP_API_BASE_URL;
+import { serverUrl } from "../config";
 
 const Admin = () => {
     const [products, setProducts] = useState([]);
