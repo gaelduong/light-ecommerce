@@ -30,6 +30,14 @@ const Admin = ({ history }) => {
         verifyLoggedIn(accessToken);
     }, [history]);
 
+    const logoutHandler = () => {
+        const delete_cookie = (name) => {
+            document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        };
+        delete_cookie("accessToken");
+        history.push("/login");
+    };
+
     useEffect(() => {
         const fetchProducts = async () => {
             // console.log(process.env.NODE_ENV);
@@ -103,6 +111,7 @@ const Admin = ({ history }) => {
 
     return (
         <div className="Admin">
+            <button onClick={logoutHandler}> Log out </button>
             <form onSubmit={handleAddProduct}>
                 <label>
                     Name:
