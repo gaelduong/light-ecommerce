@@ -79,12 +79,13 @@ app.put("/products_admin/:id", async (req, res) => {
 // Authentication
 
 app.post("/login", async (req, res) => {
-    const user = await User.findOne({ name: "admin" });
+    console.log(req.body);
+    const user = await User.findOne({ name: req.body.name });
     if (!user) {
         return res.sendStatus(403);
     }
     const hashedPassword = user.password;
-    const passwordMatched = await bcrypt.compare("test123", hashedPassword);
+    const passwordMatched = await bcrypt.compare(req.body.password, hashedPassword);
     if (!passwordMatched) {
         return res.sendStatus(403);
     }
