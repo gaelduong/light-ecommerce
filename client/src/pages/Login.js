@@ -1,30 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { serverUrl } from "../config";
 
-const Login = () => {
+const Login = ({ history }) => {
     const [nameValue, setNameValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
     const [loginResultMessage, setLoginResultMessage] = useState("");
 
+    useEffect(() => {
+        // Redirect to /admin if already logged in
+        const redirectToAdmin = () => history.push("/admin");
+        const getCookieValue = (name) => document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";
+        const accessToken = getCookieValue("accessToken");
+        if (!accessToken) return;
+
+        const verifyLoggedIn = async (accessToken) => {
+            try {
+                await axios.get(`${serverUrl}/isloggedin`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+                redirectToAdmin();
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        verifyLoggedIn(accessToken);
+    }, [history]);
+
     const loginHandle = async (e) => {
         e.preventDefault();
 
-        // Send login post request to server
         try {
-            await axios.post(`${serverUrl}/login`, {
+            const { data } = await axios.post(`${serverUrl}/login`, {
                 name: nameValue,
                 password: passwordValue
             });
             setLoginResultMessage("Login success");
+
+            // Log in success -> save jwt token to cookies
+            document.cookie = `accessToken=${data.accessToken}`;
+            history.push("/admin");
         } catch (e) {
             console.log(e);
             setLoginResultMessage("Incorrect username/password");
         }
-
-        // If rejected, display login fail message
-        // If success, save jwt token to cookies/local storage
-        // Redirect to /admin
     };
     return (
         <div>

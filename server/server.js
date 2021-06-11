@@ -5,6 +5,7 @@ require("dotenv").config();
 const dbConnect = require("./dbConfig");
 const { Product, User } = require("./models/");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 app.use(express.json());
 app.use(cors());
 
@@ -89,7 +90,18 @@ app.post("/login", async (req, res) => {
     if (!passwordMatched) {
         return res.sendStatus(403);
     }
-    return res.json({ name: user.name });
+    const accessToken = jwt.sign({ name: user.name }, process.env.JWT_ACCESS_TOKEN);
+    return res.json({ name: user.name, accessToken: accessToken });
+});
+
+app.get("/isloggedin", (req, res) => {
+    const accessToken = req.headers["authorization"].split(" ")[1];
+    try {
+        const decoded = jwt.verify(accessToken, process.env.JWT_ACCESS_TOKEN);
+        res.json(decoded);
+    } catch (e) {
+        return res.sendStatus(403);
+    }
 });
 
 const PORT = process.env.PORT || 5000;

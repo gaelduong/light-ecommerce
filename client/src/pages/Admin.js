@@ -2,12 +2,33 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { serverUrl } from "../config";
 
-const Admin = () => {
+const Admin = ({ history }) => {
     const [products, setProducts] = useState([]);
     const [productNameInput, setProductNameInput] = useState("");
     const [productNameEdit, setProductNameEdit] = useState("");
     const [isEdit, setIsEdit] = useState(false);
     const [currentProductEditId, setCurrentProductEditId] = useState("");
+
+    useEffect(() => {
+        const redirectToLogin = () => history.push("/login");
+        const getCookieValue = (name) => document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";
+        const accessToken = getCookieValue("accessToken");
+        if (!accessToken) redirectToLogin();
+
+        const verifyLoggedIn = async (accessToken) => {
+            try {
+                await axios.get(`${serverUrl}/isloggedin`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+                redirectToLogin();
+            }
+        };
+        verifyLoggedIn(accessToken);
+    }, [history]);
 
     useEffect(() => {
         const fetchProducts = async () => {
