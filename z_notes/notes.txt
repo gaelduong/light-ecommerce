@@ -9,3 +9,22 @@
 - need to have confirmation message for each message (are you sure to delete?, etc.)
 - use throw new error instead of console.log(error) why?
 - error handing for each action (what if it doesn't do what is expected to do? e.g remove product but it doesn't)
+- request headers for each get,post,put,delete requests?
+- proptypes for each component?
+- create jwt_access_token using node package 'crypto'
+- jwt, refresh token? expire token?
+- secure password with mongoose?
+- where to store jwt? http only cookie?
+- route to handle non existing path (404)
+- in Login, Redirect to /admin if already logged in and in admin, redirect to login if not logged in
+
+
+* 2 ways to access the admin page
+1. access /admin route => check if contains valid jwt 
+=> if yes, show Admin page
+=> if no, redirect to /login
+
+2. login with username and password => submit => server verify credentials with DB
+=> if wrong credentials, reject
+=> if correct, send back jwt + redirect to /admin
+
