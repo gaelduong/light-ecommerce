@@ -11,7 +11,7 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-input[type="text"],
-input[type="password"] {
+input,
+textarea {
     display: block;
 }
