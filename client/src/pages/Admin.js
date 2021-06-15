@@ -4,12 +4,15 @@ import { serverUrl } from "../config";
 
 const Admin = ({ history }) => {
    const [products, setProducts] = useState([]);
+
+   // Product fields - Add
    const [productNameInput, setProductNameInput] = useState("");
    const [productPriceInput, setProductPriceInput] = useState(0);
    const [productDescriptionInput, setProductDescriptionInput] = useState("");
-   const [productCategoryInput, setProductCategoryInput] = useState("");
+   const [productCategoryInput, setProductCategoryInput] = useState("grapefruit");
    const [productIsInStockInput, setProductIsInStockInput] = useState(true);
 
+   // Product fields - Edit
    const [productNameEdit, setProductNameEdit] = useState("");
    const [isEdit, setIsEdit] = useState(false);
    const [currentProductEditId, setCurrentProductEditId] = useState("");
@@ -56,7 +59,11 @@ const Admin = ({ history }) => {
       e.preventDefault();
 
       const { data } = await axios.post(`${serverUrl}/products_admin`, {
-         name: productNameInput
+         name: productNameInput,
+         price: productPriceInput,
+         description: productDescriptionInput,
+         category: productCategoryInput,
+         isInStock: productIsInStockInput
       });
       const newProducts = [...products];
       newProducts.push(data);
