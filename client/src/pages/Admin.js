@@ -9,7 +9,7 @@ const Admin = ({ history }) => {
    const [productNameInput, setProductNameInput] = useState("");
    const [productPriceInput, setProductPriceInput] = useState(0);
    const [productDescriptionInput, setProductDescriptionInput] = useState("");
-   const [productCategoryInput, setProductCategoryInput] = useState("grapefruit");
+   const [productCategoryInput, setProductCategoryInput] = useState("");
    const [productIsInStockInput, setProductIsInStockInput] = useState(true);
 
    // Product fields - Edit
@@ -124,6 +124,7 @@ const Admin = ({ history }) => {
             <label>
                Name:
                <input
+                  required
                   type="text"
                   value={productNameInput}
                   onChange={(e) => {
@@ -134,6 +135,7 @@ const Admin = ({ history }) => {
             <label>
                Price:
                <input
+                  required
                   type="number"
                   step="0.01"
                   min="0"
@@ -156,7 +158,10 @@ const Admin = ({ history }) => {
 
             <label>
                Category:
-               <select value={productCategoryInput} onChange={(e) => setProductCategoryInput(e.target.value)}>
+               <select required onChange={(e) => setProductCategoryInput(e.target.value)}>
+                  <option value="" selected disabled hidden>
+                     Choose category
+                  </option>
                   <option value="grapefruit">Grapefruit</option>
                   <option value="lime">Lime</option>
                   <option value="coconut">Coconut</option>
