@@ -11,6 +11,7 @@ const Admin = ({ history }) => {
    const [productDescriptionInput, setProductDescriptionInput] = useState("");
    const [productCategoryInput, setProductCategoryInput] = useState("");
    const [productIsInStockInput, setProductIsInStockInput] = useState(true);
+   const [imageFile, setImageFile] = useState(null);
 
    // Product fields - Edit
    const [productNameEdit, setProductNameEdit] = useState("");
@@ -69,6 +70,27 @@ const Admin = ({ history }) => {
       newProducts.push(data);
       setProducts(newProducts);
       setProductNameInput("");
+   };
+
+   const handleImageUpload = async (e) => {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append("image", imageFile);
+
+      try {
+         const config = {
+            headers: {
+               "Content-Type": "multipart/form-data"
+            }
+         };
+
+         const { data } = await axios.post(`${serverUrl}/imageupload`, formData, config);
+      } catch (e) {}
+   };
+
+   const handleImageChange = (e) => {
+      console.log(e.target.files[0]);
+      setImageFile(e.target.files[0]);
    };
 
    const handleDeleteProduct = async (e, id) => {
@@ -158,8 +180,8 @@ const Admin = ({ history }) => {
 
             <label>
                Category:
-               <select required onChange={(e) => setProductCategoryInput(e.target.value)}>
-                  <option value="" selected disabled hidden>
+               <select required defaultValue={"default"} onChange={(e) => setProductCategoryInput(e.target.value)}>
+                  <option value="default" disabled hidden>
                      Choose category
                   </option>
                   <option value="grapefruit">Grapefruit</option>
@@ -181,6 +203,14 @@ const Admin = ({ history }) => {
             </label>
 
             <input type="submit" value="Add product" />
+         </form>
+
+         <form onSubmit={handleImageUpload}>
+            <label>
+               Image:
+               <input type="file" name="image" onChange={handleImageChange} />
+            </label>
+            <input type="submit" value="Upload image" />
          </form>
 
          {isEdit ? editForm : ""}
