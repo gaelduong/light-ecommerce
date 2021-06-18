@@ -15,6 +15,7 @@ const Admin = ({ history }) => {
    const [productIsInStockInput, setProductIsInStockInput] = useState(true);
    const [imagePathInput, setImagePathInput] = useState(null);
    const [imageFile, setImageFile] = useState(null);
+   const [inputFileKey, setInputFileKey] = useState("");
 
    // Product fields - Edit
    const [productNameEdit, setProductNameEdit] = useState("");
@@ -93,14 +94,14 @@ const Admin = ({ history }) => {
          newProducts.push(data);
          setProducts(newProducts);
          setProductNameInput("");
-         setImageFile(null);
+         setProductPriceInput(0);
+         setProductDescriptionInput("");
+         setProductCategoryInput("");
+         setImageFile("");
+         setInputFileKey(Date.now());
       } catch (e) {
          return console.log(e);
       }
-   };
-
-   const handleImageChange = (e) => {
-      setImageFile(e.target.files[0]);
    };
 
    const handleDeleteProduct = async (e, id) => {
@@ -213,7 +214,7 @@ const Admin = ({ history }) => {
             </label>
             <label>
                Image:
-               <input type="file" name="image" onChange={handleImageChange} />
+               <input type="file" name="image" key={inputFileKey} onChange={(e) => setImageFile(e.target.files[0])} />
             </label>
 
             <br />
