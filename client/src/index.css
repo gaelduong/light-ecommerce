@@ -11,10 +11,27 @@ code {
    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+li {
+   list-style: none;
+}
+
+a:visited {
+   color: white;
+}
+
 select,
 input,
 textarea {
    display: block;
+}
+
+input[type="submit"] {
+   background: greenyellow;
+}
+
+#cancel-btn {
+   background: red;
+   color: white;
 }
 
 form {

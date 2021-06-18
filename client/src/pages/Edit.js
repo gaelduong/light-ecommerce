@@ -74,6 +74,7 @@ const Edit = ({ products, productEditId, setProductEditId, setProductsChanged })
 
             <input type="submit" value="Update" />
             <button
+               id="cancel-btn"
                onClick={() => {
                   setProductEditId("");
                }}
