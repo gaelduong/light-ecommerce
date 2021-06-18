@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { serverUrl } from "../config";
-import Edit from "./Edit.js";
+import EditProduct from "./EditProduct.js";
 
 const Admin = ({ history }) => {
    // Loading
@@ -192,7 +192,7 @@ const Admin = ({ history }) => {
             <input type="submit" value="Add product" />
          </form>
 
-         {productEditId && <Edit products={products} productEditId={productEditId} setProductEditId={setProductEditId} setProductsChanged={setProductsChanged} />}
+         {productEditId && <EditProduct products={products} productEditId={productEditId} setProductEditId={setProductEditId} setProductsChanged={setProductsChanged} />}
 
          <h2>My products: </h2>
          <ol>
