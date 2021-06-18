@@ -86,7 +86,6 @@ const upload = multer({
 
 app.post("/imageupload", upload.single("image"), (req, res) => {
    res.send(`/${req.file.path}`);
-   // console.log(req.body);
 });
 
 app.delete("/products_admin/:id", async (req, res) => {

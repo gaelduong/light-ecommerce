@@ -11,6 +11,7 @@ const Admin = ({ history }) => {
    const [productDescriptionInput, setProductDescriptionInput] = useState("");
    const [productCategoryInput, setProductCategoryInput] = useState("");
    const [productIsInStockInput, setProductIsInStockInput] = useState(true);
+   const [imagePathInput, setImagePathInput] = useState(null);
    const [imageFile, setImageFile] = useState(null);
 
    // Product fields - Edit
@@ -59,37 +60,44 @@ const Admin = ({ history }) => {
    const handleAddProduct = async (e) => {
       e.preventDefault();
 
-      const { data } = await axios.post(`${serverUrl}/products_admin`, {
-         name: productNameInput,
-         price: productPriceInput,
-         description: productDescriptionInput,
-         category: productCategoryInput,
-         isInStock: productIsInStockInput
-      });
-      const newProducts = [...products];
-      newProducts.push(data);
-      setProducts(newProducts);
-      setProductNameInput("");
-   };
-
-   const handleImageUpload = async (e) => {
-      e.preventDefault();
       const formData = new FormData();
       formData.append("image", imageFile);
 
-      try {
-         const config = {
-            headers: {
-               "Content-Type": "multipart/form-data"
-            }
-         };
+      if (imageFile) {
+         // Upload image to server
+         try {
+            const { data } = await axios.post(`${serverUrl}/imageupload`, formData, {
+               headers: {
+                  "Content-Type": "multipart/form-data"
+               }
+            });
+            setImagePathInput(data);
+         } catch (e) {
+            return console.log(e);
+         }
+      }
 
-         const { data } = await axios.post(`${serverUrl}/imageupload`, formData, config);
-      } catch (e) {}
+      // Send POST request to add new product to DB
+      try {
+         const { data } = await axios.post(`${serverUrl}/products_admin`, {
+            name: productNameInput,
+            price: productPriceInput,
+            description: productDescriptionInput,
+            category: productCategoryInput,
+            isInStock: productIsInStockInput,
+            image: imagePathInput
+         });
+         const newProducts = [...products];
+         newProducts.push(data);
+         setProducts(newProducts);
+         setProductNameInput("");
+         setImageFile(null);
+      } catch (e) {
+         return console.log(e);
+      }
    };
 
    const handleImageChange = (e) => {
-      console.log(e.target.files[0]);
       setImageFile(e.target.files[0]);
    };
 
@@ -159,11 +167,11 @@ const Admin = ({ history }) => {
                <input
                   required
                   type="number"
-                  step="0.01"
-                  min="0"
+                  step={0.01}
+                  min={0}
                   value={productPriceInput}
                   onChange={(e) => {
-                     setProductPriceInput(e.target.value);
+                     setProductPriceInput(Number(e.target.value).toString());
                   }}
                />
             </label>
@@ -201,16 +209,14 @@ const Admin = ({ history }) => {
                   }}
                />
             </label>
-
-            <input type="submit" value="Add product" />
-         </form>
-
-         <form onSubmit={handleImageUpload}>
             <label>
                Image:
                <input type="file" name="image" onChange={handleImageChange} />
             </label>
-            <input type="submit" value="Upload image" />
+
+            <br />
+
+            <input type="submit" value="Add product" />
          </form>
 
          {isEdit ? editForm : ""}
