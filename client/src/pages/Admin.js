@@ -231,7 +231,7 @@ const Admin = ({ history }) => {
                   <li style={{ color: currentProductEditId === _id ? "red" : "white" }} key={_id}>
                      <span> {name} </span>
                      <button onClick={(e) => handleEnableProductEdit(e, _id)}>Edit</button>
-                     <button onClick={(e) => handleDeleteProduct(e, _id)}> X </button>
+                     <button onClick={(e) => handleDeleteProduct(e, _id)}> Delete </button>
                   </li>
                );
             })}
