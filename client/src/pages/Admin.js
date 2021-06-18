@@ -14,6 +14,9 @@ const Admin = ({ history }) => {
    // Products changed
    const [productsChanged, setProductsChanged] = useState(true);
 
+   // Add product toggle
+   const [addProductToggled, toggleAddProduct] = useState(false);
+
    // Product edit
    const [productEditId, setProductEditId] = useState("");
 
@@ -74,8 +77,10 @@ const Admin = ({ history }) => {
    return (
       <div className="Admin">
          <button onClick={logoutHandler}> Log out </button>
+         <br />
+         <button onClick={() => toggleAddProduct(!addProductToggled)}> {addProductToggled ? "Cancel" : "Add product"} </button>
 
-         <AddProduct setProductsChanged={setProductsChanged} />
+         {addProductToggled && <AddProduct setProductsChanged={setProductsChanged} />}
 
          {productEditId && <EditProduct products={products} productEditId={productEditId} setProductEditId={setProductEditId} setProductsChanged={setProductsChanged} />}
 
