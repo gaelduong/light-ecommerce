@@ -60,11 +60,10 @@ const Admin = ({ history }) => {
    const handleAddProduct = async (e) => {
       e.preventDefault();
 
-      const formData = new FormData();
-      formData.append("image", imageFile);
-
       if (imageFile) {
          // Upload image to server
+         const formData = new FormData();
+         formData.append("image", imageFile);
          try {
             const { data } = await axios.post(`${serverUrl}/imageupload`, formData, {
                headers: {
