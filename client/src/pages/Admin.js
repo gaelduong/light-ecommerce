@@ -86,10 +86,15 @@ const Admin = ({ history }) => {
 
          <h2>My products: </h2>
          <ol>
-            {products.map(({ _id, name }) => {
+            {products.map(({ _id, name, price, description, category, isInStock }) => {
                return (
                   <li style={{ color: productEditId === _id ? "red" : "white" }} key={_id}>
-                     <span> {name} </span>
+                     <span> {name} - </span>
+                     <span> ${price} - </span>
+                     <span> {description} - </span>
+                     <span> {category} - </span>
+                     <span> {isInStock ? "In Stock" : "Out of stock"} </span>
+
                      <button onClick={(e) => handleEnableProductEdit(e, _id)}>Edit</button>
                      <button onClick={(e) => handleDeleteProduct(e, _id)}> Delete </button>
                   </li>

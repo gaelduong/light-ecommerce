@@ -97,10 +97,10 @@ const AddProduct = ({ setProductsChanged }) => {
                Category:
                <select required value={productCategoryInput} onChange={(e) => setProductCategoryInput(e.target.value)}>
                   <option value="">Choose category</option>
-                  <option value="categoryA">Category A</option>
-                  <option value="categoryB">Category B</option>
-                  <option value="categoryC">Category C</option>
-                  <option value="categoryD">Category D</option>
+                  <option value="A"> A</option>
+                  <option value="B"> B</option>
+                  <option value="C"> C</option>
+                  <option value="D"> D</option>
                </select>
             </label>
 
