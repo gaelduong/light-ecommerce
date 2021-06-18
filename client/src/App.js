@@ -14,9 +14,6 @@ const App = () => {
                   <li>
                      <Link to="/admin">Admin</Link>
                   </li>
-                  <li>
-                     <Link to="/login">Login</Link>
-                  </li>
                </ul>
             </nav>
             <Switch>
