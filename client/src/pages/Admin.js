@@ -192,10 +192,8 @@ const Admin = ({ history }) => {
 
             <label>
                Category:
-               <select required defaultValue={"default"} onChange={(e) => setProductCategoryInput(e.target.value)}>
-                  <option value="default" disabled hidden>
-                     Choose category
-                  </option>
+               <select required onChange={(e) => setProductCategoryInput(e.target.value)}>
+                  <option value="">Choose category</option>
                   <option value="grapefruit">Grapefruit</option>
                   <option value="lime">Lime</option>
                   <option value="coconut">Coconut</option>
