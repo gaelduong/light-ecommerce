@@ -85,22 +85,36 @@ const Admin = ({ history }) => {
          {productEditId && <EditProduct products={products} productEditId={productEditId} setProductEditId={setProductEditId} setProductsChanged={setProductsChanged} />}
 
          <h2>My products: </h2>
-         <ol>
-            {products.map(({ _id, name, price, description, category, isInStock }) => {
-               return (
-                  <li style={{ color: productEditId === _id ? "red" : "white" }} key={_id}>
-                     <span> {name} - </span>
-                     <span> ${price} - </span>
-                     <span> {description} - </span>
-                     <span> {category} - </span>
-                     <span> {isInStock ? "In Stock" : "Out of stock"} </span>
-
-                     <button onClick={(e) => handleEnableProductEdit(e, _id)}>Edit</button>
-                     <button onClick={(e) => handleDeleteProduct(e, _id)}> Delete </button>
-                  </li>
-               );
-            })}
-         </ol>
+         <table>
+            <tbody>
+               <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Description</th>
+                  <th>Category</th>
+                  <th>Availability</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+               </tr>
+               {products.map(({ _id, name, price, description, category, isInStock }) => {
+                  return (
+                     <tr style={{ color: productEditId === _id ? "red" : "white" }} key={_id}>
+                        <td> {name} </td>
+                        <td> ${price} </td>
+                        <td> {description} </td>
+                        <td> {category} </td>
+                        <td> {isInStock ? "In Stock" : "Out of stock"} </td>
+                        <td>
+                           <button onClick={(e) => handleEnableProductEdit(e, _id)}>Edit</button>
+                        </td>
+                        <td>
+                           <button onClick={(e) => handleDeleteProduct(e, _id)}> Delete </button>
+                        </td>
+                     </tr>
+                  );
+               })}
+            </tbody>
+         </table>
       </div>
    );
 };
