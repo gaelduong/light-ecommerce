@@ -3,6 +3,7 @@ import axios from "axios";
 import { serverUrl } from "../config";
 
 const Login = ({ history }) => {
+   const [loading, setLoading] = useState(true);
    const [nameValue, setNameValue] = useState("");
    const [passwordValue, setPasswordValue] = useState("");
    const [loginResultMessage, setLoginResultMessage] = useState("");
@@ -12,7 +13,7 @@ const Login = ({ history }) => {
       const redirectToAdmin = () => history.push("/admin");
       const getCookieValue = (name) => document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";
       const accessToken = getCookieValue("accessToken");
-      if (!accessToken) return;
+      if (!accessToken) return setLoading(false);
 
       const verifyLoggedIn = async (accessToken) => {
          try {
@@ -23,6 +24,7 @@ const Login = ({ history }) => {
             });
             redirectToAdmin();
          } catch (e) {
+            setLoading(false);
             console.log(e);
          }
       };
@@ -47,6 +49,9 @@ const Login = ({ history }) => {
          setLoginResultMessage("Incorrect username/password");
       }
    };
+
+   if (loading) return <></>;
+
    return (
       <div>
          <form onSubmit={loginHandle}>

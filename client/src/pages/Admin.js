@@ -3,6 +3,8 @@ import axios from "axios";
 import { serverUrl } from "../config";
 
 const Admin = ({ history }) => {
+   // Loading
+   const [loading, setLoading] = useState(true);
    const [products, setProducts] = useState([]);
 
    // Product fields - Add
@@ -32,6 +34,7 @@ const Admin = ({ history }) => {
                   Authorization: `Bearer ${accessToken}`
                }
             });
+            setLoading(false);
          } catch (e) {
             console.log(e);
             redirectToLogin();
@@ -145,6 +148,8 @@ const Admin = ({ history }) => {
          </button>
       </form>
    );
+
+   if (loading) return <></>;
 
    return (
       <div className="Admin">
