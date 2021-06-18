@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { serverUrl } from "../config";
+import Edit from "./Edit.js";
 
 const Admin = ({ history }) => {
    // Loading
    const [loading, setLoading] = useState(true);
+
+   // Display products
    const [products, setProducts] = useState([]);
+
+   // Products changed
+   const [productsChanged, setProductsChanged] = useState(true);
 
    // Product fields - Add
    const [productNameInput, setProductNameInput] = useState("");
@@ -17,10 +23,8 @@ const Admin = ({ history }) => {
    const [imageFile, setImageFile] = useState(null);
    const [inputFileKey, setInputFileKey] = useState("");
 
-   // Product fields - Edit
-   const [productNameEdit, setProductNameEdit] = useState("");
-   const [isEdit, setIsEdit] = useState(false);
-   const [currentProductEditId, setCurrentProductEditId] = useState("");
+   // Product edit
+   const [productEditId, setProductEditId] = useState("");
 
    useEffect(() => {
       const redirectToLogin = () => history.push("/login");
@@ -53,13 +57,16 @@ const Admin = ({ history }) => {
    };
 
    useEffect(() => {
+      if (!productsChanged) return;
+
       const fetchProducts = async () => {
          // console.log(process.env.NODE_ENV);
          const { data } = await axios.get(`${serverUrl}/products_admin`);
          setProducts(data);
+         setProductsChanged(false);
       };
       fetchProducts();
-   }, []);
+   }, [productsChanged]);
 
    const handleAddProduct = async (e) => {
       e.preventDefault();
@@ -82,7 +89,7 @@ const Admin = ({ history }) => {
 
       // Send POST request to add new product to DB
       try {
-         const { data } = await axios.post(`${serverUrl}/products_admin`, {
+         await axios.post(`${serverUrl}/products_admin`, {
             name: productNameInput,
             price: productPriceInput,
             description: productDescriptionInput,
@@ -90,9 +97,7 @@ const Admin = ({ history }) => {
             isInStock: productIsInStockInput,
             image: imagePathInput
          });
-         const newProducts = [...products];
-         newProducts.push(data);
-         setProducts(newProducts);
+         setProductsChanged(true);
          setProductNameInput("");
          setProductPriceInput(0);
          setProductDescriptionInput("");
@@ -110,50 +115,15 @@ const Admin = ({ history }) => {
       setProducts(newProducts);
    };
 
-   const handleEditProduct = async (e) => {
-      e.preventDefault();
-      const { data } = await axios.put(`${serverUrl}/products_admin/${currentProductEditId}`, { name: productNameEdit });
-      const newProducts = products.map((product) => {
-         return product._id === currentProductEditId ? data : product;
-      });
-      setProducts(newProducts);
-      setIsEdit(false);
-      setCurrentProductEditId("");
-   };
-
-   const handleNameEditChange = (e) => {
-      setProductNameEdit(e.target.value);
-   };
-
    const handleEnableProductEdit = (e, id) => {
-      setCurrentProductEditId(id);
-      setIsEdit(true);
-      const product = products.find((product) => product._id === id);
-      setProductNameEdit(product.name);
+      setProductEditId(id);
    };
-
-   const editForm = (
-      <form onSubmit={handleEditProduct}>
-         <label>
-            New name:
-            <input type="text" value={productNameEdit} onChange={handleNameEditChange} />
-         </label>
-         <input type="submit" value="Update" />
-         <button
-            onClick={() => {
-               setIsEdit(false);
-               setCurrentProductEditId("");
-            }}
-         >
-            Cancel
-         </button>
-      </form>
-   );
 
    if (loading) return <></>;
 
    return (
       <div className="Admin">
+         <h1> ADD PRODUCT </h1>
          <button onClick={logoutHandler}> Log out </button>
          <form onSubmit={handleAddProduct}>
             <label>
@@ -195,10 +165,10 @@ const Admin = ({ history }) => {
                Category:
                <select required value={productCategoryInput} onChange={(e) => setProductCategoryInput(e.target.value)}>
                   <option value="">Choose category</option>
-                  <option value="grapefruit">Grapefruit</option>
-                  <option value="lime">Lime</option>
-                  <option value="coconut">Coconut</option>
-                  <option value="mango">Mango</option>
+                  <option value="categoryA">Category A</option>
+                  <option value="categoryB">Category B</option>
+                  <option value="categoryC">Category C</option>
+                  <option value="categoryD">Category D</option>
                </select>
             </label>
 
@@ -222,13 +192,13 @@ const Admin = ({ history }) => {
             <input type="submit" value="Add product" />
          </form>
 
-         {isEdit ? editForm : ""}
+         {productEditId && <Edit products={products} productEditId={productEditId} setProductEditId={setProductEditId} setProductsChanged={setProductsChanged} />}
 
          <h2>My products: </h2>
          <ol>
             {products.map(({ _id, name }) => {
                return (
-                  <li style={{ color: currentProductEditId === _id ? "red" : "white" }} key={_id}>
+                  <li style={{ color: productEditId === _id ? "red" : "white" }} key={_id}>
                      <span> {name} </span>
                      <button onClick={(e) => handleEnableProductEdit(e, _id)}>Edit</button>
                      <button onClick={(e) => handleDeleteProduct(e, _id)}> Delete </button>

@@ -42,13 +42,16 @@ router.delete("/products_admin/:id", async (req, res) => {
 
 router.put("/products_admin/:id", async (req, res) => {
    try {
-      const { name } = req.body;
+      const productFields = req.body;
       const productToUpdate = await Product.findById(req.params.id);
       if (productToUpdate) {
-         productToUpdate.name = name;
+         Object.entries(productFields).forEach(([key, value]) => {
+            productToUpdate[key] = value;
+         });
       }
       productToUpdate.save();
       res.json(productToUpdate);
+      console.log("Updated product in DB successfully");
    } catch (error) {
       console.log(error);
    }
