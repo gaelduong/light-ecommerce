@@ -1,6 +1,6 @@
 const express = require("express");
-const path = require("path");
 const router = express.Router();
+const path = require("path");
 const fs = require("fs");
 const { Product } = require("../models/");
 
@@ -8,7 +8,6 @@ router.get("/products", async (req, res) => {
    // Retrieve products from DB
    try {
       const products = await Product.find({});
-
       const newProducts = products.map((product) => {
          const productObj = product._doc;
          const imagePath = product.image;

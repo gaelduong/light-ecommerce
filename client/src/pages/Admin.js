@@ -88,6 +88,7 @@ const Admin = ({ history }) => {
          <table>
             <tbody>
                <tr>
+                  <th>Image</th>
                   <th>Name</th>
                   <th>Price</th>
                   <th>Description</th>
@@ -96,9 +97,12 @@ const Admin = ({ history }) => {
                   <th>Edit</th>
                   <th>Delete</th>
                </tr>
-               {products.map(({ _id, name, price, description, category, isInStock }) => {
+               {products.map(({ _id, name, price, description, category, isInStock, imageAsBase64 }) => {
                   return (
                      <tr style={{ color: productEditId === _id ? "red" : "white" }} key={_id}>
+                        <td>
+                           <img className="img-admin" src={imageAsBase64} />
+                        </td>
                         <td> {name} </td>
                         <td> ${price} </td>
                         <td> {description} </td>
