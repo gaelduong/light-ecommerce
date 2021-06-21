@@ -64,7 +64,7 @@ const EditProduct = ({ products, productEditId, setProductEditId, setProductsCha
                </select>
             </label>
             <label>
-               New stock availability:
+               Is in stock:
                <input type="checkbox" checked={productIsInStockEdit} onChange={(e) => setProductIsInStockEdit(!productIsInStockEdit)} />
             </label>
             <label>
