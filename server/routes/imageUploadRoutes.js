@@ -32,7 +32,11 @@ const upload = multer({
 });
 
 router.post("/imageupload", upload.single("image"), (req, res) => {
-   res.send(`/${req.file.path}`);
+   try {
+      res.send(`/${req.file.path}`);
+   } catch (error) {
+      res.send("");
+   }
 });
 
 module.exports = router;

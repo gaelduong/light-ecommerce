@@ -17,10 +17,11 @@ const Products = () => {
       <div className="Products">
          <h2>My products: </h2>
          <ol>
-            {products.map(({ _id, name }) => {
+            {products.map(({ _id, name, imageAsBase64 }) => {
                return (
                   <li key={_id}>
                      <span> {name} </span>
+                     <img src={imageAsBase64} />
                   </li>
                );
             })}
