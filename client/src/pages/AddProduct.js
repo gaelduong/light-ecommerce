@@ -9,38 +9,29 @@ const AddProduct = ({ setProductsChanged }) => {
    const [productDescriptionInput, setProductDescriptionInput] = useState("");
    const [productCategoryInput, setProductCategoryInput] = useState("");
    const [productIsInStockInput, setProductIsInStockInput] = useState(true);
-   const [imagePathInput, setImagePathInput] = useState(null);
    const [imageFile, setImageFile] = useState(null);
    const [inputFileKey, setInputFileKey] = useState("");
 
    const handleAddProduct = async (e) => {
       e.preventDefault();
 
-      if (imageFile) {
-         // Upload image to server
-         const formData = new FormData();
-         formData.append("image", imageFile);
-         try {
-            const { data } = await axios.post(`${serverUrl}/imageupload`, formData, {
-               headers: {
-                  "Content-Type": "multipart/form-data"
-               }
-            });
-            setImagePathInput(data);
-         } catch (e) {
-            return console.log(e);
-         }
-      }
-
-      // Send POST request to add new product to DB
+      // Upload image to server
+      const formData = new FormData();
+      formData.append("image", imageFile);
       try {
+         const { data } = await axios.post(`${serverUrl}/imageupload`, formData, {
+            headers: {
+               "Content-Type": "multipart/form-data"
+            }
+         });
+         // Send POST request to add new product to DB
          await axios.post(`${serverUrl}/products_admin`, {
             name: productNameInput,
             price: productPriceInput,
             description: productDescriptionInput,
             category: productCategoryInput,
             isInStock: productIsInStockInput,
-            image: imagePathInput
+            image: data
          });
          setProductsChanged(true);
          setProductNameInput("");
@@ -49,6 +40,7 @@ const AddProduct = ({ setProductsChanged }) => {
          setProductCategoryInput("");
          setImageFile("");
          setInputFileKey(Date.now());
+         return console.log(e);
       } catch (e) {
          return console.log(e);
       }
@@ -122,7 +114,7 @@ const AddProduct = ({ setProductsChanged }) => {
             <br />
 
             <input type="submit" value="Add product" />
-         </form>{" "}
+         </form>
       </>
    );
 };
