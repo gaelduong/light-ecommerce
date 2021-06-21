@@ -24,17 +24,28 @@ const EditProduct = ({ products, productEditId, setProductEditId, setProductsCha
 
    const handleEditProduct = async (e) => {
       e.preventDefault();
-      const editedProduct = {
-         name: productNameEdit,
-         price: productPriceEdit,
-         description: productDescriptionEdit,
-         category: productCategoryEdit,
-         isInStock: productIsInStockEdit,
-         image: ""
-      };
-      await axios.put(`${serverUrl}/products_admin/${productEditId}`, editedProduct);
-      setProductsChanged(true);
-      setProductEditId("");
+      const formData = new FormData();
+      formData.append("image", productImageFileEdit);
+      try {
+         const { data } = await axios.post(`${serverUrl}/imageupload/${productEditId}`, formData, {
+            headers: {
+               "Content-Type": "multipart/form-data"
+            }
+         });
+         const editedProduct = {
+            name: productNameEdit,
+            price: productPriceEdit,
+            description: productDescriptionEdit,
+            category: productCategoryEdit,
+            isInStock: productIsInStockEdit,
+            image: data
+         };
+         await axios.put(`${serverUrl}/products_admin/${productEditId}`, editedProduct);
+         setProductsChanged(true);
+         setProductEditId("");
+      } catch (e) {
+         console.log(e);
+      }
    };
 
    return (
@@ -69,7 +80,7 @@ const EditProduct = ({ products, productEditId, setProductEditId, setProductsCha
             </label>
             <label>
                New image:
-               <input type="file" name="image" />
+               <input type="file" name="image" onChange={(e) => setProductImageFileEdit(e.target.files[0])} />
             </label>
 
             <input type="submit" value="Update" />

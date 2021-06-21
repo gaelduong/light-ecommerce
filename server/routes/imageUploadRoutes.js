@@ -2,6 +2,9 @@ const express = require("express");
 const path = require("path");
 const multer = require("multer");
 const router = express.Router();
+const fs = require("fs");
+
+const { Product } = require("../models/");
 
 const storage = multer.diskStorage({
    destination(req, file, cb) {
@@ -33,6 +36,21 @@ const upload = multer({
 
 router.post("/imageupload", upload.single("image"), (req, res) => {
    try {
+      res.send(`/${req.file.path}`);
+   } catch (error) {
+      res.send("");
+   }
+});
+
+router.post("/imageupload/:id", upload.single("image"), async (req, res) => {
+   try {
+      const product = await Product.findById(req.params.id);
+      if (!product) return res.sendStatus(500);
+      // Delete previous image if it exists
+      if (product.image) {
+         fs.unlinkSync(path.resolve(__dirname, `../${product.image}`));
+         console.log("Image deleted");
+      }
       res.send(`/${req.file.path}`);
    } catch (error) {
       res.send("");
