@@ -45,6 +45,12 @@ router.post("/products_admin", async (req, res) => {
 router.delete("/products_admin/:id", async (req, res) => {
    try {
       const removedProduct = await Product.findById(req.params.id);
+      // Remove image file
+      const imageFilePath = removedProduct.image;
+      if (imageFilePath) {
+         fs.unlinkSync(path.resolve(__dirname, `../${imageFilePath}`));
+         console.log("Image deleted");
+      }
       removedProduct.remove();
       console.log("Delete from DB successfully");
       res.json(removedProduct);
