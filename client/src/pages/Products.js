@@ -21,7 +21,7 @@ const Products = () => {
                return (
                   <li key={_id}>
                      <span> {name} </span>
-                     <img src={imageAsBase64} />
+                     <img src={imageAsBase64} alt="display product" />
                   </li>
                );
             })}

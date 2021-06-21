@@ -101,7 +101,7 @@ const Admin = ({ history }) => {
                   return (
                      <tr style={{ color: productEditId === _id ? "red" : "white" }} key={_id}>
                         <td>
-                           <img className="img-admin" src={imageAsBase64} />
+                           <img className="img-admin" src={imageAsBase64} alt=" display product" />
                         </td>
                         <td> {name} </td>
                         <td> ${price} </td>
