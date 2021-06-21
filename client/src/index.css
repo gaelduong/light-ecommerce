@@ -11,6 +11,10 @@ code {
    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+button {
+   border: none;
+}
+
 ul li {
    list-style: none;
 }
@@ -30,7 +34,7 @@ input[type="submit"] {
 }
 
 #cancel-btn {
-   background: red;
+   background: rgb(233, 64, 64);
    color: white;
 }
 
