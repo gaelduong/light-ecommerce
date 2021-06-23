@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { serverUrl } from "../config";
-import EditProduct from "./EditProduct.js";
-import AddProduct from "./AddProduct.js";
+import AdminEditProduct from "./AdminEditProduct.js";
+import AdminAddProduct from "./AdminAddProduct.js";
 
-const Admin = ({ history }) => {
+const AdminMain = ({ history }) => {
    // Loading
    const [loading, setLoading] = useState(true);
 
@@ -80,9 +80,11 @@ const Admin = ({ history }) => {
          <br />
          <button onClick={() => toggleAddProduct(!addProductToggled)}> {addProductToggled ? "Cancel" : "Add product"} </button>
 
-         {addProductToggled && <AddProduct setProductsChanged={setProductsChanged} />}
+         {addProductToggled && <AdminAddProduct setProductsChanged={setProductsChanged} />}
 
-         {productEditId && <EditProduct products={products} productEditId={productEditId} setProductEditId={setProductEditId} setProductsChanged={setProductsChanged} />}
+         {productEditId && (
+            <AdminEditProduct products={products} productEditId={productEditId} setProductEditId={setProductEditId} setProductsChanged={setProductsChanged} />
+         )}
 
          <h2>My products: </h2>
          <table>
@@ -104,7 +106,7 @@ const Admin = ({ history }) => {
                            <img className="img-admin" src={imageAsBase64} alt=" display product" />
                         </td>
                         <td> {name} </td>
-                        <td> ${price} </td>
+                        <td> {price} VND </td>
                         <td> {description} </td>
                         <td> {category} </td>
                         <td> {isInStock ? "In Stock" : "Out of stock"} </td>
@@ -123,4 +125,4 @@ const Admin = ({ history }) => {
    );
 };
 
-export default Admin;
+export default AdminMain;

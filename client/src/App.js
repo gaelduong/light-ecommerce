@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Products, Admin, Login } from "./pages";
+import { Products, AdminMain, Login } from "./pages";
 import "./App.css";
 
 const App = () => {
@@ -18,7 +18,7 @@ const App = () => {
             </nav>
             <Switch>
                <Route path="/products" component={Products} />
-               <Route path="/admin" component={Admin} />
+               <Route path="/admin" component={AdminMain} />
                <Route path="/login" component={Login} />
             </Switch>
          </div>

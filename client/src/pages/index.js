@@ -1,5 +1,5 @@
 import Products from "./Products";
-import Admin from "./Admin";
+import AdminMain from "./AdminMain";
 import Login from "./Login";
 
-export { Products, Admin, Login };
+export { Products, AdminMain, Login };

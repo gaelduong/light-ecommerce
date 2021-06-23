@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { serverUrl } from "../config";
 
-const EditProduct = ({ products, productEditId, setProductEditId, setProductsChanged }) => {
+const AdminEditProduct = ({ products, productEditId, setProductEditId, setProductsChanged }) => {
    const [productNameEdit, setProductNameEdit] = useState("");
    const [productPriceEdit, setProductPriceEdit] = useState(0);
    const [productDescriptionEdit, setProductDescriptionEdit] = useState("");
@@ -97,4 +97,4 @@ const EditProduct = ({ products, productEditId, setProductEditId, setProductsCha
    );
 };
 
-export default EditProduct;
+export default AdminEditProduct;
