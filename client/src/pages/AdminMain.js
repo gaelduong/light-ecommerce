@@ -66,6 +66,7 @@ const AdminMain = ({ history }) => {
 
    const handleEnableProductEdit = (e, id) => {
       setProductEditId(id);
+      history.push(`/admin-edit-product/?id=${id}`, { products });
    };
 
    if (loading) return <></>;

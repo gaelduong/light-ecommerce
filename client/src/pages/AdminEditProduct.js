@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../config";
 
-const AdminEditProduct = ({ products, productEditId, setProductEditId, setProductsChanged }) => {
+const AdminEditProduct = ({ history, location }) => {
+   const productEditId = location.search.split("=")[1];
+   const products = location.state.products;
+
    const [productNameEdit, setProductNameEdit] = useState("");
    const [productPriceEdit, setProductPriceEdit] = useState(0);
    const [productDescriptionEdit, setProductDescriptionEdit] = useState("");
@@ -19,7 +22,6 @@ const AdminEditProduct = ({ products, productEditId, setProductEditId, setProduc
       setProductDescriptionEdit(product.description);
       setProductCategoryEdit(product.category);
       setProductIsInStockEdit(product.isInStock);
-      //   setProductImageFileEdit(product.name);
    }, [products, productEditId]);
 
    const handleEditProduct = async (e) => {
@@ -41,13 +43,10 @@ const AdminEditProduct = ({ products, productEditId, setProductEditId, setProduc
             image: data
          };
          await axios.put(`${apiUrl}/products_admin/${productEditId}`, editedProduct);
-         setProductsChanged(true);
-         setProductEditId("");
       } catch (error) {
          console.log(error);
       }
    };
-
    return (
       <>
          <h1> EDIT </h1>
@@ -87,10 +86,10 @@ const AdminEditProduct = ({ products, productEditId, setProductEditId, setProduc
             <button
                id="cancel-btn"
                onClick={() => {
-                  setProductEditId("");
+                  history.push("/admin");
                }}
             >
-               Cancel
+               Discard
             </button>
          </form>
       </>
