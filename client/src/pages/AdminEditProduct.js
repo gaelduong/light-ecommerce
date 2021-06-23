@@ -43,6 +43,9 @@ const AdminEditProduct = ({ history, location }) => {
             image: data
          };
          await axios.put(`${apiUrl}/products_admin/${productEditId}`, editedProduct);
+         setTimeout(() => {
+            history.push("/admin");
+         }, 200);
       } catch (error) {
          console.log(error);
       }

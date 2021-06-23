@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { apiUrl } from "../config";
 
-const AdminAddProduct = () => {
+const AdminAddProduct = ({ history }) => {
    // Product fields - Add
    const [productNameInput, setProductNameInput] = useState("");
    const [productPriceInput, setProductPriceInput] = useState(0);
@@ -33,12 +33,9 @@ const AdminAddProduct = () => {
             isInStock: productIsInStockInput,
             image: data
          });
-         setProductNameInput("");
-         setProductPriceInput(0);
-         setProductDescriptionInput("");
-         setProductCategoryInput("");
-         setImageFile("");
-         setInputFileKey(Date.now());
+         setTimeout(() => {
+            history.push("/admin");
+         }, 200);
          return console.log(e);
       } catch (error) {
          return console.log(error);
@@ -114,7 +111,9 @@ const AdminAddProduct = () => {
 
             <input type="submit" value="Add product" />
          </form>
-         <button> Discard</button>
+         <button id="cancel-btn" onClick={() => history.push("/admin")}>
+            Discard
+         </button>
       </>
    );
 };
