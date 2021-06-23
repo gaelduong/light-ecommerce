@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { apiUrl } from "../config";
 
-const AdminAddProduct = ({ setProductsChanged }) => {
+const AdminAddProduct = () => {
    // Product fields - Add
    const [productNameInput, setProductNameInput] = useState("");
    const [productPriceInput, setProductPriceInput] = useState(0);
@@ -33,7 +33,6 @@ const AdminAddProduct = ({ setProductsChanged }) => {
             isInStock: productIsInStockInput,
             image: data
          });
-         setProductsChanged(true);
          setProductNameInput("");
          setProductPriceInput(0);
          setProductDescriptionInput("");
@@ -115,6 +114,7 @@ const AdminAddProduct = ({ setProductsChanged }) => {
 
             <input type="submit" value="Add product" />
          </form>
+         <button> Discard</button>
       </>
    );
 };

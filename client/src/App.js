@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Products, AdminMain, Login } from "./pages";
 import "./App.css";
+import AdminAddProduct from "./pages/AdminAddProduct";
 
 const App = () => {
    return (
@@ -20,6 +21,7 @@ const App = () => {
                <Route path="/products" component={Products} />
                <Route path="/admin" component={AdminMain} />
                <Route path="/login" component={Login} />
+               <Route path="/admin-add-product" component={AdminAddProduct} />
             </Switch>
          </div>
       </Router>

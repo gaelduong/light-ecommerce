@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../config";
 import AdminEditProduct from "./AdminEditProduct.js";
-import AdminAddProduct from "./AdminAddProduct.js";
 
 const AdminMain = ({ history }) => {
    // Loading
@@ -13,9 +12,6 @@ const AdminMain = ({ history }) => {
 
    // Products changed
    const [productsChanged, setProductsChanged] = useState(true);
-
-   // Add product toggle
-   const [addProductToggled, toggleAddProduct] = useState(false);
 
    // Product edit
    const [productEditId, setProductEditId] = useState("");
@@ -78,9 +74,7 @@ const AdminMain = ({ history }) => {
       <div className="Admin">
          <button onClick={logoutHandler}> Log out </button>
          <br />
-         <button onClick={() => toggleAddProduct(!addProductToggled)}> {addProductToggled ? "Cancel" : "Add product"} </button>
-
-         {addProductToggled && <AdminAddProduct setProductsChanged={setProductsChanged} />}
+         <button onClick={() => history.push("/admin-add-product")}>Add product</button>
 
          {productEditId && (
             <AdminEditProduct products={products} productEditId={productEditId} setProductEditId={setProductEditId} setProductsChanged={setProductsChanged} />
