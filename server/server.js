@@ -14,10 +14,10 @@ const adminRoutes = require("./routes/adminRoutes.js");
 const authRoutes = require("./routes/authRoutes.js");
 const imageUploadRoutes = require("./routes/imageUploadRoutes.js");
 
-app.use("/", publicRoutes);
-app.use("/", adminRoutes);
-app.use("/", authRoutes);
-app.use("/", imageUploadRoutes);
+app.use("/api", publicRoutes);
+app.use("/api", adminRoutes);
+app.use("/api", authRoutes);
+app.use("/api", imageUploadRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

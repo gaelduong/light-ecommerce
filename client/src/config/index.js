@@ -1,3 +1,3 @@
-import { serverUrl } from "./serverUrl.js";
+import { apiUrl } from "./apiUrl.js";
 
-export { serverUrl };
+export { apiUrl };

@@ -9,7 +9,7 @@ router.get("/products", async (req, res) => {
    try {
       const products = await Product.find({});
       const newProducts = products.map((product) => {
-         const productObj = product._doc;
+         const productObj = product._doc; // convert MongoDB document to JS object
          const imagePath = product.image;
          const doesImageExist = fs.existsSync(path.resolve(__dirname, `../${imagePath}`));
          if (imagePath && doesImageExist) {
@@ -19,12 +19,11 @@ router.get("/products", async (req, res) => {
          }
          return productObj;
       });
-      // console.log(newProducts);
-      res.json(newProducts);
+      res.status(200).json(newProducts);
       console.log("Retrieved successfully");
    } catch (error) {
       console.log(error);
-      res.status(500);
+      res.sendStatus(500);
    }
 });
 

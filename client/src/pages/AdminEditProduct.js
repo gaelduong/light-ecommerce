@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { serverUrl } from "../config";
+import { apiUrl } from "../config";
 
 const AdminEditProduct = ({ products, productEditId, setProductEditId, setProductsChanged }) => {
    const [productNameEdit, setProductNameEdit] = useState("");
@@ -27,7 +27,7 @@ const AdminEditProduct = ({ products, productEditId, setProductEditId, setProduc
       const formData = new FormData();
       formData.append("image", productImageFileEdit);
       try {
-         const { data } = await axios.post(`${serverUrl}/imageupload/${productEditId}`, formData, {
+         const { data } = await axios.post(`${apiUrl}/imageupload/${productEditId}`, formData, {
             headers: {
                "Content-Type": "multipart/form-data"
             }
@@ -40,11 +40,11 @@ const AdminEditProduct = ({ products, productEditId, setProductEditId, setProduc
             isInStock: productIsInStockEdit,
             image: data
          };
-         await axios.put(`${serverUrl}/products_admin/${productEditId}`, editedProduct);
+         await axios.put(`${apiUrl}/products_admin/${productEditId}`, editedProduct);
          setProductsChanged(true);
          setProductEditId("");
-      } catch (e) {
-         console.log(e);
+      } catch (error) {
+         console.log(error);
       }
    };
 

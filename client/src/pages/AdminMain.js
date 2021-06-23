@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { serverUrl } from "../config";
+import { apiUrl } from "../config";
 import AdminEditProduct from "./AdminEditProduct.js";
 import AdminAddProduct from "./AdminAddProduct.js";
 
@@ -28,14 +28,14 @@ const AdminMain = ({ history }) => {
 
       const verifyLoggedIn = async (accessToken) => {
          try {
-            await axios.get(`${serverUrl}/isloggedin`, {
+            await axios.get(`${apiUrl}/isloggedin`, {
                headers: {
                   Authorization: `Bearer ${accessToken}`
                }
             });
             setLoading(false);
-         } catch (e) {
-            console.log(e);
+         } catch (error) {
+            console.log(error);
             redirectToLogin();
          }
       };
@@ -55,7 +55,7 @@ const AdminMain = ({ history }) => {
 
       const fetchProducts = async () => {
          // console.log(process.env.NODE_ENV);
-         const { data } = await axios.get(`${serverUrl}/products_admin`);
+         const { data } = await axios.get(`${apiUrl}/products_admin`);
          setProducts(data);
          setProductsChanged(false);
       };
@@ -63,7 +63,7 @@ const AdminMain = ({ history }) => {
    }, [productsChanged]);
 
    const handleDeleteProduct = async (e, id) => {
-      const { data } = await axios.delete(`${serverUrl}/products_admin/${id}`);
+      const { data } = await axios.delete(`${apiUrl}/products_admin/${id}`);
       const newProducts = [...products].filter((product) => product._id !== data._id);
       setProducts(newProducts);
    };

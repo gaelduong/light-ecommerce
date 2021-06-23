@@ -36,9 +36,9 @@ const upload = multer({
 
 router.post("/imageupload", upload.single("image"), (req, res) => {
    try {
-      res.send(`/${req.file.path}`);
+      res.status(200).send(`/${req.file.path}`);
    } catch (error) {
-      res.send("");
+      res.status(200).send("");
    }
 });
 
@@ -51,9 +51,9 @@ router.post("/imageupload/:id", upload.single("image"), async (req, res) => {
          fs.unlinkSync(path.resolve(__dirname, `../${product.image}`));
          console.log("Image deleted");
       }
-      res.send(`/${req.file.path}`);
+      res.status(200).send(`/${req.file.path}`);
    } catch (error) {
-      res.send("");
+      res.status(200).send("");
    }
 });
 

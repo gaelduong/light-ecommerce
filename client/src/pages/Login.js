@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { serverUrl } from "../config";
+import { apiUrl } from "../config";
 
 const Login = ({ history }) => {
    const [loading, setLoading] = useState(true);
@@ -17,15 +17,15 @@ const Login = ({ history }) => {
 
       const verifyLoggedIn = async (accessToken) => {
          try {
-            await axios.get(`${serverUrl}/isloggedin`, {
+            await axios.get(`${apiUrl}/isloggedin`, {
                headers: {
                   Authorization: `Bearer ${accessToken}`
                }
             });
             redirectToAdmin();
-         } catch (e) {
+         } catch (error) {
             setLoading(false);
-            console.log(e);
+            console.log(error);
          }
       };
       verifyLoggedIn(accessToken);
@@ -35,7 +35,7 @@ const Login = ({ history }) => {
       e.preventDefault();
 
       try {
-         const { data } = await axios.post(`${serverUrl}/login`, {
+         const { data } = await axios.post(`${apiUrl}/login`, {
             name: nameValue,
             password: passwordValue
          });

@@ -21,24 +21,24 @@ router.get("/products_admin", async (req, res) => {
          return productObj;
       });
       console.log("Retrieved successfully");
-      res.json(newProducts);
+      res.status(200).json(newProducts);
    } catch (error) {
       console.log(error);
-      res.status(500);
+      res.sendtatus(500);
    }
 });
 
 router.post("/products_admin", async (req, res) => {
+   // Insert product to DB
    const product = req.body;
    const newProduct = new Product(product);
-   // Insert product to DB
    try {
       const addedProduct = await newProduct.save();
       console.log("Saved to DB successfully");
-      res.json(addedProduct);
+      res.status(201).json(addedProduct);
    } catch (error) {
       console.log(error);
-      res.status(500);
+      res.sendStatus(500);
    }
 });
 
@@ -53,14 +53,15 @@ router.delete("/products_admin/:id", async (req, res) => {
       }
       removedProduct.remove();
       console.log("Delete from DB successfully");
-      res.json(removedProduct);
+      res.status(200).json(removedProduct);
    } catch (error) {
       console.log(error);
-      res.status(500);
+      res.sendStatus(500);
    }
 });
 
 router.put("/products_admin/:id", async (req, res) => {
+   // Update product in DB
    try {
       const productFields = req.body;
       const productToUpdate = await Product.findById(req.params.id);
@@ -69,11 +70,12 @@ router.put("/products_admin/:id", async (req, res) => {
             productToUpdate[key] = value;
          });
       }
-      productToUpdate.save();
-      res.json(productToUpdate);
+      await productToUpdate.save();
+      res.status(200).json(productToUpdate);
       console.log("Updated product in DB successfully");
    } catch (error) {
       console.log(error);
+      res.sendStatus(500);
    }
 });
 

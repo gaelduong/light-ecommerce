@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { serverUrl } from "../config";
+import { apiUrl } from "../config";
 
 const AdminAddProduct = ({ setProductsChanged }) => {
    // Product fields - Add
@@ -19,13 +19,13 @@ const AdminAddProduct = ({ setProductsChanged }) => {
       const formData = new FormData();
       formData.append("image", imageFile);
       try {
-         const { data } = await axios.post(`${serverUrl}/imageupload`, formData, {
+         const { data } = await axios.post(`${apiUrl}/imageupload`, formData, {
             headers: {
                "Content-Type": "multipart/form-data"
             }
          });
          // Send POST request to add new product to DB
-         await axios.post(`${serverUrl}/products_admin`, {
+         await axios.post(`${apiUrl}/products_admin`, {
             name: productNameInput,
             price: productPriceInput,
             description: productDescriptionInput,
@@ -41,8 +41,8 @@ const AdminAddProduct = ({ setProductsChanged }) => {
          setImageFile("");
          setInputFileKey(Date.now());
          return console.log(e);
-      } catch (e) {
-         return console.log(e);
+      } catch (error) {
+         return console.log(error);
       }
    };
 
