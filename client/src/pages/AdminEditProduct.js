@@ -59,7 +59,6 @@ const AdminEditProduct = ({ history, location }) => {
          [name]: value
       };
 
-      console.log("🚀 ~ file: AdminEditProduct.js ~ line 57 ~ handleChange ~ newProductFields", newProductFields);
       setProductFields(newProductFields);
    };
 
