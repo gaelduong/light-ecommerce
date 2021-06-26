@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-import { apiUrl } from "../config";
-import useVerifyAuth from "../hooks/useVerifyAuth.js";
+import { apiUrl } from "../../config";
+import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 
-const AdminAddProduct = ({ history }) => {
+const ProductAdd = ({ history }) => {
    const loading = useVerifyAuth(history);
 
    const [productFields, setProductFields] = useState({
@@ -116,4 +116,4 @@ const AdminAddProduct = ({ history }) => {
    );
 };
 
-export default AdminAddProduct;
+export default ProductAdd;

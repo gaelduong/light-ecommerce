@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { apiUrl } from "../config";
-import AdminEditProduct from "./AdminEditProduct.js";
-import useVerifyAuth from "../hooks/useVerifyAuth.js";
+import { apiUrl } from "../../config";
+import ProductEdit from "./ProductEdit.js";
+import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 
 const AdminMain = ({ history }) => {
    const loading = useVerifyAuth(history);
@@ -60,9 +60,7 @@ const AdminMain = ({ history }) => {
          <br />
          <button onClick={() => history.push("/admin-add-product")}>Add product</button>
 
-         {productEditId && (
-            <AdminEditProduct products={products} productEditId={productEditId} setProductEditId={setProductEditId} setProductsChanged={setProductsChanged} />
-         )}
+         {productEditId && <ProductEdit products={products} productEditId={productEditId} setProductEditId={setProductEditId} setProductsChanged={setProductsChanged} />}
 
          <h2>My products: </h2>
          <table>

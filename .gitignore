@@ -24,3 +24,5 @@ yarn-error.log*
 
 requests.rest
 test.js
+*.png
+*.jpeg

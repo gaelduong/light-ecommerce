@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { apiUrl } from "../config";
-import useVerifyAuth from "../hooks/useVerifyAuth.js";
+import { apiUrl } from "../../config";
+import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 
-const AdminEditProduct = ({ history, location }) => {
+const ProductEdit = ({ history, location }) => {
    const loading = useVerifyAuth(history);
 
    // Get product infos from url
@@ -140,4 +140,4 @@ const AdminEditProduct = ({ history, location }) => {
    );
 };
 
-export default AdminEditProduct;
+export default ProductEdit;

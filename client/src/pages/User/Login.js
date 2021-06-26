@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { apiUrl } from "../config";
+import { apiUrl } from "../../config";
 
 const Login = ({ history }) => {
    const [loading, setLoading] = useState(true);

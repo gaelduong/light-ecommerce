@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Products, AdminMain, Login } from "./pages";
+import { Products, Login } from "./pages/User";
+import { AdminMain, ProductAdd, ProductEdit } from "./pages/Admin";
 import "./App.css";
-import AdminAddProduct from "./pages/AdminAddProduct";
-import AdminEditProduct from "./pages/AdminEditProduct";
 
 const App = () => {
    return (
@@ -22,8 +21,8 @@ const App = () => {
                <Route exact path="/products" component={Products} />
                <Route exact path="/admin" component={AdminMain} />
                <Route exact path="/login" component={Login} />
-               <Route exact path="/admin-add-product" component={AdminAddProduct} />
-               <Route exact path="/admin-edit-product/:productId" component={AdminEditProduct} />
+               <Route exact path="/admin-add-product" component={ProductAdd} />
+               <Route exact path="/admin-edit-product/:productId" component={ProductEdit} />
             </Switch>
          </div>
       </Router>
