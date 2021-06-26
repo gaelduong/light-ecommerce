@@ -49,13 +49,19 @@ const AdminMain = ({ history }) => {
    useEffect(() => {
       if (!productsChanged) return;
 
+      let mounted = true;
       const fetchProducts = async () => {
-         // console.log(process.env.NODE_ENV);
-         const { data } = await axios.get(`${apiUrl}/products_admin`);
-         setProducts(data);
-         setProductsChanged(false);
+         try {
+            const { data } = await axios.get(`${apiUrl}/products_admin`);
+            if (!mounted) return;
+            setProducts(data);
+            setProductsChanged(false);
+         } catch (error) {
+            return console.log(error);
+         }
       };
       fetchProducts();
+      return () => (mounted = false);
    }, [productsChanged]);
 
    const handleDeleteProduct = async (e, id) => {
@@ -66,11 +72,10 @@ const AdminMain = ({ history }) => {
 
    const handleEnableProductEdit = (e, id) => {
       setProductEditId(id);
-      history.push(`/admin-edit-product/?id=${id}`, { products });
+      history.push(`/admin-edit-product/${id}`, { products });
    };
 
    if (loading) return <></>;
-
    return (
       <div className="Admin">
          <button onClick={logoutHandler}> Log out </button>
