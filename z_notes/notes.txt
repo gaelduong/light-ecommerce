@@ -28,3 +28,9 @@
 => if wrong credentials, reject
 => if correct, send back jwt + redirect to /admin
 
+
+- apply promotion to category/individual products (select?)
+- create new category
+- drag products in admin
+- sort products by ... 
+- attributes with varying prices
