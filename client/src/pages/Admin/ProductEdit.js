@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
+import AdminContainer from "./AdminContainer.js";
 
 const ProductEdit = ({ history, location }) => {
    const loading = useVerifyAuth(history);
@@ -85,7 +86,7 @@ const ProductEdit = ({ history, location }) => {
 
    const { name, price, desc, category, isInStock, imageAsBase64 } = productFields;
    return (
-      <>
+      <AdminContainer history={history}>
          <h1> EDIT </h1>
          <form onSubmit={(e) => handleEditProduct(e)}>
             <label>
@@ -136,7 +137,7 @@ const ProductEdit = ({ history, location }) => {
                Discard
             </button>
          </form>
-      </>
+      </AdminContainer>
    );
 };
 

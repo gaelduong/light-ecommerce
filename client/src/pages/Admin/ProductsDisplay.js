@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
+import AdminContainer from "./AdminContainer.js";
 
 const ProductsDisplay = ({ history }) => {
    const loading = useVerifyAuth(history);
@@ -23,14 +24,6 @@ const ProductsDisplay = ({ history }) => {
       return () => (mounted = false);
    }, [products]);
 
-   const logoutHandler = () => {
-      const delete_cookie = (name) => {
-         document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-      };
-      delete_cookie("accessToken");
-      history.push("/login");
-   };
-
    const handleDeleteProduct = async (e, id) => {
       const { data } = await axios.delete(`${apiUrl}/products_admin/${id}`);
       const newProducts = [...products].filter((product) => product._id !== data._id);
@@ -39,8 +32,7 @@ const ProductsDisplay = ({ history }) => {
 
    if (loading) return <></>;
    return (
-      <div className="Admin">
-         <button onClick={logoutHandler}> Log out </button>
+      <AdminContainer history={history}>
          <br />
          <button onClick={() => history.push("/product-add")}>Add product</button>
          <h2>My products: </h2>
@@ -84,7 +76,7 @@ const ProductsDisplay = ({ history }) => {
                })}
             </tbody>
          </table>
-      </div>
+      </AdminContainer>
    );
 };
 

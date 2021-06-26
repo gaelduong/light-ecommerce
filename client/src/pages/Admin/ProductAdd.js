@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
+import AdminContainer from "./AdminContainer.js";
 
 const ProductAdd = ({ history }) => {
    const loading = useVerifyAuth(history);
@@ -66,7 +67,7 @@ const ProductAdd = ({ history }) => {
 
    const { name, price, desc, category, isInStock } = productFields;
    return (
-      <>
+      <AdminContainer history={history}>
          <h1> ADD PRODUCT </h1>
          <form onSubmit={handleAddProduct}>
             <label>
@@ -112,7 +113,7 @@ const ProductAdd = ({ history }) => {
          <button id="cancel-btn" onClick={() => history.push("/admin")}>
             Discard
          </button>
-      </>
+      </AdminContainer>
    );
 };
 
