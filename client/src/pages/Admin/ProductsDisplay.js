@@ -48,11 +48,13 @@ const ProductsDisplay = ({ history }) => {
                   <th>Edit</th>
                   <th>Delete</th>
                </tr>
-               {products.map(({ _id, name, price, description, category, isInStock, imageAsBase64 }) => {
+               {products.map(({ _id, name, price, description, category, isInStock, images }) => {
                   return (
                      <tr key={_id}>
                         <td>
-                           <img className="img-admin" src={imageAsBase64} alt=" display product" />
+                           {images.map((image) => {
+                              return <img key={image.order} className="img-admin" src={image.imageAsBase64} alt=" product" />;
+                           })}
                         </td>
                         <td> {name} </td>
                         <td> {price} VND </td>

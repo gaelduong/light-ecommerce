@@ -32,8 +32,8 @@ const ProductAdd = ({ history }) => {
    });
 
    const [images, setImages] = useState([
-      { id: 0, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage },
-      { id: 1, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage }
+      { order: 0, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage },
+      { order: 1, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage }
    ]);
 
    const handleImageUpload = async (e, id) => {
@@ -84,12 +84,14 @@ const ProductAdd = ({ history }) => {
       // Upload image to server
       const formData = new FormData();
       formData.append("image", images[0].imageFile);
+      formData.append("image", images[1].imageFile);
       try {
          const { data } = await axios.post(`${apiUrl}/imageupload`, formData, {
             headers: {
                "Content-Type": "multipart/form-data"
             }
          });
+         console.log("🚀 ~ file: ProductAdd.js ~ line 94 ~ handleAddProduct ~ data", data);
          // Send POST request to add new product to DB
          await axios.post(`${apiUrl}/products_admin`, {
             name: productFields.name,
@@ -97,7 +99,7 @@ const ProductAdd = ({ history }) => {
             description: productFields.desc,
             category: productFields.category,
             isInStock: productFields.isInStock,
-            image: data
+            images: data
             //image: [{id:0, path:...}, {id:1, path:...},...]
          });
          setTimeout(() => {

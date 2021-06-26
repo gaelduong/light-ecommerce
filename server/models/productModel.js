@@ -1,5 +1,11 @@
 const mongoose = require("mongoose");
 
+//Subschema schema
+const imageSchema = new mongoose.Schema({
+   order: { type: Number, required: true },
+   path: { type: String, required: true }
+});
+
 // Product schema
 const productSchema = new mongoose.Schema({
    name: { type: String, required: true },
@@ -7,7 +13,7 @@ const productSchema = new mongoose.Schema({
    description: { type: String },
    category: { type: String, required: true },
    isInStock: { type: Boolean, required: true },
-   image: { type: String }
+   images: { type: [imageSchema] }
 });
 
 // Product model

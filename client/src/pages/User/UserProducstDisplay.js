@@ -17,14 +17,16 @@ const UserProducstDisplay = () => {
       <div className="Products">
          <h2>My products: </h2>
          <ol>
-            {products.map(({ _id, name, price, category, imageAsBase64 }) => {
+            {products.map(({ _id, name, price, category, images }) => {
                return (
                   <li key={_id}>
                      <span> {name} </span>
                      <span> {price} VND </span>
                      <span> Category: {category} </span>
 
-                     <img src={imageAsBase64} alt="display product" />
+                     {images.map((image) => {
+                        return <img key={image.order} className="img-admin" src={image.imageAsBase64} alt=" product" />;
+                     })}
                   </li>
                );
             })}

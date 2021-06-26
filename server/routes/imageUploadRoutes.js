@@ -34,11 +34,12 @@ const upload = multer({
    }
 });
 
-router.post("/imageupload", upload.single("image"), (req, res) => {
+router.post("/imageupload", upload.array("image"), (req, res) => {
    try {
-      res.status(200).send(`/${req.file.path}`);
+      const imagePaths = req.files.map((file, idx) => ({ order: idx, path: file.path }));
+      res.status(200).send(imagePaths);
    } catch (error) {
-      res.status(200).send("");
+      res.status(200).send([]);
    }
 });
 
