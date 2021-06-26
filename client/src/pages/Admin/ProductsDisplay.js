@@ -22,7 +22,7 @@ const ProductsDisplay = ({ history }) => {
       };
       fetchProducts();
       return () => (mounted = false);
-   }, [products]);
+   }, []);
 
    const handleDeleteProduct = async (e, id) => {
       const { data } = await axios.delete(`${apiUrl}/products_admin/${id}`);
