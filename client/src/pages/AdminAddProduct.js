@@ -29,13 +29,32 @@ const AdminAddProduct = ({ history }) => {
    const [loading, setLoading] = useState(true);
 
    // Product fields - Add
-   const [productNameInput, setProductNameInput] = useState("");
-   const [productPriceInput, setProductPriceInput] = useState(0);
-   const [productDescriptionInput, setProductDescriptionInput] = useState("");
-   const [productCategoryInput, setProductCategoryInput] = useState("");
-   const [productIsInStockInput, setProductIsInStockInput] = useState(true);
+   const [productFields, setProductFields] = useState({
+      name: "",
+      price: 0,
+      desc: "",
+      category: "",
+      isInStock: true
+   });
    const [imageFile, setImageFile] = useState(null);
-   // const [inputFileKey, setInputFileKey] = useState("");
+
+   const handleChange = (e) => {
+      let value = e.target.value;
+      let type = e.target.type;
+      let name = e.target.name;
+
+      if (type === "checkbox") {
+         value = !productFields.isInStock;
+      } else if (type === "number") {
+         value = parseFloat(value);
+      }
+      const newProductFields = {
+         ...productFields,
+         [name]: value
+      };
+
+      setProductFields(newProductFields);
+   };
 
    const handleAddProduct = async (e) => {
       e.preventDefault();
@@ -51,17 +70,16 @@ const AdminAddProduct = ({ history }) => {
          });
          // Send POST request to add new product to DB
          await axios.post(`${apiUrl}/products_admin`, {
-            name: productNameInput,
-            price: productPriceInput,
-            description: productDescriptionInput,
-            category: productCategoryInput,
-            isInStock: productIsInStockInput,
+            name: productFields.name,
+            price: productFields.price,
+            description: productFields.desc,
+            category: productFields.category,
+            isInStock: productFields.isInStock,
             image: data
          });
          setTimeout(() => {
             history.push("/admin");
          }, 200);
-         return console.log(e);
       } catch (error) {
          return console.log(error);
       }
@@ -69,48 +87,29 @@ const AdminAddProduct = ({ history }) => {
 
    if (loading) return <></>;
 
+   const { name, price, desc, category, isInStock } = productFields;
    return (
       <>
          <h1> ADD PRODUCT </h1>
          <form onSubmit={handleAddProduct}>
             <label>
                Name:
-               <input
-                  required
-                  type="text"
-                  value={productNameInput}
-                  onChange={(e) => {
-                     setProductNameInput(e.target.value);
-                  }}
-               />
+               <input required type="text" name="name" value={name} onChange={handleChange} />
             </label>
+
             <label>
                Price:
-               <input
-                  required
-                  type="number"
-                  step={0.01}
-                  min={0}
-                  value={productPriceInput}
-                  onChange={(e) => {
-                     setProductPriceInput(Number(e.target.value).toString());
-                  }}
-               />
+               <input required type="number" name="price" step={0.01} min={0} value={price} onChange={handleChange} />
             </label>
 
             <label>
                Description:
-               <textarea
-                  value={productDescriptionInput}
-                  onChange={(e) => {
-                     setProductDescriptionInput(e.target.value);
-                  }}
-               />
+               <textarea name="desc" value={desc} onChange={handleChange} />
             </label>
 
             <label>
                Category:
-               <select required value={productCategoryInput} onChange={(e) => setProductCategoryInput(e.target.value)}>
+               <select required name="category" value={category} onChange={handleChange}>
                   <option value="">Choose category</option>
                   <option value="A"> A</option>
                   <option value="B"> B</option>
@@ -121,14 +120,9 @@ const AdminAddProduct = ({ history }) => {
 
             <label>
                Is in stock:
-               <input
-                  type="checkbox"
-                  checked={productIsInStockInput}
-                  onChange={(e) => {
-                     setProductIsInStockInput(!productIsInStockInput);
-                  }}
-               />
+               <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
             </label>
+
             <label>
                Image:
                <input type="file" name="image" onChange={(e) => setImageFile(e.target.files[0])} />
