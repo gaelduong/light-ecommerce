@@ -34,3 +34,4 @@
 - drag products in admin
 - sort products by ... 
 - attributes with varying prices
+- same logic for 2 routes: /products and /products_admin => need to refactor

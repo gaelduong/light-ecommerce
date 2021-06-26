@@ -24,7 +24,6 @@ router.get("/products_admin", async (req, res) => {
          productObj.images = imagesForClient;
          return productObj;
       });
-      console.log(newProducts);
       console.log("Retrieved successfully");
       res.status(200).json(newProducts);
    } catch (error) {
