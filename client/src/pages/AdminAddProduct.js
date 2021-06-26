@@ -1,34 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { apiUrl } from "../config";
+import useVerifyAuth from "../hooks/useVerifyAuth.js";
 
 const AdminAddProduct = ({ history }) => {
-   useEffect(() => {
-      const redirectToLogin = () => history.push("/login");
-      const getCookieValue = (name) => document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";
-      const accessToken = getCookieValue("accessToken");
-      if (!accessToken) redirectToLogin();
+   const loading = useVerifyAuth(history);
 
-      const verifyLoggedIn = async (accessToken) => {
-         try {
-            await axios.get(`${apiUrl}/isloggedin`, {
-               headers: {
-                  Authorization: `Bearer ${accessToken}`
-               }
-            });
-            setLoading(false);
-         } catch (error) {
-            console.log(error);
-            redirectToLogin();
-         }
-      };
-      verifyLoggedIn(accessToken);
-   }, [history]);
-
-   // Loading
-   const [loading, setLoading] = useState(true);
-
-   // Product fields - Add
    const [productFields, setProductFields] = useState({
       name: "",
       price: 0,

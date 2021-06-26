@@ -1,39 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../config";
+import useVerifyAuth from "../hooks/useVerifyAuth.js";
 
 const AdminEditProduct = ({ history, location }) => {
-   useEffect(() => {
-      const redirectToLogin = () => history.push("/login");
-      const getCookieValue = (name) => document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";
-      const accessToken = getCookieValue("accessToken");
-      if (!accessToken) redirectToLogin();
-
-      const verifyLoggedIn = async (accessToken) => {
-         try {
-            await axios.get(`${apiUrl}/isloggedin`, {
-               headers: {
-                  Authorization: `Bearer ${accessToken}`
-               }
-            });
-            setLoading(false);
-         } catch (error) {
-            console.log(error);
-            redirectToLogin();
-         }
-      };
-      verifyLoggedIn(accessToken);
-   }, [history]);
+   const loading = useVerifyAuth(history);
 
    // Get product infos from url
    const { productId } = useParams();
    const products = location.state && location.state.products;
 
-   // Loading
-   const [loading, setLoading] = useState(true);
-
-   // Product edit fields
    const [productFields, setProductFields] = useState({
       name: "",
       price: 0,
@@ -63,7 +40,7 @@ const AdminEditProduct = ({ history, location }) => {
    };
 
    useEffect(() => {
-      if (!productId) return;
+      if (!productId || !products) return;
 
       const product = products.find((product) => product._id === productId);
       setProductFields({
