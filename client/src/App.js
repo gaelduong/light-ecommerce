@@ -19,11 +19,11 @@ const App = () => {
                </ul>
             </nav>
             <Switch>
-               <Route path="/products" component={Products} />
-               <Route path="/admin" component={AdminMain} />
-               <Route path="/login" component={Login} />
-               <Route path="/admin-add-product" component={AdminAddProduct} />
-               <Route path="/admin-edit-product" component={AdminEditProduct} />
+               <Route exact path="/products" component={Products} />
+               <Route exact path="/admin" component={AdminMain} />
+               <Route exact path="/login" component={Login} />
+               <Route exact path="/admin-add-product" component={AdminAddProduct} />
+               <Route exact path="/admin-edit-product/:productId" component={AdminEditProduct} />
             </Switch>
          </div>
       </Router>

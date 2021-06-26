@@ -1,8 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../config";
 
 const AdminAddProduct = ({ history }) => {
+   useEffect(() => {
+      const redirectToLogin = () => history.push("/login");
+      const getCookieValue = (name) => document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";
+      const accessToken = getCookieValue("accessToken");
+      if (!accessToken) redirectToLogin();
+
+      const verifyLoggedIn = async (accessToken) => {
+         try {
+            await axios.get(`${apiUrl}/isloggedin`, {
+               headers: {
+                  Authorization: `Bearer ${accessToken}`
+               }
+            });
+            setLoading(false);
+         } catch (error) {
+            console.log(error);
+            redirectToLogin();
+         }
+      };
+      verifyLoggedIn(accessToken);
+   }, [history]);
+
+   // Loading
+   const [loading, setLoading] = useState(true);
+
    // Product fields - Add
    const [productNameInput, setProductNameInput] = useState("");
    const [productPriceInput, setProductPriceInput] = useState(0);
@@ -10,7 +35,7 @@ const AdminAddProduct = ({ history }) => {
    const [productCategoryInput, setProductCategoryInput] = useState("");
    const [productIsInStockInput, setProductIsInStockInput] = useState(true);
    const [imageFile, setImageFile] = useState(null);
-   const [inputFileKey, setInputFileKey] = useState("");
+   // const [inputFileKey, setInputFileKey] = useState("");
 
    const handleAddProduct = async (e) => {
       e.preventDefault();
@@ -41,6 +66,8 @@ const AdminAddProduct = ({ history }) => {
          return console.log(error);
       }
    };
+
+   if (loading) return <></>;
 
    return (
       <>
@@ -104,7 +131,7 @@ const AdminAddProduct = ({ history }) => {
             </label>
             <label>
                Image:
-               <input type="file" name="image" key={inputFileKey} onChange={(e) => setImageFile(e.target.files[0])} />
+               <input type="file" name="image" onChange={(e) => setImageFile(e.target.files[0])} />
             </label>
 
             <br />

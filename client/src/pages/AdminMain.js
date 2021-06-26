@@ -4,18 +4,6 @@ import { apiUrl } from "../config";
 import AdminEditProduct from "./AdminEditProduct.js";
 
 const AdminMain = ({ history }) => {
-   // Loading
-   const [loading, setLoading] = useState(true);
-
-   // Display products
-   const [products, setProducts] = useState([]);
-
-   // Products changed
-   const [productsChanged, setProductsChanged] = useState(true);
-
-   // Product edit
-   const [productEditId, setProductEditId] = useState("");
-
    useEffect(() => {
       const redirectToLogin = () => history.push("/login");
       const getCookieValue = (name) => document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";
@@ -38,13 +26,17 @@ const AdminMain = ({ history }) => {
       verifyLoggedIn(accessToken);
    }, [history]);
 
-   const logoutHandler = () => {
-      const delete_cookie = (name) => {
-         document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-      };
-      delete_cookie("accessToken");
-      history.push("/login");
-   };
+   // Loading
+   const [loading, setLoading] = useState(true);
+
+   // Display products
+   const [products, setProducts] = useState([]);
+
+   // Products changed
+   const [productsChanged, setProductsChanged] = useState(true);
+
+   // Product edit
+   const [productEditId, setProductEditId] = useState("");
 
    useEffect(() => {
       if (!productsChanged) return;
@@ -63,6 +55,14 @@ const AdminMain = ({ history }) => {
       fetchProducts();
       return () => (mounted = false);
    }, [productsChanged]);
+
+   const logoutHandler = () => {
+      const delete_cookie = (name) => {
+         document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+      };
+      delete_cookie("accessToken");
+      history.push("/login");
+   };
 
    const handleDeleteProduct = async (e, id) => {
       const { data } = await axios.delete(`${apiUrl}/products_admin/${id}`);

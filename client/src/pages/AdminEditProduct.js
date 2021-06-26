@@ -1,11 +1,39 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../config";
 
 const AdminEditProduct = ({ history, location }) => {
-   const productEditId = location.search.split("=")[1];
-   const products = location.state.products;
+   useEffect(() => {
+      const redirectToLogin = () => history.push("/login");
+      const getCookieValue = (name) => document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";
+      const accessToken = getCookieValue("accessToken");
+      if (!accessToken) redirectToLogin();
 
+      const verifyLoggedIn = async (accessToken) => {
+         try {
+            await axios.get(`${apiUrl}/isloggedin`, {
+               headers: {
+                  Authorization: `Bearer ${accessToken}`
+               }
+            });
+            setLoading(false);
+         } catch (error) {
+            console.log(error);
+            redirectToLogin();
+         }
+      };
+      verifyLoggedIn(accessToken);
+   }, [history]);
+
+   // Get product infos from url
+   const { productId } = useParams();
+   const products = location.state && location.state.products;
+
+   // Loading
+   const [loading, setLoading] = useState(true);
+
+   // Product edit fields
    const [productNameEdit, setProductNameEdit] = useState("");
    const [productPriceEdit, setProductPriceEdit] = useState(0);
    const [productDescriptionEdit, setProductDescriptionEdit] = useState("");
@@ -14,22 +42,22 @@ const AdminEditProduct = ({ history, location }) => {
    const [productImageFileEdit, setProductImageFileEdit] = useState("");
 
    useEffect(() => {
-      if (!productEditId) return;
+      if (!productId) return;
 
-      const product = products.find((product) => product._id === productEditId);
+      const product = products.find((product) => product._id === productId);
       setProductNameEdit(product.name);
       setProductPriceEdit(product.price);
       setProductDescriptionEdit(product.description);
       setProductCategoryEdit(product.category);
       setProductIsInStockEdit(product.isInStock);
-   }, [products, productEditId]);
+   }, [products, productId]);
 
    const handleEditProduct = async (e) => {
       e.preventDefault();
       const formData = new FormData();
       formData.append("image", productImageFileEdit);
       try {
-         const { data } = await axios.post(`${apiUrl}/imageupload/${productEditId}`, formData, {
+         const { data } = await axios.post(`${apiUrl}/imageupload/${productId}`, formData, {
             headers: {
                "Content-Type": "multipart/form-data"
             }
@@ -42,7 +70,7 @@ const AdminEditProduct = ({ history, location }) => {
             isInStock: productIsInStockEdit,
             image: data
          };
-         await axios.put(`${apiUrl}/products_admin/${productEditId}`, editedProduct);
+         await axios.put(`${apiUrl}/products_admin/${productId}`, editedProduct);
          setTimeout(() => {
             history.push("/admin");
          }, 200);
@@ -50,6 +78,8 @@ const AdminEditProduct = ({ history, location }) => {
          console.log(error);
       }
    };
+   if (loading) return <></>;
+
    return (
       <>
          <h1> EDIT </h1>
