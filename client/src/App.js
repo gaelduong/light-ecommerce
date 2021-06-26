@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Products, Login } from "./pages/User";
-import { AdminMain, ProductAdd, ProductEdit } from "./pages/Admin";
+import { UserProducstDisplay, Login } from "./pages/User";
+import { ProductsDisplay, ProductAdd, ProductEdit } from "./pages/Admin";
 import "./App.css";
 
 const App = () => {
@@ -18,11 +18,11 @@ const App = () => {
                </ul>
             </nav>
             <Switch>
-               <Route exact path="/products" component={Products} />
-               <Route exact path="/admin" component={AdminMain} />
+               <Route exact path="/products" component={UserProducstDisplay} />
+               <Route exact path="/admin" component={ProductsDisplay} />
                <Route exact path="/login" component={Login} />
-               <Route exact path="/admin-add-product" component={ProductAdd} />
-               <Route exact path="/admin-edit-product/:productId" component={ProductEdit} />
+               <Route exact path="/product-add" component={ProductAdd} />
+               <Route exact path="/product-edit/:productId" component={ProductEdit} />
             </Switch>
          </div>
       </Router>

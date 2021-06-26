@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../../config";
 
-const Products = () => {
+const UserProducstDisplay = () => {
    const [products, setProducts] = useState([]);
 
    useEffect(() => {
@@ -33,4 +33,4 @@ const Products = () => {
    );
 };
 
-export default Products;
+export default UserProducstDisplay;

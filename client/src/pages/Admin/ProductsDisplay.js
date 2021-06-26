@@ -1,38 +1,27 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../../config";
-import ProductEdit from "./ProductEdit.js";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 
-const AdminMain = ({ history }) => {
+const ProductsDisplay = ({ history }) => {
    const loading = useVerifyAuth(history);
 
-   // Display products
    const [products, setProducts] = useState([]);
 
-   // Products changed
-   const [productsChanged, setProductsChanged] = useState(true);
-
-   // Product edit
-   const [productEditId, setProductEditId] = useState("");
-
    useEffect(() => {
-      if (!productsChanged) return;
-
       let mounted = true;
       const fetchProducts = async () => {
          try {
             const { data } = await axios.get(`${apiUrl}/products_admin`);
             if (!mounted) return;
             setProducts(data);
-            setProductsChanged(false);
          } catch (error) {
             return console.log(error);
          }
       };
       fetchProducts();
       return () => (mounted = false);
-   }, [productsChanged]);
+   }, [products]);
 
    const logoutHandler = () => {
       const delete_cookie = (name) => {
@@ -48,20 +37,12 @@ const AdminMain = ({ history }) => {
       setProducts(newProducts);
    };
 
-   const handleEnableProductEdit = (e, id) => {
-      setProductEditId(id);
-      history.push(`/admin-edit-product/${id}`, { products });
-   };
-
    if (loading) return <></>;
    return (
       <div className="Admin">
          <button onClick={logoutHandler}> Log out </button>
          <br />
-         <button onClick={() => history.push("/admin-add-product")}>Add product</button>
-
-         {productEditId && <ProductEdit products={products} productEditId={productEditId} setProductEditId={setProductEditId} setProductsChanged={setProductsChanged} />}
-
+         <button onClick={() => history.push("/product-add")}>Add product</button>
          <h2>My products: </h2>
          <table>
             <tbody>
@@ -77,7 +58,7 @@ const AdminMain = ({ history }) => {
                </tr>
                {products.map(({ _id, name, price, description, category, isInStock, imageAsBase64 }) => {
                   return (
-                     <tr style={{ color: productEditId === _id ? "red" : "white" }} key={_id}>
+                     <tr key={_id}>
                         <td>
                            <img className="img-admin" src={imageAsBase64} alt=" display product" />
                         </td>
@@ -87,7 +68,13 @@ const AdminMain = ({ history }) => {
                         <td> {category} </td>
                         <td> {isInStock ? "In Stock" : "Out of stock"} </td>
                         <td>
-                           <button onClick={(e) => handleEnableProductEdit(e, _id)}>Edit</button>
+                           <button
+                              onClick={() => {
+                                 history.push(`/product-edit/${_id}`, { products });
+                              }}
+                           >
+                              Edit
+                           </button>
                         </td>
                         <td>
                            <button onClick={(e) => handleDeleteProduct(e, _id)}> Delete </button>
@@ -101,4 +88,4 @@ const AdminMain = ({ history }) => {
    );
 };
 
-export default AdminMain;
+export default ProductsDisplay;

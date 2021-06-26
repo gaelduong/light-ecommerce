@@ -1,4 +1,4 @@
-import Products from "./Products";
+import UserProducstDisplay from "./UserProducstDisplay";
 import Login from "./Login";
 
-export { Products, Login };
+export { UserProducstDisplay, Login };

@@ -1,5 +1,5 @@
-import AdminMain from "./AdminMain";
+import ProductsDisplay from "./ProductsDisplay";
 import ProductAdd from "./ProductAdd";
 import ProductEdit from "./ProductEdit";
 
-export { AdminMain, ProductAdd, ProductEdit };
+export { ProductsDisplay, ProductAdd, ProductEdit };
