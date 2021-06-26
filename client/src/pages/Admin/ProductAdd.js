@@ -3,6 +3,22 @@ import axios from "axios";
 import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
+import placeholderImage from "../../assets/placeholder-image.png";
+
+const generateRandomKey = () => {
+   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+      var r = (Math.random() * 16) | 0,
+         v = c === "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+   });
+};
+const toBase64 = (file) =>
+   new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+   });
 
 const ProductAdd = ({ history }) => {
    const loading = useVerifyAuth(history);
@@ -14,7 +30,35 @@ const ProductAdd = ({ history }) => {
       category: "",
       isInStock: true
    });
-   const [imageFile, setImageFile] = useState(null);
+
+   const [images, setImages] = useState([
+      { id: 0, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage },
+      { id: 1, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage }
+   ]);
+
+   const handleImageUpload = async (e, id) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const imgBase64 = await toBase64(file);
+      const newImages = [...images];
+      newImages[id] = {
+         ...newImages[id],
+         imageFile: file,
+         imageDisplay: imgBase64
+      };
+      setImages(newImages);
+   };
+
+   const handleImageReset = (id) => {
+      const newImages = [...images];
+      newImages[id] = {
+         ...newImages[id],
+         imageFile: null,
+         imageDisplay: placeholderImage,
+         inputKey: generateRandomKey()
+      };
+      setImages(newImages);
+   };
 
    const handleChange = (e) => {
       let value = e.target.value;
@@ -39,7 +83,7 @@ const ProductAdd = ({ history }) => {
 
       // Upload image to server
       const formData = new FormData();
-      formData.append("image", imageFile);
+      formData.append("image", images[0].imageFile);
       try {
          const { data } = await axios.post(`${apiUrl}/imageupload`, formData, {
             headers: {
@@ -54,6 +98,7 @@ const ProductAdd = ({ history }) => {
             category: productFields.category,
             isInStock: productFields.isInStock,
             image: data
+            //image: [{id:0, path:...}, {id:1, path:...},...]
          });
          setTimeout(() => {
             history.push("/admin");
@@ -74,17 +119,14 @@ const ProductAdd = ({ history }) => {
                Name:
                <input required type="text" name="name" value={name} onChange={handleChange} />
             </label>
-
             <label>
                Price:
                <input required type="number" name="price" step={0.01} min={0} value={price} onChange={handleChange} />
             </label>
-
             <label>
                Description:
                <textarea name="desc" value={desc} onChange={handleChange} />
             </label>
-
             <label>
                Category:
                <select required name="category" value={category} onChange={handleChange}>
@@ -95,19 +137,26 @@ const ProductAdd = ({ history }) => {
                   <option value="D"> D</option>
                </select>
             </label>
-
             <label>
                Is in stock:
                <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
             </label>
-
             <label>
-               Image:
-               <input type="file" name="image" onChange={(e) => setImageFile(e.target.files[0])} />
+               Image
+               <img className="image-label" src={images[0].imageDisplay} alt="" />
+               <input type="file" accept="image/*" key={images[0].inputKey} onChange={(e) => handleImageUpload(e, 0)} />
+               <button type="button" onClick={(e) => handleImageReset(0)}>
+                  x
+               </button>
             </label>
-
+            <label>
+               <img className="image-label" src={images[1].imageDisplay} alt="" />
+               <input type="file" accept="image/*" key={images[1].inputKey} onChange={(e) => handleImageUpload(e, 1)} />
+               <button type="button" onClick={(e) => handleImageReset(1)}>
+                  x
+               </button>
+            </label>
             <br />
-
             <input type="submit" value="Add product" />
          </form>
          <button id="cancel-btn" onClick={() => history.push("/admin")}>

@@ -56,3 +56,20 @@ img {
    width: 100px;
    height: 50px;
 }
+
+input[type="file"] {
+   display: none;
+}
+
+.image-label {
+   display: inline-block;
+   border: 1px solid white;
+   text-align: center;
+   color: #fff;
+   border-radius: 4px;
+   width: 120px;
+   height: 120px;
+   padding: 10px;
+   display: block;
+   background-color: #9fa1a3;
+}
