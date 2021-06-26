@@ -115,10 +115,12 @@ const AdminEditProduct = ({ history, location }) => {
                New name:
                <input type="text" name="name" value={name} onChange={handleChange} />
             </label>
+
             <label>
                New price:
                <input type="number" name="price" value={price} onChange={handleChange} />
             </label>
+
             <label>
                New description:
                <textarea name="desc" value={desc} onChange={handleChange} />
@@ -133,17 +135,21 @@ const AdminEditProduct = ({ history, location }) => {
                   <option value="D"> D</option>
                </select>
             </label>
+
             <label>
                Is in stock:
                <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
             </label>
+
             <label>
                New image:
                <input type="file" name="image" onChange={(e) => setProductImageFileEdit(e.target.files[0])} />
             </label>
+
             <img src={imageAsBase64} alt="" />
 
             <input type="submit" value="Update" />
+
             <button
                id="cancel-btn"
                onClick={() => {
