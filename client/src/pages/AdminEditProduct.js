@@ -34,22 +34,48 @@ const AdminEditProduct = ({ history, location }) => {
    const [loading, setLoading] = useState(true);
 
    // Product edit fields
-   const [productNameEdit, setProductNameEdit] = useState("");
-   const [productPriceEdit, setProductPriceEdit] = useState(0);
-   const [productDescriptionEdit, setProductDescriptionEdit] = useState("");
-   const [productCategoryEdit, setProductCategoryEdit] = useState("");
-   const [productIsInStockEdit, setProductIsInStockEdit] = useState(true);
+   const [productFields, setProductFields] = useState({
+      name: "",
+      price: 0,
+      desc: "",
+      category: "",
+      isInStock: true
+   });
+
+   const handleChange = (e) => {
+      let value = e.target.value;
+      let type = e.target.type;
+      let name = e.target.name;
+
+      if (type === "checkbox") {
+         value = !productFields.isInStock;
+      } else if (type === "number") {
+         value = parseFloat(value);
+      }
+      const newProductFields = {
+         ...productFields,
+         [name]: value
+      };
+
+      console.log("🚀 ~ file: AdminEditProduct.js ~ line 57 ~ handleChange ~ newProductFields", newProductFields);
+      setProductFields(newProductFields);
+   };
+
+   const [productImage, setProductImage] = useState("");
    const [productImageFileEdit, setProductImageFileEdit] = useState("");
 
    useEffect(() => {
       if (!productId) return;
 
       const product = products.find((product) => product._id === productId);
-      setProductNameEdit(product.name);
-      setProductPriceEdit(product.price);
-      setProductDescriptionEdit(product.description);
-      setProductCategoryEdit(product.category);
-      setProductIsInStockEdit(product.isInStock);
+      setProductFields({
+         name: product.name,
+         price: product.price,
+         desc: product.description,
+         category: product.category,
+         isInStock: product.isInStock
+      });
+      setProductImage(product.imageAsBase64);
    }, [products, productId]);
 
    const handleEditProduct = async (e) => {
@@ -63,14 +89,16 @@ const AdminEditProduct = ({ history, location }) => {
             }
          });
          const editedProduct = {
-            name: productNameEdit,
-            price: productPriceEdit,
-            description: productDescriptionEdit,
-            category: productCategoryEdit,
-            isInStock: productIsInStockEdit,
+            name: productFields.name,
+            price: productFields.price,
+            description: productFields.desc,
+            category: productFields.category,
+            isInStock: productFields.isInStock,
             image: data
          };
          await axios.put(`${apiUrl}/products_admin/${productId}`, editedProduct);
+
+         // Redirect to admin main page once edit is done
          setTimeout(() => {
             history.push("/admin");
          }, 200);
@@ -80,26 +108,27 @@ const AdminEditProduct = ({ history, location }) => {
    };
    if (loading) return <></>;
 
+   const { name, price, desc, category, isInStock } = productFields;
    return (
       <>
          <h1> EDIT </h1>
          <form onSubmit={(e) => handleEditProduct(e)}>
             <label>
                New name:
-               <input type="text" value={productNameEdit} onChange={(e) => setProductNameEdit(e.target.value)} />
+               <input type="text" name="name" value={name} onChange={handleChange} />
             </label>
             <label>
                New price:
-               <input type="number" value={productPriceEdit} onChange={(e) => setProductPriceEdit(e.target.value)} />
+               <input type="number" name="price" value={price} onChange={handleChange} />
             </label>
             <label>
                New description:
-               <textarea value={productDescriptionEdit} onChange={(e) => setProductDescriptionEdit(e.target.value)} />
+               <textarea name="desc" value={desc} onChange={handleChange} />
             </label>
 
             <label>
                New category:
-               <select required value={productCategoryEdit} onChange={(e) => setProductCategoryEdit(e.target.value)}>
+               <select required name="category" value={category} onChange={handleChange}>
                   <option value="A"> A</option>
                   <option value="B"> B</option>
                   <option value="C"> C</option>
@@ -108,12 +137,13 @@ const AdminEditProduct = ({ history, location }) => {
             </label>
             <label>
                Is in stock:
-               <input type="checkbox" checked={productIsInStockEdit} onChange={(e) => setProductIsInStockEdit(!productIsInStockEdit)} />
+               <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
             </label>
             <label>
                New image:
                <input type="file" name="image" onChange={(e) => setProductImageFileEdit(e.target.files[0])} />
             </label>
+            <img src={productImage} alt="" />
 
             <input type="submit" value="Update" />
             <button
