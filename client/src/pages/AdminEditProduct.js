@@ -39,8 +39,10 @@ const AdminEditProduct = ({ history, location }) => {
       price: 0,
       desc: "",
       category: "",
-      isInStock: true
+      isInStock: true,
+      imageAsBase64: ""
    });
+   const [productImageFileEdit, setProductImageFileEdit] = useState("");
 
    const handleChange = (e) => {
       let value = e.target.value;
@@ -61,9 +63,6 @@ const AdminEditProduct = ({ history, location }) => {
       setProductFields(newProductFields);
    };
 
-   const [productImage, setProductImage] = useState("");
-   const [productImageFileEdit, setProductImageFileEdit] = useState("");
-
    useEffect(() => {
       if (!productId) return;
 
@@ -73,9 +72,9 @@ const AdminEditProduct = ({ history, location }) => {
          price: product.price,
          desc: product.description,
          category: product.category,
-         isInStock: product.isInStock
+         isInStock: product.isInStock,
+         imageAsBase64: product.imageAsBase64
       });
-      setProductImage(product.imageAsBase64);
    }, [products, productId]);
 
    const handleEditProduct = async (e) => {
@@ -108,7 +107,7 @@ const AdminEditProduct = ({ history, location }) => {
    };
    if (loading) return <></>;
 
-   const { name, price, desc, category, isInStock } = productFields;
+   const { name, price, desc, category, isInStock, imageAsBase64 } = productFields;
    return (
       <>
          <h1> EDIT </h1>
@@ -143,7 +142,7 @@ const AdminEditProduct = ({ history, location }) => {
                New image:
                <input type="file" name="image" onChange={(e) => setProductImageFileEdit(e.target.files[0])} />
             </label>
-            <img src={productImage} alt="" />
+            <img src={imageAsBase64} alt="" />
 
             <input type="submit" value="Update" />
             <button
