@@ -35,3 +35,11 @@
 - sort products by ... 
 - attributes with varying prices
 - same logic for 2 routes: /products and /products_admin => need to refactor
+- [x] add multiple images
+- [x] fix get for fetching multiple images
+- [x] delete multiple images
+- edit for multiple images
+- change to dynamic number of images instead of 2
+- display images in ProductsDisplay? (show 1 + more?)
+- need to find a way to ensure consistency between the image files and image paths in db
+- extract imagesInput into component
