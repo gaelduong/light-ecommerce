@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
+import placeholderImage from "../../assets/placeholder-image-2.png";
 
 const ProductsDisplay = ({ history }) => {
    const authVerified = useVerifyAuth(history);
@@ -31,6 +33,7 @@ const ProductsDisplay = ({ history }) => {
    };
 
    if (!authVerified) return <></>;
+   console.log(products);
    return (
       <AdminContainer history={history}>
          <br />
@@ -39,7 +42,7 @@ const ProductsDisplay = ({ history }) => {
          <table>
             <tbody>
                <tr>
-                  <th>Image</th>
+                  <th>Cover Image</th>
                   <th>Name</th>
                   <th>Price</th>
                   <th>Description</th>
@@ -51,9 +54,9 @@ const ProductsDisplay = ({ history }) => {
                   return (
                      <tr key={_id}>
                         <td>
-                           {images.map((image) => {
-                              return <img key={image.order} className="img-display" src={image.imageAsBase64} alt=" product" />;
-                           })}
+                           <Link to={`/product-edit/${_id}`}>
+                              <img className="img-display" src={images.length > 0 ? images[0].imageAsBase64 : placeholderImage} alt=" product" />
+                           </Link>
                         </td>
                         <td> {name} </td>
                         <td> {price} VND </td>

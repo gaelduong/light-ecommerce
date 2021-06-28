@@ -83,3 +83,4 @@ update product images with  [p1,p4,p3,p5]
 - refactor routes functions later
 - [x] edit,delete in same col
 - make cover photo
+- if no phot, displace 1 placeholder

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../../config";
+import placeholderImage from "../../assets/placeholder-image-2.png";
 
 const UserProducstDisplay = () => {
    const [products, setProducts] = useState([]);
@@ -24,9 +25,13 @@ const UserProducstDisplay = () => {
                      <span> {price} VND </span>
                      <span> Category: {category} </span>
                      <div>
-                        {images.map((image) => {
-                           return <img key={image.order} className="img-display" src={image.imageAsBase64} alt=" product" />;
-                        })}
+                        {images.length > 0 ? (
+                           images.map((image) => {
+                              return <img key={image.order} className="img-display" src={image.imageAsBase64} alt=" product" />;
+                           })
+                        ) : (
+                           <img className="img-display" src={placeholderImage} alt=" product" />
+                        )}
                      </div>
                   </li>
                );
