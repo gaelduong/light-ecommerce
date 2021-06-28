@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
       cb(null, "uploads/");
    },
    filename(req, file, cb) {
-      cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+      cb(null, `${file.fieldname}-${file.originalname}-${Date.now()}${path.extname(file.originalname)}`);
    }
 });
 
@@ -43,18 +43,12 @@ router.post("/imageupload", upload.array("image"), (req, res) => {
    }
 });
 
-router.post("/imageupload/:id", upload.single("image"), async (req, res) => {
+router.post("/imageupload/:id", upload.array("image"), async (req, res) => {
    try {
-      const product = await Product.findById(req.params.id);
-      if (!product) return res.sendStatus(500);
-      // Delete previous image if it exists
-      if (product.image) {
-         fs.unlinkSync(path.resolve(__dirname, `../${product.image}`));
-         console.log("Image deleted");
-      }
-      res.status(200).send(`/${req.file.path}`);
+      const imagePaths = req.files.map((file, idx) => file.path);
+      res.status(200).send(imagePaths);
    } catch (error) {
-      res.status(200).send("");
+      res.status(200).send([]);
    }
 });
 

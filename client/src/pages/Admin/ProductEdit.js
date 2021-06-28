@@ -4,6 +4,23 @@ import axios from "axios";
 import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
+import placeholderImage from "../../assets/placeholder-image.png";
+
+const generateRandomKey = () => {
+   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+      var r = (Math.random() * 16) | 0,
+         v = c === "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+   });
+};
+
+const toBase64 = (file) =>
+   new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+   });
 
 const ProductEdit = ({ history, location }) => {
    const loading = useVerifyAuth(history);
@@ -17,10 +34,41 @@ const ProductEdit = ({ history, location }) => {
       price: 0,
       desc: "",
       category: "",
-      isInStock: true,
-      imageAsBase64: ""
+      isInStock: true
    });
-   const [productImageFileEdit, setProductImageFileEdit] = useState("");
+   const [imagesInput, setImagesInput] = useState([
+      { order: 0, path: "", imageFile: false, inputKey: generateRandomKey(), imageDisplay: placeholderImage },
+      { order: 1, path: "", imageFile: false, inputKey: generateRandomKey(), imageDisplay: placeholderImage }
+   ]);
+
+   const handleImageUpload = async (e, id) => {
+      const file = e.target.files[0];
+      console.log("🚀 ~ file: ProductEdit.js ~ line 46 ~ handleImageUpload ~ file", file);
+      if (!file) return;
+      const imgBase64 = await toBase64(file);
+      const newImagesInput = [...imagesInput];
+      newImagesInput[id] = {
+         ...newImagesInput[id],
+         path: "",
+         imageFile: file,
+         imageDisplay: imgBase64
+      };
+      console.log("🚀 ~ file: ProductEdit.js ~ line 51 ~ handleImageUpload ~ newImagesInput", newImagesInput);
+      setImagesInput(newImagesInput);
+   };
+
+   const handleImageReset = (id) => {
+      const newImagesInput = [...imagesInput];
+      newImagesInput[id] = {
+         ...newImagesInput[id],
+         path: "",
+         imageFile: null,
+         imageDisplay: placeholderImage,
+         inputKey: generateRandomKey()
+      };
+      console.log("🚀 ~ file: ProductEdit.js ~ line 61 ~ handleImageReset ~ newImagesInput", newImagesInput);
+      setImagesInput(newImagesInput);
+   };
 
    const handleChange = (e) => {
       let value = e.target.value;
@@ -49,28 +97,59 @@ const ProductEdit = ({ history, location }) => {
          price: product.price,
          desc: product.description,
          category: product.category,
-         isInStock: product.isInStock,
-         imageAsBase64: product.imageAsBase64
+         isInStock: product.isInStock
       });
+      const productImages = product.images;
+      const newImagesInput = imagesInput.map((imageInput, idx) => ({
+         order: imageInput.order,
+         path: (productImages[idx] && productImages[idx].path) || "",
+         imageFile: null,
+         inputKey: imageInput.inputKey,
+         imageDisplay: (productImages[idx] && productImages[idx].imageAsBase64) || placeholderImage
+      }));
+      console.log("🚀 ~ file: ProductEdit.js ~ line 105 ~ newImagesInput ~ newImagesInput", newImagesInput);
+
+      setImagesInput(newImagesInput);
    }, [products, productId]);
 
    const handleEditProduct = async (e) => {
       e.preventDefault();
       const formData = new FormData();
-      formData.append("image", productImageFileEdit);
+      for (const imageInput of imagesInput) {
+         if (!imageInput.imageFile) continue;
+         formData.append("image", imageInput.imageFile);
+      }
+
       try {
          const { data } = await axios.post(`${apiUrl}/imageupload/${productId}`, formData, {
             headers: {
                "Content-Type": "multipart/form-data"
             }
          });
+         console.log("🚀 ~ file: ProductEdit.js ~ line 128 ~ handleEditProduct ~ data", data);
+
+         const imagePaths = [];
+         let order = 0;
+         for (const imageInput of imagesInput) {
+            if (imageInput.path) {
+               imagePaths.push({ order: order++, path: imageInput.path });
+               continue;
+            }
+            if (imageInput.imageFile) {
+               imagePaths.push({ order: order++, path: data[0] });
+               data.shift();
+            }
+         }
+
+         console.log("🚀 ~ file: ProductEdit.js ~ line 131 ~ handleEditProduct ~ imagePaths", imagePaths);
+
          const editedProduct = {
             name: productFields.name,
             price: productFields.price,
             description: productFields.desc,
             category: productFields.category,
             isInStock: productFields.isInStock,
-            image: data
+            images: imagePaths
          };
          await axios.put(`${apiUrl}/products_admin/${productId}`, editedProduct);
 
@@ -84,7 +163,7 @@ const ProductEdit = ({ history, location }) => {
    };
    if (loading) return <></>;
 
-   const { name, price, desc, category, isInStock, imageAsBase64 } = productFields;
+   const { name, price, desc, category, isInStock } = productFields;
    return (
       <AdminContainer history={history}>
          <h1> EDIT </h1>
@@ -93,17 +172,14 @@ const ProductEdit = ({ history, location }) => {
                New name:
                <input type="text" name="name" value={name} onChange={handleChange} />
             </label>
-
             <label>
                New price:
                <input type="number" name="price" value={price} onChange={handleChange} />
             </label>
-
             <label>
                New description:
                <textarea name="desc" value={desc} onChange={handleChange} />
             </label>
-
             <label>
                New category:
                <select required name="category" value={category} onChange={handleChange}>
@@ -113,21 +189,23 @@ const ProductEdit = ({ history, location }) => {
                   <option value="D"> D</option>
                </select>
             </label>
-
             <label>
                Is in stock:
                <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
             </label>
+            Image
+            {imagesInput.map((image) => (
+               <label key={image.order}>
+                  <img className="image-label" src={image.imageDisplay} alt="" />
 
-            <label>
-               New image:
-               <input type="file" name="image" onChange={(e) => setProductImageFileEdit(e.target.files[0])} />
-            </label>
+                  <input type="file" accept="image/*" key={image.inputKey} onChange={(e) => handleImageUpload(e, image.order)} />
 
-            <img src={imageAsBase64} alt="" />
-
+                  <button type="button" onClick={() => handleImageReset(image.order)}>
+                     x
+                  </button>
+               </label>
+            ))}
             <input type="submit" value="Update" />
-
             <button
                id="cancel-btn"
                onClick={() => {

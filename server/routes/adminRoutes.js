@@ -18,7 +18,7 @@ router.get("/products_admin", async (req, res) => {
             const doesImageExist = fs.existsSync(path.resolve(__dirname, `../${imagePath}`));
             if (imagePath && doesImageExist) {
                const imageAsBase64 = fs.readFileSync(path.resolve(__dirname, `../${imagePath}`), "base64");
-               imagesForClient.push({ order: image.order, imageAsBase64: "data:;base64," + imageAsBase64 });
+               imagesForClient.push({ order: image.order, imageAsBase64: "data:;base64," + imageAsBase64, path: imagePath });
             }
          }
          productObj.images = imagesForClient;
@@ -50,14 +50,16 @@ router.delete("/products_admin/:id", async (req, res) => {
    try {
       const removedProduct = await Product.findById(req.params.id);
       // Remove image file
-      const imageFilePath = removedProduct.image;
+      const images = removedProduct.images;
       removedProduct.remove();
       res.status(200).json(removedProduct);
-      if (imageFilePath) {
-         fs.unlinkSync(path.resolve(__dirname, `../${imageFilePath}`));
-         console.log("Image deleted");
-      }
       console.log("Delete from DB successfully");
+      if (images.length > 0) {
+         for (const image of images) {
+            fs.unlinkSync(path.resolve(__dirname, `../${image.path}`));
+         }
+         console.log("Images successfully deleted");
+      }
    } catch (error) {
       console.log(error);
       res.sendStatus(500);
@@ -69,7 +71,19 @@ router.put("/products_admin/:id", async (req, res) => {
    try {
       const productFields = req.body;
       const productToUpdate = await Product.findById(req.params.id);
+
       if (productToUpdate) {
+         // Delete old images
+         for (const imageObj of productToUpdate.images) {
+            if (!productFields.images.some((image) => image.path === imageObj.path)) {
+               if (!fs.existsSync(path.resolve(__dirname, `../${imageObj.path}`))) {
+                  continue;
+               }
+               fs.unlinkSync(path.resolve(__dirname, `../${imageObj.path}`));
+               console.log("Image deleted");
+            }
+         }
+         // Update all fields
          Object.entries(productFields).forEach(([key, value]) => {
             productToUpdate[key] = value;
          });
