@@ -12,6 +12,7 @@ const generateRandomKey = () => {
       return v.toString(16);
    });
 };
+
 const toBase64 = (file) =>
    new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -31,7 +32,7 @@ const ProductAdd = ({ history }) => {
       isInStock: true
    });
 
-   const [images, setImages] = useState([
+   const [imagesInput, setImagesInput] = useState([
       { order: 0, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage },
       { order: 1, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage }
    ]);
@@ -40,24 +41,24 @@ const ProductAdd = ({ history }) => {
       const file = e.target.files[0];
       if (!file) return;
       const imgBase64 = await toBase64(file);
-      const newImages = [...images];
-      newImages[id] = {
-         ...newImages[id],
+      const newImagesInput = [...imagesInput];
+      newImagesInput[id] = {
+         ...newImagesInput[id],
          imageFile: file,
          imageDisplay: imgBase64
       };
-      setImages(newImages);
+      setImagesInput(newImagesInput);
    };
 
    const handleImageReset = (id) => {
-      const newImages = [...images];
-      newImages[id] = {
-         ...newImages[id],
+      const newImagesInput = [...imagesInput];
+      newImagesInput[id] = {
+         ...newImagesInput[id],
          imageFile: null,
          imageDisplay: placeholderImage,
          inputKey: generateRandomKey()
       };
-      setImages(newImages);
+      setImagesInput(newImagesInput);
    };
 
    const handleChange = (e) => {
@@ -83,8 +84,10 @@ const ProductAdd = ({ history }) => {
 
       // Upload image to server
       const formData = new FormData();
-      formData.append("image", images[0].imageFile);
-      formData.append("image", images[1].imageFile);
+      imagesInput.forEach((imageInput) => {
+         formData.append("image", imageInput.imageFile);
+      });
+
       try {
          const { data } = await axios.post(`${apiUrl}/imageupload`, formData, {
             headers: {
@@ -100,7 +103,6 @@ const ProductAdd = ({ history }) => {
             category: productFields.category,
             isInStock: productFields.isInStock,
             images: data
-            //image: [{id:0, path:...}, {id:1, path:...},...]
          });
          setTimeout(() => {
             history.push("/admin");
@@ -143,21 +145,16 @@ const ProductAdd = ({ history }) => {
                Is in stock:
                <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
             </label>
-            <label>
-               Image
-               <img className="image-label" src={images[0].imageDisplay} alt="" />
-               <input type="file" accept="image/*" key={images[0].inputKey} onChange={(e) => handleImageUpload(e, 0)} />
-               <button type="button" onClick={(e) => handleImageReset(0)}>
-                  x
-               </button>
-            </label>
-            <label>
-               <img className="image-label" src={images[1].imageDisplay} alt="" />
-               <input type="file" accept="image/*" key={images[1].inputKey} onChange={(e) => handleImageUpload(e, 1)} />
-               <button type="button" onClick={(e) => handleImageReset(1)}>
-                  x
-               </button>
-            </label>
+            Image
+            {imagesInput.map((image) => (
+               <label key={image.order}>
+                  <img className="image-label" src={image.imageDisplay} alt="" />
+                  <input type="file" accept="image/*" key={image.inputKey} onChange={(e) => handleImageUpload(e, image.order)} />
+                  <button type="button" onClick={() => handleImageReset(image.order)}>
+                     x
+                  </button>
+               </label>
+            ))}
             <br />
             <input type="submit" value="Add product" />
          </form>
