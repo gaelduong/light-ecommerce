@@ -156,9 +156,9 @@ const ProductAdd = ({ history }) => {
                </label>
             ))}
             <br />
-            <input type="submit" value="Add product" />
+            <input className="bg-color-green" type="submit" value="Add product" />
          </form>
-         <button id="cancel-btn" onClick={() => history.push("/admin")}>
+         <button className="bg-color-red" onClick={() => history.push("/admin")}>
             Discard
          </button>
       </AdminContainer>

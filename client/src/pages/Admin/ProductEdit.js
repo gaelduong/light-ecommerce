@@ -203,9 +203,9 @@ const ProductEdit = ({ history }) => {
                   {(image.imageDisplay !== placeholderImage && <pre className="image-edit-txt"> Edit </pre>) || <pre className="image-edit-txt"> Add </pre>}
                </label>
             ))}
-            <input type="submit" value="Update" />
+            <input className="bg-color-green" type="submit" value="Update" />
             <button
-               id="cancel-btn"
+               className="bg-color-red"
                onClick={() => {
                   history.push("/admin");
                }}

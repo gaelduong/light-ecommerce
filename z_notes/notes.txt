@@ -19,6 +19,10 @@
 - in Login, Redirect to /admin if already logged in and in admin, redirect to login if not logged in
 - while editing, refresh => "are u sure u want to leave, changes have not been applied..."
 - not allowed to upload >1mb images
+- condition: new/used
+- select items (checkboxes in front)
+- popup confirm discard, delete,... (when click discard, or hit go back <-)
+- save draft for add/edit?
 
 * 2 ways to access the admin page
 1. access /admin route => check if contains valid jwt 
@@ -71,8 +75,11 @@ server removes old images img if img's path not in [p1,p4,p3,p5]
 update product images with  [p1,p4,p3,p5]
 
 - [x] get product by id
-- more than 2 images per product
+- [x] more than 2 images per product
 - refactor imageupload for add
 - images component
-- css images display horizontally
+- [x] css images display horizontally
+- click on product img => edit
 - refactor routes functions later
+- [x] edit,delete in same col
+- make cover photo

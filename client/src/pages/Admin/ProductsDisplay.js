@@ -62,16 +62,15 @@ const ProductsDisplay = ({ history }) => {
                         <td> {isInStock ? "In Stock" : "Out of stock"} </td>
                         <td>
                            <button
-                              className="action-btn"
+                              className="action-btn bg-color-green "
                               onClick={() => {
                                  history.push(`/product-edit/${_id}`);
                               }}
                            >
                               Edit
                            </button>
-                           <button className="action-btn" onClick={() => handleDeleteProduct(_id)}>
-                              {" "}
-                              Delete{" "}
+                           <button className="action-btn bg-color-red" onClick={() => handleDeleteProduct(_id)}>
+                              Delete
                            </button>
                         </td>
                      </tr>
