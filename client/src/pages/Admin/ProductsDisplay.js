@@ -5,7 +5,7 @@ import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
 
 const ProductsDisplay = ({ history }) => {
-   const loading = useVerifyAuth(history);
+   const authVerified = useVerifyAuth(history);
 
    const [products, setProducts] = useState([]);
 
@@ -24,13 +24,13 @@ const ProductsDisplay = ({ history }) => {
       return () => (mounted = false);
    }, []);
 
-   const handleDeleteProduct = async (e, id) => {
+   const handleDeleteProduct = async (id) => {
       const { data } = await axios.delete(`${apiUrl}/products_admin/${id}`);
       const newProducts = [...products].filter((product) => product._id !== data._id);
       setProducts(newProducts);
    };
 
-   if (loading) return <></>;
+   if (!authVerified) return <></>;
    return (
       <AdminContainer history={history}>
          <br />
@@ -64,14 +64,14 @@ const ProductsDisplay = ({ history }) => {
                         <td>
                            <button
                               onClick={() => {
-                                 history.push(`/product-edit/${_id}`, { products });
+                                 history.push(`/product-edit/${_id}`);
                               }}
                            >
                               Edit
                            </button>
                         </td>
                         <td>
-                           <button onClick={(e) => handleDeleteProduct(e, _id)}> Delete </button>
+                           <button onClick={() => handleDeleteProduct(_id)}> Delete </button>
                         </td>
                      </tr>
                   );

@@ -22,7 +22,7 @@ const toBase64 = (file) =>
    });
 
 const ProductAdd = ({ history }) => {
-   const loading = useVerifyAuth(history);
+   const authVerified = useVerifyAuth(history);
 
    const [productFields, setProductFields] = useState({
       name: "",
@@ -112,7 +112,7 @@ const ProductAdd = ({ history }) => {
       }
    };
 
-   if (loading) return <></>;
+   if (!authVerified) return <></>;
 
    const { name, price, desc, category, isInStock } = productFields;
    return (

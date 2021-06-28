@@ -27,7 +27,7 @@ router.get("/products", async (req, res) => {
       res.status(200).json(newProducts);
    } catch (error) {
       console.log(error);
-      res.sendtatus(500);
+      res.sendStatus(500);
    }
 });
 

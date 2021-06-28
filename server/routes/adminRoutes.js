@@ -28,7 +28,32 @@ router.get("/products_admin", async (req, res) => {
       res.status(200).json(newProducts);
    } catch (error) {
       console.log(error);
-      res.sendtatus(500);
+      res.sendStatus(500);
+   }
+});
+
+router.get("/products_admin/:id", async (req, res) => {
+   // Retrieve products from DB
+   try {
+      const product = await Product.findById(req.params.id);
+      const productObj = product._doc;
+      const images = productObj.images;
+      const imagesForClient = [];
+      for (const image of images) {
+         const imagePath = image.path;
+         const doesImageExist = fs.existsSync(path.resolve(__dirname, `../${imagePath}`));
+
+         if (!imagePath || !doesImageExist) continue;
+
+         const imageAsBase64 = fs.readFileSync(path.resolve(__dirname, `../${imagePath}`), "base64");
+         imagesForClient.push({ order: image.order, imageAsBase64: "data:;base64," + imageAsBase64, path: imagePath });
+      }
+      productObj.images = imagesForClient;
+      console.log("Retrieved successfully");
+      res.status(200).json(productObj);
+   } catch (error) {
+      // console.log(error);
+      res.sendStatus(500);
    }
 });
 

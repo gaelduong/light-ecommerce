@@ -22,24 +22,48 @@ const toBase64 = (file) =>
       reader.onerror = (error) => reject(error);
    });
 
-const ProductEdit = ({ history, location }) => {
-   const loading = useVerifyAuth(history);
+const ProductEdit = ({ history }) => {
+   const authVerified = useVerifyAuth(history);
 
-   // Get product infos from url
+   // Get product id from url
    const { productId } = useParams();
-   const products = location.state && location.state.products;
 
-   const [productFields, setProductFields] = useState({
-      name: "",
-      price: 0,
-      desc: "",
-      category: "",
-      isInStock: true
-   });
+   const [productFields, setProductFields] = useState(null);
    const [imagesInput, setImagesInput] = useState([
-      { order: 0, path: "", imageFile: false, inputKey: generateRandomKey(), imageDisplay: placeholderImage },
-      { order: 1, path: "", imageFile: false, inputKey: generateRandomKey(), imageDisplay: placeholderImage }
+      { order: 0, path: "", imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage },
+      { order: 1, path: "", imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage }
    ]);
+
+   useEffect(() => {
+      if (!productId) return;
+
+      const fetchProduct = async () => {
+         try {
+            const { data } = await axios.get(`${apiUrl}/products_admin/${productId}`);
+            setProductFields({
+               name: data.name,
+               price: data.price,
+               desc: data.description,
+               category: data.category,
+               isInStock: data.isInStock
+            });
+            const productImages = data.images;
+            const newImagesInput = imagesInput.map((imageInput, idx) => ({
+               order: imageInput.order,
+               path: (productImages[idx] && productImages[idx].path) || "",
+               imageFile: null,
+               inputKey: imageInput.inputKey,
+               imageDisplay: (productImages[idx] && productImages[idx].imageAsBase64) || placeholderImage
+            }));
+            console.log("🚀 ~ file: ProductEdit.js ~ line 105 ~ newImagesInput ~ newImagesInput", newImagesInput);
+
+            setImagesInput(newImagesInput);
+         } catch (error) {
+            console.log("Error loading product");
+         }
+      };
+      fetchProduct();
+   }, [productId]);
 
    const handleImageUpload = async (e, id) => {
       const file = e.target.files[0];
@@ -87,30 +111,6 @@ const ProductEdit = ({ history, location }) => {
 
       setProductFields(newProductFields);
    };
-
-   useEffect(() => {
-      if (!productId || !products) return;
-
-      const product = products.find((product) => product._id === productId);
-      setProductFields({
-         name: product.name,
-         price: product.price,
-         desc: product.description,
-         category: product.category,
-         isInStock: product.isInStock
-      });
-      const productImages = product.images;
-      const newImagesInput = imagesInput.map((imageInput, idx) => ({
-         order: imageInput.order,
-         path: (productImages[idx] && productImages[idx].path) || "",
-         imageFile: null,
-         inputKey: imageInput.inputKey,
-         imageDisplay: (productImages[idx] && productImages[idx].imageAsBase64) || placeholderImage
-      }));
-      console.log("🚀 ~ file: ProductEdit.js ~ line 105 ~ newImagesInput ~ newImagesInput", newImagesInput);
-
-      setImagesInput(newImagesInput);
-   }, [products, productId]);
 
    const handleEditProduct = async (e) => {
       e.preventDefault();
@@ -161,7 +161,7 @@ const ProductEdit = ({ history, location }) => {
          console.log(error);
       }
    };
-   if (loading) return <></>;
+   if (!authVerified || !productFields) return <></>;
 
    const { name, price, desc, category, isInStock } = productFields;
    return (

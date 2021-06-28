@@ -48,17 +48,6 @@
 - extract imagesInput into component
 
 
-
-edit => productId + [{order:0, file: null}, {order:1, file: f1}]
-=> upload f1, delete file at order 0
-=> respond [{order:0, path: ""}, {order:1, path: p1}]
-=> update new product image paths in DB
-
-
-
-
-
-
 p1,p2,p3 => p1,p2 
 [p1,p2,p3] => [p1,p2]
 
@@ -80,3 +69,10 @@ server responds back with [p4,p5]
 put request [p1,p4,p3,p5]
 server removes old images img if img's path not in [p1,p4,p3,p5]
 update product images with  [p1,p4,p3,p5]
+
+- [x] get product by id
+- more than 2 images per product
+- refactor imageupload for add
+- images component
+- css images display horizontally
+- refactor routes functions later

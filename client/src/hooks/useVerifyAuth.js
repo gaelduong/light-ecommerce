@@ -3,7 +3,7 @@ import axios from "axios";
 import { apiUrl } from "../config";
 
 const useVerifyAuth = (history) => {
-   const [loading, setLoading] = useState(true);
+   const [authVerified, setAuthVerified] = useState(false);
 
    useEffect(() => {
       const redirectToLogin = () => history.push("/login");
@@ -18,7 +18,7 @@ const useVerifyAuth = (history) => {
                   Authorization: `Bearer ${accessToken}`
                }
             });
-            setLoading(false);
+            setAuthVerified(true);
          } catch (error) {
             console.log(error);
             redirectToLogin();
@@ -27,7 +27,7 @@ const useVerifyAuth = (history) => {
       verifyLoggedIn(accessToken);
    }, [history]);
 
-   return loading;
+   return authVerified;
 };
 
 export default useVerifyAuth;
