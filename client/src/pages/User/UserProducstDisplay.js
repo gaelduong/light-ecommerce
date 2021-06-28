@@ -18,12 +18,13 @@ const UserProducstDisplay = () => {
       <div className="Products">
          <h2>My products: </h2>
          <ol>
-            {products.map(({ _id, name, price, category, images }) => {
+            {products.map(({ _id, name, price, category, isInStock, images }) => {
                return (
                   <li key={_id}>
                      <span> {name} </span>
                      <span> {price} VND </span>
                      <span> Category: {category} </span>
+                     <span> {isInStock ? "" : "(Out of stock)"} </span>
                      <div>
                         {images.length > 0 ? (
                            images.map((image) => {

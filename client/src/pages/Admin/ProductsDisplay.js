@@ -56,6 +56,7 @@ const ProductsDisplay = ({ history }) => {
                         <td>
                            <Link to={`/product-edit/${_id}`}>
                               <img className="img-display" src={images.length > 0 ? images[0].imageAsBase64 : placeholderImage} alt=" product" />
+                              {images.length > 1 && <span style={{ fontSize: "11px"}}> {images.length - 1} more photos</span>}
                            </Link>
                         </td>
                         <td> {name} </td>
