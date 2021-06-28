@@ -17,7 +17,8 @@
 - where to store jwt? http only cookie?
 - route to handle non existing path (404)
 - in Login, Redirect to /admin if already logged in and in admin, redirect to login if not logged in
-
+- while editing, refresh => "are u sure u want to leave, changes have not been applied..."
+- not allowed to upload >1mb images
 
 * 2 ways to access the admin page
 1. access /admin route => check if contains valid jwt 
@@ -33,8 +34,10 @@
 - create new category
 - drag products in admin
 - sort products by ... 
+- pagination in admin
 - attributes with varying prices
 - same logic for 2 routes: /products and /products_admin => need to refactor
+- check if path exist before delete to avoid error
 - [x] add multiple images
 - [x] fix get for fetching multiple images
 - [x] delete multiple images
@@ -43,3 +46,37 @@
 - display images in ProductsDisplay? (show 1 + more?)
 - need to find a way to ensure consistency between the image files and image paths in db
 - extract imagesInput into component
+
+
+
+edit => productId + [{order:0, file: null}, {order:1, file: f1}]
+=> upload f1, delete file at order 0
+=> respond [{order:0, path: ""}, {order:1, path: p1}]
+=> update new product image paths in DB
+
+
+
+
+
+
+p1,p2,p3 => p1,p2 
+[p1,p2,p3] => [p1,p2]
+
+p1,p2,p3 => p2,p1 
+[p1,p2,p3] => [p2,p1]
+
+p1,p2,p3 => p1,p4
+[p1,p2,p3] => [p1,p4]
+
+
+get product by id => respond file paths from db [{p1}, {p2}, {p3}]
+show imgs on client with empty slots [x][x][x][][]
+imgInputs [{p1},{p2},{p3},{null}]
+imgInputs [{p1},{null,file:f4},{p3},{null,file:f5}]
+keep track of uploaded orders:[1,3]
+upload files: upload [f4,f5]
+server responds back with [p4,p5]
+[p4,p5] + orders:[1,3] => [p1,p4,p3,p5]
+put request [p1,p4,p3,p5]
+server removes old images img if img's path not in [p1,p4,p3,p5]
+update product images with  [p1,p4,p3,p5]
