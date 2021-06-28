@@ -29,10 +29,9 @@ const ProductEdit = ({ history }) => {
    const { productId } = useParams();
 
    const [productFields, setProductFields] = useState(null);
-   const [imagesInput, setImagesInput] = useState([
-      { order: 0, path: "", imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage },
-      { order: 1, path: "", imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage }
-   ]);
+   const [imagesInput, setImagesInput] = useState(
+      [...Array(6)].map((_, idx) => ({ order: idx, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage }))
+   );
 
    useEffect(() => {
       if (!productId) return;
@@ -193,16 +192,15 @@ const ProductEdit = ({ history }) => {
                Is in stock:
                <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
             </label>
-            Image
+            <label>Image</label>
             {imagesInput.map((image) => (
-               <label key={image.order}>
-                  <img className="image-label" src={image.imageDisplay} alt="" />
-
+               <label className="img-label-container" key={image.order}>
+                  <img className="img-label" src={image.imageDisplay} alt="" />
                   <input type="file" accept="image/*" key={image.inputKey} onChange={(e) => handleImageUpload(e, image.order)} />
-
-                  <button type="button" onClick={() => handleImageReset(image.order)}>
+                  <button className="img-reset-btn" type="button" onClick={() => handleImageReset(image.order)}>
                      x
                   </button>
+                  {(image.imageDisplay !== placeholderImage && <pre className="image-edit-txt"> Edit </pre>) || <pre className="image-edit-txt"> Add </pre>}
                </label>
             ))}
             <input type="submit" value="Update" />

@@ -32,10 +32,9 @@ const ProductAdd = ({ history }) => {
       isInStock: true
    });
 
-   const [imagesInput, setImagesInput] = useState([
-      { order: 0, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage },
-      { order: 1, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage }
-   ]);
+   const [imagesInput, setImagesInput] = useState(
+      [...Array(6)].map((_, idx) => ({ order: idx, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage }))
+   );
 
    const handleImageUpload = async (e, id) => {
       const file = e.target.files[0];
@@ -145,14 +144,15 @@ const ProductAdd = ({ history }) => {
                Is in stock:
                <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
             </label>
-            Image
+            <label>Image</label>
             {imagesInput.map((image) => (
-               <label key={image.order}>
-                  <img className="image-label" src={image.imageDisplay} alt="" />
+               <label className="img-label-container" key={image.order}>
+                  <img className="img-label" src={image.imageDisplay} alt="" />
                   <input type="file" accept="image/*" key={image.inputKey} onChange={(e) => handleImageUpload(e, image.order)} />
-                  <button type="button" onClick={() => handleImageReset(image.order)}>
+                  <button className="img-reset-btn" type="button" onClick={() => handleImageReset(image.order)}>
                      x
                   </button>
+                  {(image.imageDisplay !== placeholderImage && <pre className="image-edit-txt"> Edit </pre>) || <pre className="image-edit-txt"> Add </pre>}
                </label>
             ))}
             <br />

@@ -23,10 +23,11 @@ const UserProducstDisplay = () => {
                      <span> {name} </span>
                      <span> {price} VND </span>
                      <span> Category: {category} </span>
-
-                     {images.map((image) => {
-                        return <img key={image.order} className="img-admin" src={image.imageAsBase64} alt=" product" />;
-                     })}
+                     <div>
+                        {images.map((image) => {
+                           return <img key={image.order} className="img-display" src={image.imageAsBase64} alt=" product" />;
+                        })}
+                     </div>
                   </li>
                );
             })}

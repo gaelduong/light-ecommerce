@@ -45,15 +45,14 @@ const ProductsDisplay = ({ history }) => {
                   <th>Description</th>
                   <th>Category</th>
                   <th>Availability</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
+                  <th>Actions</th>
                </tr>
                {products.map(({ _id, name, price, description, category, isInStock, images }) => {
                   return (
                      <tr key={_id}>
                         <td>
                            {images.map((image) => {
-                              return <img key={image.order} className="img-admin" src={image.imageAsBase64} alt=" product" />;
+                              return <img key={image.order} className="img-display" src={image.imageAsBase64} alt=" product" />;
                            })}
                         </td>
                         <td> {name} </td>
@@ -63,15 +62,17 @@ const ProductsDisplay = ({ history }) => {
                         <td> {isInStock ? "In Stock" : "Out of stock"} </td>
                         <td>
                            <button
+                              className="action-btn"
                               onClick={() => {
                                  history.push(`/product-edit/${_id}`);
                               }}
                            >
                               Edit
                            </button>
-                        </td>
-                        <td>
-                           <button onClick={() => handleDeleteProduct(_id)}> Delete </button>
+                           <button className="action-btn" onClick={() => handleDeleteProduct(_id)}>
+                              {" "}
+                              Delete{" "}
+                           </button>
                         </td>
                      </tr>
                   );

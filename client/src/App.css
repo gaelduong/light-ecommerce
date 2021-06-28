@@ -1,3 +1,7 @@
+* {
+   box-sizing: border-box;
+}
+
 body {
    background-color: black;
    color: #d3d3d3;
@@ -25,7 +29,8 @@ a:visited {
 
 select,
 input,
-textarea {
+textarea,
+label {
    display: block;
 }
 
@@ -39,7 +44,7 @@ input[type="submit"] {
 }
 
 form {
-   width: 200px;
+   width: 500px;
 }
 
 td {
@@ -47,30 +52,54 @@ td {
    padding: 10px 20px 0 20px;
 }
 
-img {
-   width: 200px;
-   height: 200px;
-   display: block;
-}
-
-.img-admin {
-   width: 50px;
-   height: 50px;
-}
-
 input[type="file"] {
    display: none;
 }
 
-.image-label {
-   display: inline-block;
-   border: 1px solid white;
-   text-align: center;
-   color: #fff;
-   border-radius: 4px;
+.action-btn {
+   margin: 0 5px;
+   color: white;
+   background: rgb(41, 156, 93);
+   padding: 7px 10px;
+}
+
+.img-display {
+   width: 50px;
+   height: 50px;
+}
+
+.img-label {
    width: 120px;
    height: 120px;
-   padding: 10px;
-   display: block;
-   background-color: #9fa1a3;
+   margin: 0 5px 0 0;
+   background-color: rgba(177, 174, 174, 0.5);
+}
+
+.img-label-container {
+   position: relative;
+   background: black;
+   display: inline;
+}
+
+.img-reset-btn {
+   border-radius: 2px;
+   position: absolute;
+   right: 5px;
+   background-color: rgba(255, 255, 255, 0.5);
+}
+
+.image-edit-txt {
+   position: absolute;
+   z-index: 9999;
+   right: 35px;
+   top: -70px;
+   font-size: 20px;
+   font-weight: bold;
+   color: #b1c4cf;
+}
+
+.img-label:hover,
+.img-reset-btn:hover,
+.image-edit-txt:hover {
+   cursor: pointer;
 }
