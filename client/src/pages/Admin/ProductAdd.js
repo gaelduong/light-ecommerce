@@ -93,6 +93,11 @@ const ProductAdd = ({ history }) => {
                "Content-Type": "multipart/form-data"
             }
          });
+
+         const imageOrderPathList = data.map((imagePath,idx)=>({
+            order:idx, path:imagePath
+         }))
+         
          console.log("🚀 ~ file: ProductAdd.js ~ line 94 ~ handleAddProduct ~ data", data);
          // Send POST request to add new product to DB
          await axios.post(`${apiUrl}/products_admin`, {
@@ -101,7 +106,7 @@ const ProductAdd = ({ history }) => {
             description: productFields.desc,
             category: productFields.category,
             isInStock: productFields.isInStock,
-            images: data
+            images: imageOrderPathList
          });
          setTimeout(() => {
             history.push("/admin");

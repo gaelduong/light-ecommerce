@@ -34,7 +34,8 @@ ul li {
    list-style: none;
 }
 
-a:visited {
+a:visited,
+a:link {
    color: white;
 }
 

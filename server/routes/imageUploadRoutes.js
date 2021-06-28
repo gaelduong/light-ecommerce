@@ -36,16 +36,7 @@ const upload = multer({
 
 router.post("/imageupload", upload.array("image"), (req, res) => {
    try {
-      const imagePaths = req.files.map((file, idx) => ({ order: idx, path: file.path }));
-      res.status(200).send(imagePaths);
-   } catch (error) {
-      res.status(200).send([]);
-   }
-});
-
-router.post("/imageupload/:id", upload.array("image"), async (req, res) => {
-   try {
-      const imagePaths = req.files.map((file, idx) => file.path);
+      const imagePaths = req.files.map((file) => file.path);
       res.status(200).send(imagePaths);
    } catch (error) {
       res.status(200).send([]);

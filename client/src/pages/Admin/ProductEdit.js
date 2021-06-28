@@ -120,7 +120,7 @@ const ProductEdit = ({ history }) => {
       }
 
       try {
-         const { data } = await axios.post(`${apiUrl}/imageupload/${productId}`, formData, {
+         const { data } = await axios.post(`${apiUrl}/imageupload`, formData, {
             headers: {
                "Content-Type": "multipart/form-data"
             }
