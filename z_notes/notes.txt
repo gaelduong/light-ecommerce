@@ -23,6 +23,7 @@
 - select items (checkboxes in front)
 - popup confirm discard, delete,... (when click discard, or hit go back <-)
 - save draft for add/edit?
+- min/max characters for name,desc,...
 
 * 2 ways to access the admin page
 1. access /admin route => check if contains valid jwt 
@@ -79,8 +80,8 @@ update product images with  [p1,p4,p3,p5]
 - refactor imageupload for add
 - images component
 - [x] css images display horizontally
-- click on product img => edit
+- [x] click on product img => edit
 - refactor routes functions later
 - [x] edit,delete in same col
-- make cover photo
-- if no phot, displace 1 placeholder
+- [x] make cover photo
+- [x] if no phot, displace 1 placeholder
