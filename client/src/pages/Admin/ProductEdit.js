@@ -101,7 +101,7 @@ const ProductEdit = ({ history }) => {
       if (type === "checkbox") {
          value = !productFields.isInStock;
       } else if (type === "number") {
-         value = parseFloat(value);
+         value = ''+parseFloat(value);
       }
       const newProductFields = {
          ...productFields,
@@ -173,7 +173,7 @@ const ProductEdit = ({ history }) => {
             </label>
             <label>
                New price:
-               <input type="number" name="price" value={price} onChange={handleChange} />
+               <input type="number" name="price" step={0.1} min={0} value={price} onChange={handleChange} />
             </label>
             <label>
                New description:
