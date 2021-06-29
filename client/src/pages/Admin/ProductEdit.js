@@ -5,7 +5,7 @@ import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
 import placeholderImage from "../../assets/placeholder-image.png";
-import { ImageInputList } from "../components/";
+import { ImageInputList } from "../Common/";
 
 const ProductEdit = ({ history }) => {
    const authVerified = useVerifyAuth(history);
