@@ -22,6 +22,7 @@ const ProductEdit = ({ history }) => {
       const fetchProduct = async () => {
          try {
             const { data } = await axios.get(`${apiUrl}/products_admin/${productId}`);
+            // Load product fields
             setProductFields({
                name: data.name,
                price: data.price,
@@ -29,6 +30,7 @@ const ProductEdit = ({ history }) => {
                category: data.category,
                isInStock: data.isInStock
             });
+            // Load product images
             const productImages = data.images;
             const newImagesInput = imagesInput.map((imageInput, idx) => ({
                order: imageInput.order,
@@ -45,6 +47,7 @@ const ProductEdit = ({ history }) => {
          }
       };
       fetchProduct();
+      // eslint-disable-next-line
    }, [productId]);
 
    const handleChange = (e) => {
