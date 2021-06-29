@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { UserProducstDisplay, Login } from "./pages/User";
-import { ProductsDisplay, ProductAdd, ProductEdit } from "./pages/Admin";
+import { UserProducstDisplay, Login } from "./components/User";
+import { ProductsDisplay, ProductAdd, ProductEdit } from "./components/Admin";
 import "./App.css";
 
 const App = () => {

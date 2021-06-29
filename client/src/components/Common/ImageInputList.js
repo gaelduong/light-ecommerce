@@ -1,5 +1,5 @@
 import placeholderImage from "../../assets/placeholder-image.png";
-import { ImageInput } from "./";
+import { ImageInput } from ".";
 
 const generateRandomKey = () => {
    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -48,8 +48,8 @@ const ImageInputList = ({ imagesInput, setImagesInput }) => {
    return (
       <>
          <label>Image</label>
-         {imagesInput.map((image) => (
-            <ImageInput image={image} handleImageUpload={handleImageUpload} handleImageReset={handleImageReset} />
+         {imagesInput.map((imageInput) => (
+            <ImageInput key={generateRandomKey()} image={imageInput} handleImageUpload={handleImageUpload} handleImageReset={handleImageReset} />
          ))}
       </>
    );
