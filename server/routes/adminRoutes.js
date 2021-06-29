@@ -4,8 +4,10 @@ const { Product } = require("../models/");
 const { toBase64, imageExists, deleteImage } = require("../utility");
 const { getProducts } = require("./commonFunctions");
 
+// Need to add protected middleware here
 router.get("/products_admin", getProducts);
 
+// Need to add protected middleware here
 router.get("/products_admin/:id", async (req, res) => {
    // Retrieve products from DB
    try {
@@ -27,6 +29,7 @@ router.get("/products_admin/:id", async (req, res) => {
    }
 });
 
+// Need to add protected middleware here
 router.post("/products_admin", async (req, res) => {
    // Insert product to DB
    const product = req.body;
@@ -41,6 +44,7 @@ router.post("/products_admin", async (req, res) => {
    }
 });
 
+// Need to add protected middleware here
 router.delete("/products_admin/:id", async (req, res) => {
    try {
       // Remove image file
@@ -60,6 +64,7 @@ router.delete("/products_admin/:id", async (req, res) => {
    }
 });
 
+// Need to add protected middleware here
 router.put("/products_admin/:id", async (req, res) => {
    // Update product in DB
    try {
