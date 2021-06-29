@@ -77,11 +77,11 @@ update product images with  [p1,p4,p3,p5]
 
 - [x] get product by id
 - [x] more than 2 images per product
-- refactor imageupload for add
+- [x] refactor imageupload for add
 - images component
 - [x] css images display horizontally
 - [x] click on product img => edit
-- refactor routes functions later
+- [~x] refactor routes functions later
 - [x] edit,delete in same col
 - [x] make cover photo
-- [x] if no phot, displace 1 placeholder
+- [x] if no photo, displace 1 placeholder
