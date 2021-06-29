@@ -4,22 +4,7 @@ import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
 import placeholderImage from "../../assets/placeholder-image.png";
-
-const generateRandomKey = () => {
-   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-      var r = (Math.random() * 16) | 0,
-         v = c === "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-   });
-};
-
-const toBase64 = (file) =>
-   new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-   });
+import { ImageInputList } from "../components/";
 
 const ProductAdd = ({ history }) => {
    const authVerified = useVerifyAuth(history);
@@ -32,33 +17,7 @@ const ProductAdd = ({ history }) => {
       isInStock: true
    });
 
-   const [imagesInput, setImagesInput] = useState(
-      [...Array(6)].map((_, idx) => ({ order: idx, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage }))
-   );
-
-   const handleImageUpload = async (e, id) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const imgBase64 = await toBase64(file);
-      const newImagesInput = [...imagesInput];
-      newImagesInput[id] = {
-         ...newImagesInput[id],
-         imageFile: file,
-         imageDisplay: imgBase64
-      };
-      setImagesInput(newImagesInput);
-   };
-
-   const handleImageReset = (id) => {
-      const newImagesInput = [...imagesInput];
-      newImagesInput[id] = {
-         ...newImagesInput[id],
-         imageFile: null,
-         imageDisplay: placeholderImage,
-         inputKey: generateRandomKey()
-      };
-      setImagesInput(newImagesInput);
-   };
+   const [imagesInput, setImagesInput] = useState([...Array(6)].map((_, idx) => ({ order: idx, imageFile: null, inputKey: "", imageDisplay: placeholderImage })));
 
    const handleChange = (e) => {
       let value = e.target.value;
@@ -68,7 +27,7 @@ const ProductAdd = ({ history }) => {
       if (type === "checkbox") {
          value = !productFields.isInStock;
       } else if (type === "number") {
-         value = ''+parseFloat(value);
+         value = "" + parseFloat(value);
       }
       const newProductFields = {
          ...productFields,
@@ -94,10 +53,11 @@ const ProductAdd = ({ history }) => {
             }
          });
 
-         const imageOrderPathList = data.map((imagePath,idx)=>({
-            order:idx, path:imagePath
-         }))
-         
+         const imageOrderPathList = data.map((imagePath, idx) => ({
+            order: idx,
+            path: imagePath
+         }));
+
          console.log("🚀 ~ file: ProductAdd.js ~ line 94 ~ handleAddProduct ~ data", data);
          // Send POST request to add new product to DB
          await axios.post(`${apiUrl}/products_admin`, {
@@ -149,18 +109,9 @@ const ProductAdd = ({ history }) => {
                Is in stock:
                <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
             </label>
-            <label>Image</label>
-            {imagesInput.map((image) => (
-               <label className="img-label-container" key={image.order}>
-                  <img className="img-label" src={image.imageDisplay} alt="" />
-                  <input type="file" accept="image/*" key={image.inputKey} onChange={(e) => handleImageUpload(e, image.order)} />
-                  <button className="img-reset-btn" type="button" onClick={() => handleImageReset(image.order)}>
-                     x
-                  </button>
-                  {(image.imageDisplay !== placeholderImage && <pre className="image-edit-txt"> Edit </pre>) || <pre className="image-edit-txt"> Add </pre>}
-               </label>
-            ))}
-            <br />
+
+            <ImageInputList imagesInput={imagesInput} setImagesInput={setImagesInput} />
+
             <input className="bg-color-green" type="submit" value="Add product" />
          </form>
          <button className="bg-color-red" onClick={() => history.push("/admin")}>

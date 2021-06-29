@@ -5,22 +5,7 @@ import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
 import placeholderImage from "../../assets/placeholder-image.png";
-
-const generateRandomKey = () => {
-   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-      var r = (Math.random() * 16) | 0,
-         v = c === "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-   });
-};
-
-const toBase64 = (file) =>
-   new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-   });
+import { ImageInputList } from "../components/";
 
 const ProductEdit = ({ history }) => {
    const authVerified = useVerifyAuth(history);
@@ -29,9 +14,7 @@ const ProductEdit = ({ history }) => {
    const { productId } = useParams();
 
    const [productFields, setProductFields] = useState(null);
-   const [imagesInput, setImagesInput] = useState(
-      [...Array(6)].map((_, idx) => ({ order: idx, imageFile: null, inputKey: generateRandomKey(), imageDisplay: placeholderImage }))
-   );
+   const [imagesInput, setImagesInput] = useState([...Array(6)].map((_, idx) => ({ order: idx, imageFile: null, inputKey: "", imageDisplay: placeholderImage })));
 
    useEffect(() => {
       if (!productId) return;
@@ -64,35 +47,6 @@ const ProductEdit = ({ history }) => {
       fetchProduct();
    }, [productId]);
 
-   const handleImageUpload = async (e, id) => {
-      const file = e.target.files[0];
-      console.log("🚀 ~ file: ProductEdit.js ~ line 46 ~ handleImageUpload ~ file", file);
-      if (!file) return;
-      const imgBase64 = await toBase64(file);
-      const newImagesInput = [...imagesInput];
-      newImagesInput[id] = {
-         ...newImagesInput[id],
-         path: "",
-         imageFile: file,
-         imageDisplay: imgBase64
-      };
-      console.log("🚀 ~ file: ProductEdit.js ~ line 51 ~ handleImageUpload ~ newImagesInput", newImagesInput);
-      setImagesInput(newImagesInput);
-   };
-
-   const handleImageReset = (id) => {
-      const newImagesInput = [...imagesInput];
-      newImagesInput[id] = {
-         ...newImagesInput[id],
-         path: "",
-         imageFile: null,
-         imageDisplay: placeholderImage,
-         inputKey: generateRandomKey()
-      };
-      console.log("🚀 ~ file: ProductEdit.js ~ line 61 ~ handleImageReset ~ newImagesInput", newImagesInput);
-      setImagesInput(newImagesInput);
-   };
-
    const handleChange = (e) => {
       let value = e.target.value;
       let type = e.target.type;
@@ -101,7 +55,7 @@ const ProductEdit = ({ history }) => {
       if (type === "checkbox") {
          value = !productFields.isInStock;
       } else if (type === "number") {
-         value = ''+parseFloat(value);
+         value = "" + parseFloat(value);
       }
       const newProductFields = {
          ...productFields,
@@ -192,17 +146,9 @@ const ProductEdit = ({ history }) => {
                Is in stock:
                <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
             </label>
-            <label>Image</label>
-            {imagesInput.map((image) => (
-               <label className="img-label-container" key={image.order}>
-                  <img className="img-label" src={image.imageDisplay} alt="" />
-                  <input type="file" accept="image/*" key={image.inputKey} onChange={(e) => handleImageUpload(e, image.order)} />
-                  <button className="img-reset-btn" type="button" onClick={() => handleImageReset(image.order)}>
-                     x
-                  </button>
-                  {(image.imageDisplay !== placeholderImage && <pre className="image-edit-txt"> Edit </pre>) || <pre className="image-edit-txt"> Add </pre>}
-               </label>
-            ))}
+
+            <ImageInputList imagesInput={imagesInput} setImagesInput={setImagesInput} />
+
             <input className="bg-color-green" type="submit" value="Update" />
             <button
                className="bg-color-red"
