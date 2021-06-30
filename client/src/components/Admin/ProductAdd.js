@@ -91,6 +91,9 @@ const ProductAdd = ({ history }) => {
                * Price:
                <input required type="number" name="price" step={0.1} min={0} value={price} onChange={handleChange} />
             </label>
+            <label> OR </label>
+            <input required type="button" name="price" value="Price with variations" />
+            <label> </label>
             <label>
                Description:
                <textarea name="desc" value={desc} onChange={handleChange} />

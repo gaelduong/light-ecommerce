@@ -35,8 +35,8 @@
 => if wrong credentials, reject
 => if correct, send back jwt + redirect to /admin
 
-- make new route product detail
-- show cover image on product page only
+- [x] make new route product detail
+- [x] show cover image on product page only
 - protected route
 - apply promotion to category/individual products (select?)
 - create new category
@@ -69,3 +69,50 @@
 - [x] edit,delete in same col
 - [x] make cover photo
 - [x] if no photo, displace 1 placeholder
+
+
+UI: 
+MAX NUM VARIATIONS = 2
+
+Price: (input) (if no variations)
+OR
+enable variations +
+
+variation 1:  name    Color    x
+              options Red
+                      (add options)
+            
+variation 2:  name    Color    x
+              options Red
+                      (add options)
+
+            [add new variation]
+
+Variation list:
+    size    color       price
+    L        
+//
+for each variations
+    for each options
+
+DB:
+price: {
+    single_price: 12,
+    price_variations: (null) or {
+        variations: [
+            {
+                name: color,
+                values: [red,blue]
+            },
+            {
+                name: size,
+                values: [L, XL]
+            }
+        ]
+        prices: [
+            {color:red,size:L,price:10},
+            {color:red,size:L,price:10},
+            {color:red,size:L,price:10},
+        ]
+    }
+}

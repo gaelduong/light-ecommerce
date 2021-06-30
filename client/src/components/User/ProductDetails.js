@@ -24,6 +24,40 @@ const ProductDetails = () => {
 
    if (!product) return <></>;
 
+   const price = {
+      single_price: 12,
+      price_variations: {
+         variations: [
+            {
+               name: "color",
+               values: ["red", "blue"]
+            },
+            {
+               name: "size",
+               values: ["L", "XL"]
+            }
+         ],
+         prices: [
+            { color: "red", size: "L", price: 10 },
+            { color: "red", size: "XL", price: 20 },
+            { color: "blue", size: "L", price: 10 },
+            { color: "blue", size: "XL", price: 20 }
+         ]
+      }
+   };
+
+   const priceVariations = price.price_variations;
+   const variationsElems = !priceVariations
+      ? ""
+      : priceVariations.variations.map(({ name, values }) => (
+           <div>
+              <p> {name}</p>
+              {values.map((value) => (
+                 <button> {value}</button>
+              ))}
+           </div>
+        ));
+
    return (
       <React.Fragment>
          <Link to={`/products`}>
@@ -39,6 +73,8 @@ const ProductDetails = () => {
          <p>Description: {product.description}</p>
          <p>Category: {product.category}</p>
          <p>{product.isInStock ? "(In Stock)" : "(Out Of Stock)"}</p>
+
+         {variationsElems}
       </React.Fragment>
    );
 };

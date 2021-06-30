@@ -23,13 +23,7 @@ const ProductEdit = ({ history }) => {
          try {
             const { data } = await axios.get(`${apiUrl}/products_admin/${productId}`);
             // Load product fields
-            setProductFields({
-               name: data.name,
-               price: data.price,
-               desc: data.description,
-               category: data.category,
-               isInStock: data.isInStock
-            });
+            setProductFields(data);
             // Load product images
             const productImages = data.images;
             const newImagesInput = imagesInput.map((imageInput, idx) => ({
