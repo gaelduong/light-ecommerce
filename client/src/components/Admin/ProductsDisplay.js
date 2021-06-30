@@ -32,13 +32,12 @@ const ProductsDisplay = ({ history }) => {
       setProducts(newProducts);
    };
 
-   if (!authVerified) return <></>;
-   console.log(products);
+   if (!authVerified || !products.length > 0) return <></>;
    return (
       <AdminContainer history={history}>
          <br />
-         <button onClick={() => history.push("/product-add")}>Add product</button>
-         <h2>My products: </h2>
+         <button onClick={() => history.push("/product-add")}> + Add product</button>
+         <h2>{products.length} products </h2>
          <table>
             <tbody>
                <tr>
@@ -56,7 +55,7 @@ const ProductsDisplay = ({ history }) => {
                         <td>
                            <Link to={`/product-edit/${_id}`}>
                               <img className="img-display" src={images.length > 0 ? images[0].imageAsBase64 : placeholderImage} alt=" product" />
-                              {images.length > 1 && <span style={{ fontSize: "11px"}}> {images.length - 1} more photos</span>}
+                              {images.length > 1 && <span style={{ fontSize: "11px" }}> {images.length - 1} more photos</span>}
                            </Link>
                         </td>
                         <td> {name} </td>

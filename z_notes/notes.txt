@@ -35,22 +35,25 @@
 => if correct, send back jwt + redirect to /admin
 
 
+- protected route
 - apply promotion to category/individual products (select?)
 - create new category
-- drag products in admin
-- sort products by ... 
-- pagination in admin
 - attributes with varying prices
-- same logic for 2 routes: /products and /products_admin => need to refactor
+- pagination in admin
+- drag products in admin
+- [x] display total number of products
+- sort products by ... 
+- search products
+- [x] same logic for 2 routes: /products and /products_admin => need to refactor
 - check if path exist before delete to avoid error
 - [x] add multiple images
 - [x] fix get for fetching multiple images
 - [x] delete multiple images
-- edit for multiple images
-- change to dynamic number of images instead of 2
-- display images in ProductsDisplay? (show 1 + more?)
+- [x] edit for multiple images
+- [x] change to dynamic number of images instead of 2
+- [x] display images in ProductsDisplay? (show 1 + more?)
 - need to find a way to ensure consistency between the image files and image paths in db
-- extract imagesInput into component
+- [x] extract imagesInput into component
 
 
 p1,p2,p3 => p1,p2 
@@ -78,7 +81,7 @@ update product images with  [p1,p4,p3,p5]
 - [x] get product by id
 - [x] more than 2 images per product
 - [x] refactor imageupload for add
-- images component
+- [x] images component
 - [x] css images display horizontally
 - [x] click on product img => edit
 - [~x] refactor routes functions later

@@ -16,7 +16,7 @@ const UserProducstDisplay = () => {
 
    return (
       <div className="Products">
-         <h2>My products: </h2>
+         <h2>Our products: </h2>
          <ol>
             {products.map(({ _id, name, price, category, isInStock, images }) => {
                return (

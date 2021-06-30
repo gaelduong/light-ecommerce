@@ -53,7 +53,7 @@ router.delete("/products_admin/:id", async (req, res) => {
       removedProduct.remove();
       res.status(200).json(removedProduct);
       console.log("Delete from DB successfully");
-      if (!(images.length > 0)) return;
+      if (!images.length > 0) return;
       for (const image of images) {
          deleteImage(image.path);
       }
