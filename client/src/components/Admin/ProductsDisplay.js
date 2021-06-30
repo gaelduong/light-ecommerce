@@ -35,7 +35,6 @@ const ProductsDisplay = ({ history }) => {
    if (!authVerified || !products.length > 0) return <></>;
    return (
       <AdminContainer history={history}>
-         <br />
          <button onClick={() => history.push("/product-add")}> + Add product</button>
          <h2>{products.length} products </h2>
          <table>

@@ -47,7 +47,7 @@ const ImageInputList = ({ imagesInput, setImagesInput }) => {
 
    return (
       <>
-         <label>Image</label>
+         <label>Images</label>
          {imagesInput.map((imageInput) => (
             <ImageInput key={generateRandomKey()} image={imageInput} handleImageUpload={handleImageUpload} handleImageReset={handleImageReset} />
          ))}

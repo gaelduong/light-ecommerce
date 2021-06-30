@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../config";
 import placeholderImage from "../../assets/placeholder-image-2.png";
@@ -26,13 +27,13 @@ const UserProducstDisplay = () => {
                      <span> Category: {category} </span>
                      <span> {isInStock ? "" : "(Out of stock)"} </span>
                      <div>
-                        {images.length > 0 ? (
-                           images.map((image) => {
-                              return <img key={image.order} className="img-display" src={image.imageAsBase64} alt=" product" />;
-                           })
-                        ) : (
-                           <img className="img-display" src={placeholderImage} alt=" product" />
-                        )}
+                        <Link to={`/product-details/${_id}`}>
+                           {images.length > 0 ? (
+                              <img key={images[0].order} className="img-display" src={images[0].imageAsBase64} alt=" product" />
+                           ) : (
+                              <img className="img-display" src={placeholderImage} alt=" product" />
+                           )}
+                        </Link>
                      </div>
                   </li>
                );

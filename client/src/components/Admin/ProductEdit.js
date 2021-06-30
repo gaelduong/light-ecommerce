@@ -125,11 +125,11 @@ const ProductEdit = ({ history }) => {
          <h1> EDIT </h1>
          <form onSubmit={(e) => handleEditProduct(e)}>
             <label>
-               New name:
+               * New name:
                <input type="text" name="name" value={name} onChange={handleChange} />
             </label>
             <label>
-               New price:
+               * New price:
                <input type="number" name="price" step={0.1} min={0} value={price} onChange={handleChange} />
             </label>
             <label>
@@ -137,7 +137,7 @@ const ProductEdit = ({ history }) => {
                <textarea name="desc" value={desc} onChange={handleChange} />
             </label>
             <label>
-               New category:
+               * New category:
                <select required name="category" value={category} onChange={handleChange}>
                   <option value="A"> A</option>
                   <option value="B"> B</option>
@@ -146,7 +146,7 @@ const ProductEdit = ({ history }) => {
                </select>
             </label>
             <label>
-               Is in stock:
+               * Is in stock:
                <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
             </label>
 

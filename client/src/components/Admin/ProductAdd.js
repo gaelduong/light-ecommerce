@@ -84,11 +84,11 @@ const ProductAdd = ({ history }) => {
          <h1> ADD PRODUCT </h1>
          <form onSubmit={handleAddProduct}>
             <label>
-               Name:
+               * Name:
                <input required type="text" name="name" value={name} onChange={handleChange} />
             </label>
             <label>
-               Price:
+               * Price:
                <input required type="number" name="price" step={0.1} min={0} value={price} onChange={handleChange} />
             </label>
             <label>
@@ -96,7 +96,7 @@ const ProductAdd = ({ history }) => {
                <textarea name="desc" value={desc} onChange={handleChange} />
             </label>
             <label>
-               Category:
+               * Category:
                <select required name="category" value={category} onChange={handleChange}>
                   <option value="">Choose category</option>
                   <option value="A"> A</option>
@@ -106,7 +106,7 @@ const ProductAdd = ({ history }) => {
                </select>
             </label>
             <label>
-               Is in stock:
+               * Is in stock:
                <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
             </label>
 
