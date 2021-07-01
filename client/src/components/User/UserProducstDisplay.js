@@ -4,6 +4,14 @@ import axios from "axios";
 import { apiUrl } from "../../config";
 import placeholderImage from "../../assets/placeholder-image-2.png";
 
+function displayMinMaxPrice(variationPriceList) {
+   const prices = variationPriceList.map((variationPrice) => variationPrice.price);
+   const min = Math.min(...prices);
+   const max = Math.max(...prices);
+   if (min === max) return `${min}đ`;
+   return `${min}đ-${max}đ`;
+}
+
 const UserProducstDisplay = () => {
    const [products, setProducts] = useState([]);
 
@@ -18,14 +26,10 @@ const UserProducstDisplay = () => {
    return (
       <div className="Products">
          <h2>Our products: </h2>
-         <ol>
+         <ul>
             {products.map(({ _id, name, price, category, isInStock, images }) => {
                return (
                   <li key={_id}>
-                     <span> {name} </span>
-                     <span> {price} VND </span>
-                     <span> Category: {category} </span>
-                     <span> {isInStock ? "" : "(Out of stock)"} </span>
                      <div>
                         <Link to={`/product-details/${_id}`}>
                            {images.length > 0 ? (
@@ -35,10 +39,15 @@ const UserProducstDisplay = () => {
                            )}
                         </Link>
                      </div>
+                     <div> {name} </div>
+                     <div> {(price.multiplePrices && displayMinMaxPrice(price.multiplePrices.variationPriceList)) || price.singlePrice}đ</div>
+                     <div> Category: {category} </div>
+                     <div> {isInStock ? "" : "(Out of stock)"} </div>
+                     <br />
                   </li>
                );
             })}
-         </ol>
+         </ul>
       </div>
    );
 };

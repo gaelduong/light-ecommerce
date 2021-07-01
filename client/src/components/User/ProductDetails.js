@@ -4,22 +4,6 @@ import axios from "axios";
 import { apiUrl } from "../../config";
 import placeholderImage from "../../assets/placeholder-image-2.png";
 
-const priceEx = {
-   singlePrice: 12,
-   multiplePrices: {
-      variations: [
-         { name: "color", values: ["red", "blue"] },
-         { name: "size", values: ["L", "XL"] }
-      ],
-      variationPriceList: [
-         { options: ["red", "L"], price: 11 },
-         { options: ["red", "XL"], price: 20 },
-         { options: ["blue", "L"], price: 14 },
-         { options: ["blue", "XL"], price: 25 }
-      ]
-   }
-};
-
 const ProductDetails = () => {
    const [product, setProduct] = useState(null);
    const [variationSelection, setVariationSelection] = useState({});
@@ -32,14 +16,19 @@ const ProductDetails = () => {
          try {
             const { data } = await axios.get(`${apiUrl}/products/${productId}`);
             console.log("🚀 ~ file: ProductDetails.js ~ line 15 ~ fetchProduct ~ data", data);
-            // if(data.price.singlePrice){
-            //      return setDisplayPrice(data.price.singlePrice)
-            // } else
-            const defaultPrice = priceEx.multiplePrices.variationPriceList[0].price;
-            setDisplayPrice(defaultPrice);
-            // Default variation selection
-            const variationSelection = priceEx.multiplePrices.variations.reduce((obj, item) => Object.assign(obj, { [item.name]: item.values[0] }), {});
-            setVariationSelection(variationSelection);
+
+            const productPrice = data.price;
+
+            let displayPrice = -1;
+            if (productPrice.singlePrice) {
+               displayPrice = productPrice.singlePrice;
+            } else if (productPrice.multiplePrices) {
+               const defaultPrice = productPrice.multiplePrices.variationPriceList[0].price;
+               setDisplayPrice(defaultPrice);
+               displayPrice = productPrice.multiplePrices.variations.reduce((obj, item) => Object.assign(obj, { [item.name]: item.values[0] }), {});
+            }
+
+            setVariationSelection(displayPrice);
             setProduct(data);
          } catch (error) {
             console.error(error);
@@ -50,9 +39,9 @@ const ProductDetails = () => {
 
    useEffect(() => {
       if (!product) return;
-      if (!priceEx.multiplePrices) return;
+      if (!product.price.multiplePrices) return;
       // Get the corresponding price based on selected varations
-      const variationPriceList = priceEx.multiplePrices.variationPriceList;
+      const variationPriceList = product.price.multiplePrices.variationPriceList;
       const currentVariationPrice = variationPriceList.find(({ options }) => {
          const values = Object.values(variationSelection);
          return options[0] === values[0] && options[1] === values[1];
@@ -68,24 +57,22 @@ const ProductDetails = () => {
       });
    };
 
-   const variationsElems =
-      priceEx.multiplePrices &&
-      priceEx.multiplePrices.variations.map(({ name, values }) => (
-         <div key={name}>
-            <p> {name}</p>
-            {values.map((value) => (
-               <button
-                  key={value}
-                  name={name}
-                  value={value}
-                  style={{ display: "inline", margin: "0 5px 0 0", background: variationSelection && variationSelection[name] === value ? "yellowgreen" : "" }}
-                  onClick={handleSelection}
-               >
-                  {value}
-               </button>
-            ))}
-         </div>
-      ));
+   const variationsElems = product?.price?.multiplePrices?.variations?.map(({ name, values }) => (
+      <div key={name}>
+         <p> {name}</p>
+         {values.map((value) => (
+            <button
+               key={value}
+               name={name}
+               value={value}
+               style={{ display: "inline", margin: "0 5px 0 0", background: variationSelection && variationSelection[name] === value ? "yellowgreen" : "" }}
+               onClick={handleSelection}
+            >
+               {value}
+            </button>
+         ))}
+      </div>
+   ));
 
    if (!product) return <></>;
    return (

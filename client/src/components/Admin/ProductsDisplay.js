@@ -43,6 +43,7 @@ const ProductsDisplay = ({ history }) => {
                   <th>Cover Image</th>
                   <th>Name</th>
                   <th>Price</th>
+                  <th>Variations</th>
                   <th>Description</th>
                   <th>Category</th>
                   <th>Availability</th>
@@ -58,7 +59,30 @@ const ProductsDisplay = ({ history }) => {
                            </Link>
                         </td>
                         <td> {name} </td>
-                        <td> {price} VND </td>
+                        {/* Display price(s) */}
+                        <td>
+                           {(price.multiplePrices && (
+                              <>
+                                 {price.multiplePrices.variationPriceList.map(({ options: [var1, var2], price }) => (
+                                    <div key={`${var1}${var2}`}>{price} đ </div>
+                                 ))}
+                              </>
+                           )) || <div> {price.singlePrice} đ </div>}
+                        </td>
+
+                        {/* Display variations */}
+                        <td>
+                           {(price.multiplePrices && (
+                              <>
+                                 {price.multiplePrices.variationPriceList.map(({ options: [var1, var2] }) => (
+                                    <div key={`${var1}${var2}`}>
+                                       {var1}, {var2}
+                                    </div>
+                                 ))}
+                              </>
+                           )) ||
+                              "None"}
+                        </td>
                         <td> {description} </td>
                         <td> {category} </td>
                         <td> {isInStock ? "In Stock" : "Out of stock"} </td>
