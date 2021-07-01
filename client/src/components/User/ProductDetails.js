@@ -12,10 +12,10 @@ const priceEx = {
          { name: "size", values: ["L", "XL"] }
       ],
       variationPriceList: [
-         { color: "red", size: "L", price: 11 },
-         { color: "red", size: "XL", price: 20 },
-         { color: "blue", size: "L", price: 14 },
-         { color: "blue", size: "XL", price: 25 }
+         { options: ["red", "L"], price: 11 },
+         { options: ["red", "XL"], price: 20 },
+         { options: ["blue", "L"], price: 14 },
+         { options: ["blue", "XL"], price: 25 }
       ]
    }
 };
@@ -53,8 +53,9 @@ const ProductDetails = () => {
       if (!priceEx.multiplePrices) return;
       // Get the corresponding price based on selected varations
       const variationPriceList = priceEx.multiplePrices.variationPriceList;
-      const currentVariationPrice = variationPriceList.find((variationPrice) => {
-         return Object.entries(variationPrice).every(([prop, value]) => value === variationSelection[prop] || prop === "price");
+      const currentVariationPrice = variationPriceList.find(({ options }) => {
+         const values = Object.values(variationSelection);
+         return options[0] === values[0] && options[1] === values[1];
       });
 
       setDisplayPrice(currentVariationPrice.price);
