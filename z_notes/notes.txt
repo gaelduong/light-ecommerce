@@ -190,6 +190,7 @@ x cannot have empty fields
 extract variation component
 same for product edit
 cleaner ui
+variation same name = same key error
 
 
 red => {id:1,red,0}

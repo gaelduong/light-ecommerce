@@ -1,5 +1,4 @@
-import ImageInput from "./ImageInput.js";
-import ImageInputList from "./ImageInputList.js";
-import VariationInput from "./VariationInput.js";
+import ImageInputList from "./ImageInput/ImageInputList.js";
+import VariationInput from "./PriceVariation/VariationInput.js";
 
-export { ImageInput, ImageInputList, VariationInput };
+export { ImageInputList, VariationInput };

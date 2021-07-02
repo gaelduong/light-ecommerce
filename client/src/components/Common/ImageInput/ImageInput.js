@@ -1,5 +1,5 @@
 import React from "react";
-import placeholderImage from "../../assets/placeholder-image.png";
+import placeholderImage from "../../../assets/placeholder-image.png";
 
 const ImageInput = ({ image, handleImageUpload, handleImageReset }) => {
    return (
