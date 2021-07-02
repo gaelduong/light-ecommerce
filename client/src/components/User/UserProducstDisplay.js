@@ -40,7 +40,7 @@ const UserProducstDisplay = () => {
                         </Link>
                      </div>
                      <div> {name} </div>
-                     <div> {(price.multiplePrices && displayMinMaxPrice(price.multiplePrices.variationPriceList)) || price.singlePrice}đ</div>
+                     <div> {(price.multiplePrices && displayMinMaxPrice(price.multiplePrices.variationPriceList)) || `${price.singlePrice}đ`}</div>
                      <div> Category: {category} </div>
                      <div> {isInStock ? "" : "(Out of stock)"} </div>
                      <br />

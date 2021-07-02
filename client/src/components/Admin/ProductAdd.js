@@ -93,10 +93,6 @@ const ProductAdd = ({ history }) => {
 
    const handleTurnOffVariations = () => {
       setVariations([]);
-      setProductFields({
-         ...productFields,
-         price: 0
-      });
    };
 
    const handleAddVariationName = () => {
@@ -104,10 +100,6 @@ const ProductAdd = ({ history }) => {
 
       const newVariations = [...variations, newVariation];
       const newVariationPriceList = getVariationPriceList(newVariations, variationPriceList);
-      setProductFields({
-         ...productFields,
-         price: null
-      });
       setVariationPriceList(newVariationPriceList);
       setVariations(newVariations);
    };
@@ -151,11 +143,6 @@ const ProductAdd = ({ history }) => {
    const handleDeleteVariation = (id) => {
       const newVariations = [...variations].filter((variation) => variation.id !== id);
       const newVariationPriceList = getVariationPriceList(newVariations, variationPriceList);
-      if (newVariations.length === 0)
-         setProductFields({
-            ...productFields,
-            price: 0
-         });
       setVariationPriceList(newVariationPriceList);
       setVariations(newVariations);
    };
@@ -201,7 +188,7 @@ const ProductAdd = ({ history }) => {
          }));
 
          const priceInfo = {
-            singlePrice: productFields.price,
+            singlePrice: variations.length === 0 ? productFields.price : null,
             multiplePrices:
                variations.length > 0
                   ? {
