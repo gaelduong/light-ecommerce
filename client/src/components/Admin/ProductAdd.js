@@ -92,7 +92,6 @@ const ProductAdd = ({ history }) => {
 
       const newVariations = [...variations, newVariation];
       const newVariationPriceList = getVariationPriceList(newVariations, variationPriceList);
-      console.log("🚀 ~ file: ProductAdd.js ~ line 87 ~ handleAddVariationName ~ newVariationPriceList", newVariationPriceList);
       setVariationPriceList(newVariationPriceList);
       setVariations(newVariations);
    };
@@ -106,7 +105,6 @@ const ProductAdd = ({ history }) => {
       });
 
       const newVariationPriceList = getVariationPriceList(newVariations, variationPriceList);
-      console.log("🚀 ~ file: ProductAdd.js ~ line 87 ~ handleAddVariationName ~ newVariationPriceList", newVariationPriceList);
       setVariationPriceList(newVariationPriceList);
 
       setVariations(newVariations);
@@ -115,7 +113,6 @@ const ProductAdd = ({ history }) => {
    const handleVariationNameChange = (e, idx) => {
       const newVariations = [...variations];
       newVariations[idx].variationName = e.target.value;
-      console.log("🚀 ~ file: ProductAdd.js ~ line 50 ~ handleVariationNameChange ~ newVariations", newVariations);
       setVariations(newVariations);
    };
 
@@ -130,7 +127,6 @@ const ProductAdd = ({ history }) => {
       newVariations[variationIdx].options = newVariations[variationIdx].options.filter((option) => option.optionId !== optionId);
 
       const newVariationPriceList = getVariationPriceList(newVariations, variationPriceList);
-      console.log("🚀 ~ file: ProductAdd.js ~ line 87 ~ handleAddVariationName ~ newVariationPriceList", newVariationPriceList);
       setVariationPriceList(newVariationPriceList);
 
       setVariations(newVariations);
@@ -139,7 +135,6 @@ const ProductAdd = ({ history }) => {
    const handleDeleteVariation = (id) => {
       const newVariations = [...variations].filter((variation) => variation.id !== id);
       const newVariationPriceList = getVariationPriceList(newVariations, variationPriceList);
-      console.log("🚀 ~ file: ProductAdd.js ~ line 87 ~ handleAddVariationName ~ newVariationPriceList", newVariationPriceList);
       setVariationPriceList(newVariationPriceList);
       setVariations(newVariations);
    };
