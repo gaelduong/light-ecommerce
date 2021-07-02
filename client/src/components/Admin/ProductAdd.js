@@ -14,6 +14,14 @@ const generateRandomKey = () => {
    });
 };
 
+const getVariationValueById = (id, variations) => {
+   for (const variation of variations) {
+      const found = variation.options.find((option) => option.optionId === id);
+      if (found) return found.value;
+   }
+   return "";
+};
+
 const getVariationPriceByIds = (ids, variationPriceList) => {
    return variationPriceList.find(({ optionIds }) => JSON.stringify(optionIds) === JSON.stringify(ids));
 };
@@ -85,6 +93,10 @@ const ProductAdd = ({ history }) => {
 
    const handleTurnOffVariations = () => {
       setVariations([]);
+      setProductFields({
+         ...productFields,
+         price: 0
+      });
    };
 
    const handleAddVariationName = () => {
@@ -92,6 +104,10 @@ const ProductAdd = ({ history }) => {
 
       const newVariations = [...variations, newVariation];
       const newVariationPriceList = getVariationPriceList(newVariations, variationPriceList);
+      setProductFields({
+         ...productFields,
+         price: null
+      });
       setVariationPriceList(newVariationPriceList);
       setVariations(newVariations);
    };
@@ -135,6 +151,11 @@ const ProductAdd = ({ history }) => {
    const handleDeleteVariation = (id) => {
       const newVariations = [...variations].filter((variation) => variation.id !== id);
       const newVariationPriceList = getVariationPriceList(newVariations, variationPriceList);
+      if (newVariations.length === 0)
+         setProductFields({
+            ...productFields,
+            price: 0
+         });
       setVariationPriceList(newVariationPriceList);
       setVariations(newVariations);
    };
@@ -169,25 +190,31 @@ const ProductAdd = ({ history }) => {
 
          console.log("🚀 ~ file: ProductAdd.js ~ line 94 ~ handleAddProduct ~ data", data);
 
-         const priceEx = {
-            // singlePrice: 12
-            multiplePrices: {
-               variations: [
-                  { name: "storage", values: ["128gb", "256gb"] },
-                  { name: "ram", values: ["16gb", "32gb"] }
-               ],
-               variationPriceList: [
-                  { options: ["128gb", "16gb"], price: 11 },
-                  { options: ["128gb", "32gb"], price: 20 },
-                  { options: ["256gb", "16gb"], price: 14 },
-                  { options: ["256gb", "32gb"], price: 25 }
-               ]
-            }
+         const formattedVariations = variations.map((variation) => ({
+            name: variation.variationName,
+            values: variation.options.map((option) => option.value)
+         }));
+
+         const formattedVariationPriceList = variationPriceList.map(({ optionIds, price }) => ({
+            options: optionIds.map((id) => getVariationValueById(id, variations)),
+            price
+         }));
+
+         const priceInfo = {
+            singlePrice: productFields.price,
+            multiplePrices:
+               variations.length > 0
+                  ? {
+                       variations: formattedVariations,
+                       variationPriceList: formattedVariationPriceList
+                    }
+                  : null
          };
+
          // Send POST request to add new product to DB
          await axios.post(`${apiUrl}/products_admin`, {
             name: productFields.name,
-            price: priceEx,
+            price: priceInfo,
             description: productFields.desc,
             category: productFields.category,
             isInStock: productFields.isInStock,
@@ -247,9 +274,11 @@ const ProductAdd = ({ history }) => {
                <hr />
             </div>
          ))}
-         <button onClick={handleAddVariationName} type="button">
-            Add more variation
-         </button>
+         {variations.length < 2 && (
+            <button onClick={handleAddVariationName} type="button">
+               Add more variation
+            </button>
+         )}
 
          <p> Variation list </p>
          <table>
@@ -271,6 +300,7 @@ const ProductAdd = ({ history }) => {
                            {variations[1]?.options?.length > 0 ? (
                               variations[1].options.map((option2) => (
                                  <input
+                                    required
                                     type="number"
                                     key={option2.optionId}
                                     value={getVariationPriceByIds([option.optionId, option2.optionId], variationPriceList).price}
@@ -281,6 +311,7 @@ const ProductAdd = ({ history }) => {
                               ))
                            ) : (
                               <input
+                                 required
                                  type="number"
                                  key={option.optionId}
                                  value={getVariationPriceByIds([option.optionId], variationPriceList).price}
