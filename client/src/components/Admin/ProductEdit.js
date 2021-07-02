@@ -14,7 +14,9 @@ const ProductEdit = ({ history }) => {
    const { productId } = useParams();
 
    const [productFields, setProductFields] = useState(null);
-   const [imagesInput, setImagesInput] = useState([...Array(6)].map((_, idx) => ({ order: idx, imageFile: null, inputKey: "", imageDisplay: placeholderImage })));
+   const [imagesInput, setImagesInput] = useState(
+      [...Array(6)].map((_, idx) => ({ order: idx, imageFile: null, inputKey: "", imageDisplay: placeholderImage }))
+   );
 
    useEffect(() => {
       if (!productId) return;
@@ -36,6 +38,8 @@ const ProductEdit = ({ history }) => {
             console.log("🚀 ~ file: ProductEdit.js ~ line 105 ~ newImagesInput ~ newImagesInput", newImagesInput);
 
             setImagesInput(newImagesInput);
+
+            // Load price variations if exist
          } catch (error) {
             console.log("Error loading product");
          }

@@ -65,7 +65,11 @@ const ProductDetails = () => {
                key={value}
                name={name}
                value={value}
-               style={{ display: "inline", margin: "0 5px 0 0", background: variationSelection && variationSelection[name] === value ? "yellowgreen" : "" }}
+               style={{
+                  display: "inline",
+                  margin: "0 5px 0 0",
+                  background: variationSelection && variationSelection[name] === value ? "yellowgreen" : ""
+               }}
                onClick={handleSelection}
             >
                {value}

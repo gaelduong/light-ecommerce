@@ -185,10 +185,11 @@ const priceEx = {
 x delete option, cannot delete the first one
 x only 2 variations allowed
 x price list
-same for product edit
-extract price value to send to server
-cleaner ui
+x productadd, extract price value to send to server
 x cannot have empty fields
+extract variation component
+same for product edit
+cleaner ui
 
 
 red => {id:1,red,0}
