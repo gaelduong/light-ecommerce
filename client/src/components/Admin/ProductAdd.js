@@ -4,7 +4,7 @@ import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
 import placeholderImage from "../../assets/placeholder-image.png";
-import { ImageInputList, VariationInput } from "../Common";
+import { ProductFieldsInput } from "../Common";
 import { getFormattedVariations, getFormattedVariationPriceList } from "../Common/PriceVariation/variationUtility.js";
 
 const ProductAdd = ({ history }) => {
@@ -17,32 +17,11 @@ const ProductAdd = ({ history }) => {
       category: "",
       isInStock: true
    });
-
    const [variations, setVariations] = useState([]);
-
    const [variationPriceList, setVariationPriceList] = useState([]);
-
    const [imagesInput, setImagesInput] = useState(
       [...Array(6)].map((_, idx) => ({ order: idx, imageFile: null, inputKey: "", imageDisplay: placeholderImage }))
    );
-
-   const handleChange = (e) => {
-      let value = e.target.value;
-      let type = e.target.type;
-      let name = e.target.name;
-
-      if (type === "checkbox") {
-         value = !productFields.isInStock;
-      } else if (type === "number") {
-         value = parseFloat(value);
-      }
-      const newProductFields = {
-         ...productFields,
-         [name]: value
-      };
-
-      setProductFields(newProductFields);
-   };
 
    const handleAddProduct = async (e) => {
       e.preventDefault();
@@ -90,6 +69,7 @@ const ProductAdd = ({ history }) => {
             images: imageOrderPathList
          });
 
+         // Redirect to admin main page once add is done
          setTimeout(() => {
             history.push("/admin");
          }, 200);
@@ -100,53 +80,22 @@ const ProductAdd = ({ history }) => {
 
    if (!authVerified) return <></>;
 
-   const { name, price, description, category, isInStock } = productFields;
    return (
       <AdminContainer history={history}>
          <h1> ADD PRODUCT </h1>
-         <form onSubmit={handleAddProduct}>
-            <label>
-               * Name:
-               <input required type="text" name="name" value={name} onChange={handleChange} />
-            </label>
-            {variations.length === 0 && (
-               <label>
-                  * Price:
-                  <input required type="number" name="price" step={0.1} min={0} value={price.toString()} onChange={handleChange} />
-               </label>
-            )}
-            <VariationInput
-               variations={variations}
-               setVariations={setVariations}
-               variationPriceList={variationPriceList}
-               setVariationPriceList={setVariationPriceList}
-            />
-            <label>
-               Description:
-               <textarea name="description" value={description} onChange={handleChange} />
-            </label>
-            <label>
-               * Category:
-               <select required name="category" value={category} onChange={handleChange}>
-                  <option value="">Choose category</option>
-                  <option value="A"> A</option>
-                  <option value="B"> B</option>
-                  <option value="C"> C</option>
-                  <option value="D"> D</option>
-               </select>
-            </label>
-            <label>
-               * Is in stock:
-               <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
-            </label>
-
-            <ImageInputList imagesInput={imagesInput} setImagesInput={setImagesInput} />
-
-            <input className="bg-color-green" type="submit" value="Add product" />
-         </form>
-         <button className="bg-color-red" onClick={() => history.push("/admin")}>
-            Discard
-         </button>
+         <ProductFieldsInput
+            history={history}
+            productFields={productFields}
+            setProductFields={setProductFields}
+            imagesInput={imagesInput}
+            setImagesInput={setImagesInput}
+            variations={variations}
+            setVariations={setVariations}
+            variationPriceList={variationPriceList}
+            setVariationPriceList={setVariationPriceList}
+            handleAction={handleAddProduct}
+            isEdit={false}
+         />
       </AdminContainer>
    );
 };
