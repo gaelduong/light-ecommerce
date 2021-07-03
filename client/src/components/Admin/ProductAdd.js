@@ -5,14 +5,7 @@ import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
 import placeholderImage from "../../assets/placeholder-image.png";
 import { ImageInputList, VariationInput } from "../Common";
-
-const getVariationValueById = (id, variations) => {
-   for (const variation of variations) {
-      const found = variation.options.find((option) => option.optionId === id);
-      if (found) return found.value;
-   }
-   return "";
-};
+import { getFormattedVariations, getFormattedVariationPriceList } from "../Common/PriceVariation/variationUtility.js";
 
 const ProductAdd = ({ history }) => {
    const authVerified = useVerifyAuth(history);
@@ -25,13 +18,13 @@ const ProductAdd = ({ history }) => {
       isInStock: true
    });
 
-   const [imagesInput, setImagesInput] = useState(
-      [...Array(6)].map((_, idx) => ({ order: idx, imageFile: null, inputKey: "", imageDisplay: placeholderImage }))
-   );
-
    const [variations, setVariations] = useState([]);
 
    const [variationPriceList, setVariationPriceList] = useState([]);
+
+   const [imagesInput, setImagesInput] = useState(
+      [...Array(6)].map((_, idx) => ({ order: idx, imageFile: null, inputKey: "", imageDisplay: placeholderImage }))
+   );
 
    const handleChange = (e) => {
       let value = e.target.value;
@@ -74,15 +67,9 @@ const ProductAdd = ({ history }) => {
 
          console.log("🚀 ~ file: ProductAdd.js ~ line 94 ~ handleAddProduct ~ data", data);
 
-         const formattedVariations = variations.map((variation) => ({
-            name: variation.variationName,
-            values: variation.options.map((option) => option.value)
-         }));
+         const formattedVariations = getFormattedVariations(variations);
 
-         const formattedVariationPriceList = variationPriceList.map(({ optionIds, price }) => ({
-            options: optionIds.map((id) => getVariationValueById(id, variations)),
-            price
-         }));
+         const formattedVariationPriceList = getFormattedVariationPriceList(variationPriceList, variations);
 
          const priceInfo = {
             singlePrice: variations.length === 0 ? productFields.price : null,
