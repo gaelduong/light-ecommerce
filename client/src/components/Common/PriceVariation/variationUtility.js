@@ -1,7 +1,17 @@
+import { generateRandomKey } from "../commonUtility.js";
+
 function getVariationValueById(id, variations) {
    for (const variation of variations) {
       const found = variation.options.find((option) => option.optionId === id);
       if (found) return found.value;
+   }
+   return "";
+}
+
+function getIdByVariationValue(value, variations) {
+   for (const variation of variations) {
+      const found = variation.options.find((option) => option.value === value);
+      if (found) return found.optionId;
    }
    return "";
 }
@@ -51,5 +61,22 @@ export function getFormattedVariationPriceList(variationPriceList, variations) {
    return variationPriceList.map(({ optionIds, price }) => ({
       options: optionIds.map((id) => getVariationValueById(id, variations)),
       price
+   }));
+}
+
+export function getUnformattedVariations(formattedVariations) {
+   if (!formattedVariations || formattedVariations.length === 0) return [];
+   return formattedVariations.map((variation) => ({
+      id: generateRandomKey(),
+      variationName: variation.name,
+      options: variation.values.map((value) => ({ optionId: generateRandomKey(), value }))
+   }));
+}
+
+export function getUnformattedVariationPriceList(formattedVariationPriceList, variations) {
+   if (!formattedVariationPriceList || formattedVariationPriceList.length === 0) return [];
+   return formattedVariationPriceList.map((variationPrice) => ({
+      optionIds: variationPrice.options.map((value) => getIdByVariationValue(value, variations)),
+      price: variationPrice.price
    }));
 }

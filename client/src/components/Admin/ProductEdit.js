@@ -5,7 +5,13 @@ import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
 import placeholderImage from "../../assets/placeholder-image.png";
-import { ImageInputList } from "../Common";
+import { ImageInputList, VariationInput } from "../Common";
+import {
+   getFormattedVariations,
+   getFormattedVariationPriceList,
+   getUnformattedVariations,
+   getUnformattedVariationPriceList
+} from "../Common/PriceVariation/variationUtility.js";
 
 const ProductEdit = ({ history }) => {
    const authVerified = useVerifyAuth(history);
@@ -14,6 +20,11 @@ const ProductEdit = ({ history }) => {
    const { productId } = useParams();
 
    const [productFields, setProductFields] = useState(null);
+
+   const [variations, setVariations] = useState([]);
+
+   const [variationPriceList, setVariationPriceList] = useState([]);
+
    const [imagesInput, setImagesInput] = useState(
       [...Array(6)].map((_, idx) => ({ order: idx, imageFile: null, inputKey: "", imageDisplay: placeholderImage }))
    );
@@ -25,7 +36,21 @@ const ProductEdit = ({ history }) => {
          try {
             const { data } = await axios.get(`${apiUrl}/products_admin/${productId}`);
             // Load product fields
-            setProductFields(data);
+            const unFormattedVariations = getUnformattedVariations(data.price.multiplePrices?.variations);
+
+            const unFormattedVariationPriceList = getUnformattedVariationPriceList(
+               data.price.multiplePrices?.variationPriceList,
+               unFormattedVariations
+            );
+
+            // Load variation input state
+            setVariations(unFormattedVariations);
+            setVariationPriceList(unFormattedVariationPriceList);
+            // Set single price
+            setProductFields({
+               ...data,
+               price: data.price.singlePrice || 0
+            });
             // Load product images
             const productImages = data.images;
             const newImagesInput = imagesInput.map((imageInput, idx) => ({
@@ -35,7 +60,6 @@ const ProductEdit = ({ history }) => {
                inputKey: imageInput.inputKey,
                imageDisplay: (productImages[idx] && productImages[idx].imageAsBase64) || placeholderImage
             }));
-            console.log("🚀 ~ file: ProductEdit.js ~ line 105 ~ newImagesInput ~ newImagesInput", newImagesInput);
 
             setImagesInput(newImagesInput);
 
@@ -56,7 +80,7 @@ const ProductEdit = ({ history }) => {
       if (type === "checkbox") {
          value = !productFields.isInStock;
       } else if (type === "number") {
-         value = "" + parseFloat(value);
+         value = parseFloat(value);
       }
       const newProductFields = {
          ...productFields,
@@ -80,7 +104,6 @@ const ProductEdit = ({ history }) => {
                "Content-Type": "multipart/form-data"
             }
          });
-         console.log("🚀 ~ file: ProductEdit.js ~ line 128 ~ handleEditProduct ~ data", data);
 
          const imagePaths = [];
          let order = 0;
@@ -95,12 +118,25 @@ const ProductEdit = ({ history }) => {
             }
          }
 
-         console.log("🚀 ~ file: ProductEdit.js ~ line 131 ~ handleEditProduct ~ imagePaths", imagePaths);
+         const formattedVariations = getFormattedVariations(variations);
+
+         const formattedVariationPriceList = getFormattedVariationPriceList(variationPriceList, variations);
+
+         const priceInfo = {
+            singlePrice: variations.length === 0 ? productFields.price : null,
+            multiplePrices:
+               variations.length > 0
+                  ? {
+                       variations: formattedVariations,
+                       variationPriceList: formattedVariationPriceList
+                    }
+                  : null
+         };
 
          const editedProduct = {
             name: productFields.name,
-            price: productFields.price,
-            description: productFields.desc,
+            price: priceInfo,
+            description: productFields.description,
             category: productFields.category,
             isInStock: productFields.isInStock,
             images: imagePaths
@@ -117,25 +153,33 @@ const ProductEdit = ({ history }) => {
    };
    if (!authVerified || !productFields) return <></>;
 
-   const { name, price, desc, category, isInStock } = productFields;
+   const { name, price, description, category, isInStock } = productFields;
    return (
       <AdminContainer history={history}>
          <h1> EDIT </h1>
          <form onSubmit={(e) => handleEditProduct(e)}>
             <label>
-               * New name:
+               * Name:
                <input type="text" name="name" value={name} onChange={handleChange} />
             </label>
+            {variations.length === 0 && (
+               <label>
+                  * Price:
+                  <input required type="number" name="price" step={0.1} min={0} value={price.toString()} onChange={handleChange} />
+               </label>
+            )}
+            <VariationInput
+               variations={variations}
+               setVariations={setVariations}
+               variationPriceList={variationPriceList}
+               setVariationPriceList={setVariationPriceList}
+            />
             <label>
-               * New price:
-               <input type="number" name="price" step={0.1} min={0} value={price} onChange={handleChange} />
+               Description:
+               <textarea name="description" value={description} onChange={handleChange} />
             </label>
             <label>
-               New description:
-               <textarea name="desc" value={desc} onChange={handleChange} />
-            </label>
-            <label>
-               * New category:
+               * Category:
                <select required name="category" value={category} onChange={handleChange}>
                   <option value="A"> A</option>
                   <option value="B"> B</option>

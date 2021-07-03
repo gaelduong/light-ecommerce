@@ -15,7 +15,6 @@ const ProductDetails = () => {
       const fetchProduct = async () => {
          try {
             const { data } = await axios.get(`${apiUrl}/products/${productId}`);
-            console.log("🚀 ~ file: ProductDetails.js ~ line 15 ~ fetchProduct ~ data", data);
 
             const productPrice = data.price;
 

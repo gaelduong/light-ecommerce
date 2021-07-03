@@ -19,7 +19,6 @@ const VariationInput = ({ variations, setVariations, variationPriceList, setVari
    };
 
    if (variations.length === 0) return <input required type="button" name="price" value="Enable variations" onClick={handleAddVariationName} />;
-
    return (
       <div>
          <button type="button" onClick={handleTurnOffVariations}>

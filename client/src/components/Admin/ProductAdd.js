@@ -13,7 +13,7 @@ const ProductAdd = ({ history }) => {
    const [productFields, setProductFields] = useState({
       name: "",
       price: 0,
-      desc: "",
+      description: "",
       category: "",
       isInStock: true
    });
@@ -34,7 +34,7 @@ const ProductAdd = ({ history }) => {
       if (type === "checkbox") {
          value = !productFields.isInStock;
       } else if (type === "number") {
-         value = "" + parseFloat(value);
+         value = parseFloat(value);
       }
       const newProductFields = {
          ...productFields,
@@ -65,8 +65,6 @@ const ProductAdd = ({ history }) => {
             path: imagePath
          }));
 
-         console.log("🚀 ~ file: ProductAdd.js ~ line 94 ~ handleAddProduct ~ data", data);
-
          const formattedVariations = getFormattedVariations(variations);
 
          const formattedVariationPriceList = getFormattedVariationPriceList(variationPriceList, variations);
@@ -86,7 +84,7 @@ const ProductAdd = ({ history }) => {
          await axios.post(`${apiUrl}/products_admin`, {
             name: productFields.name,
             price: priceInfo,
-            description: productFields.desc,
+            description: productFields.description,
             category: productFields.category,
             isInStock: productFields.isInStock,
             images: imageOrderPathList
@@ -102,7 +100,7 @@ const ProductAdd = ({ history }) => {
 
    if (!authVerified) return <></>;
 
-   const { name, price, desc, category, isInStock } = productFields;
+   const { name, price, description, category, isInStock } = productFields;
    return (
       <AdminContainer history={history}>
          <h1> ADD PRODUCT </h1>
@@ -114,7 +112,7 @@ const ProductAdd = ({ history }) => {
             {variations.length === 0 && (
                <label>
                   * Price:
-                  <input required type="number" name="price" step={0.1} min={0} value={price} onChange={handleChange} />
+                  <input required type="number" name="price" step={0.1} min={0} value={price.toString()} onChange={handleChange} />
                </label>
             )}
             <VariationInput
@@ -125,7 +123,7 @@ const ProductAdd = ({ history }) => {
             />
             <label>
                Description:
-               <textarea name="desc" value={desc} onChange={handleChange} />
+               <textarea name="description" value={description} onChange={handleChange} />
             </label>
             <label>
                * Category:

@@ -26,7 +26,6 @@ const ImageInputList = ({ imagesInput, setImagesInput }) => {
    };
 
    const handleImageReset = (id) => {
-      console.log("a");
       const newImagesInput = [...imagesInput];
       newImagesInput[id] = {
          ...newImagesInput[id],

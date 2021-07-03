@@ -187,10 +187,12 @@ x only 2 variations allowed
 x price list
 x productadd, extract price value to send to server
 x cannot have empty fields
-extract variation component
-same for product edit
+x extract variation component
+x same for product edit
+extract product fields input 
 cleaner ui
 variation same name = same key error
+replace placeholder with nicer img
 
 
 red => {id:1,red,0}

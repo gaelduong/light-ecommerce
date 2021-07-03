@@ -5,7 +5,7 @@ const VariationPriceTable = ({ variations, variationPriceList, setVariationPrice
    const handleVariationPriceChange = (e, ids) => {
       const newVariationPriceList = [...variationPriceList];
       const variationPrice = getVariationPriceByIds(ids, newVariationPriceList);
-      variationPrice.price = "" + parseFloat(e.target.value);
+      variationPrice.price = parseFloat(e.target.value);
       setVariationPriceList(newVariationPriceList);
    };
 
@@ -37,7 +37,7 @@ const VariationPriceTable = ({ variations, variationPriceList, setVariationPrice
                                     required
                                     type="number"
                                     key={option2.optionId}
-                                    value={getVariationPriceByIds([option.optionId, option2.optionId], variationPriceList).price}
+                                    value={getVariationPriceByIds([option.optionId, option2.optionId], variationPriceList).price.toString()}
                                     onChange={(e) => {
                                        handleVariationPriceChange(e, [option.optionId, option2.optionId]);
                                     }}
