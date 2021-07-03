@@ -51,6 +51,7 @@ const ProductFieldsInput = ({
          <label>
             * Category:
             <select required name="category" value={category} onChange={handleChange}>
+               <option value=""> Select Category</option>
                <option value="A"> A</option>
                <option value="B"> B</option>
                <option value="C"> C</option>
