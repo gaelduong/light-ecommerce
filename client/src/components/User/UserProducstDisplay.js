@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../config";
-import placeholderImage from "../../assets/placeholder-image-2.png";
+import placeholderImage from "../../assets/placeholder-image.png";
 
 function displayMinMaxPrice(variationPriceList) {
    const prices = variationPriceList.map((variationPrice) => variationPrice.price);

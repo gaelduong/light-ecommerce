@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../config";
-import placeholderImage from "../../assets/placeholder-image-2.png";
+import placeholderImage from "../../assets/placeholder-image.png";
 
 const ProductDetails = () => {
    const [product, setProduct] = useState(null);

@@ -11,8 +11,8 @@ const VariationPriceTable = ({ variations, variationPriceList, setVariationPrice
 
    return (
       <React.Fragment>
-         <p> Variation list </p>
          <table>
+            <h3> Variation price list </h3>
             <tbody>
                <tr>
                   <th>{variations[0]?.variationName || "Variation name"}</th>
@@ -48,7 +48,7 @@ const VariationPriceTable = ({ variations, variationPriceList, setVariationPrice
                                  required
                                  type="number"
                                  key={option.optionId}
-                                 value={getVariationPriceByIds([option.optionId], variationPriceList).price}
+                                 value={getVariationPriceByIds([option.optionId], variationPriceList).price.toString()}
                                  onChange={(e) => {
                                     handleVariationPriceChange(e, [option.optionId]);
                                  }}

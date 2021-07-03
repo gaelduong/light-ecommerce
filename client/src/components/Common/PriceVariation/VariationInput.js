@@ -18,28 +18,34 @@ const VariationInput = ({ variations, setVariations, variationPriceList, setVari
       setVariations(newVariations);
    };
 
-   if (variations.length === 0) return <input required type="button" name="price" value="Enable variations" onClick={handleAddVariationName} />;
+   if (variations.length === 0)
+      return (
+         <>
+            <span> Variations: </span>
+            <input required type="button" name="price" value="Enable price variations" onClick={handleAddVariationName} />
+         </>
+      );
    return (
-      <div>
-         <button type="button" onClick={handleTurnOffVariations}>
-            Turn off variations
-         </button>
-         {variations.map((variation, idx) => (
-            <VariationOptionInput
-               key={variation.id}
-               variation={variation}
-               idx={idx}
-               variations={variations}
-               setVariations={setVariations}
-               variationPriceList={variationPriceList}
-               setVariationPriceList={setVariationPriceList}
-            />
-         ))}
-         {variations.length < 2 && (
-            <button onClick={handleAddVariationName} type="button">
-               Add more variation
-            </button>
-         )}
+      <div className="variations-container">
+         <div className="variations-container-left">
+            <h3> Variations </h3>
+            {variations.map((variation, idx) => (
+               <VariationOptionInput
+                  key={variation.id}
+                  variation={variation}
+                  idx={idx}
+                  variations={variations}
+                  setVariations={setVariations}
+                  variationPriceList={variationPriceList}
+                  setVariationPriceList={setVariationPriceList}
+               />
+            ))}
+            {variations.length < 2 && (
+               <button onClick={handleAddVariationName} type="button">
+                  Add more variation
+               </button>
+            )}
+         </div>
          <VariationPriceTable variations={variations} variationPriceList={variationPriceList} setVariationPriceList={setVariationPriceList} />
       </div>
    );

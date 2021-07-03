@@ -9,10 +9,10 @@ const AdminContainer = ({ history, children }) => {
       history.push("/login");
    };
    return (
-      <>
+      <div className="container">
          <button onClick={logoutHandler}> Log out </button>
          {children}
-      </>
+      </div>
    );
 };
 

@@ -36,48 +36,59 @@ const ProductFieldsInput = ({
 
    return (
       <form onSubmit={(e) => handleAction(e)}>
-         <ImageInputList imagesInput={imagesInput} setImagesInput={setImagesInput} />
+         <div className="basic-info-container">
+            <h2> Basic Info</h2>
 
-         <label>
-            * Name:
-            <input type="text" name="name" value={name} onChange={handleChange} />
-         </label>
+            <ImageInputList imagesInput={imagesInput} setImagesInput={setImagesInput} />
 
-         <label>
-            Description:
-            <textarea name="description" value={description} onChange={handleChange} />
-         </label>
+            <label>
+               * Name:
+               <input type="text" name="name" value={name} onChange={handleChange} />
+            </label>
 
-         <label>
-            * Category:
-            <select required name="category" value={category} onChange={handleChange}>
-               <option value=""> Select Category</option>
-               <option value="A"> A</option>
-               <option value="B"> B</option>
-               <option value="C"> C</option>
-               <option value="D"> D</option>
-            </select>
-         </label>
-         <label>
-            * Is in stock:
-            <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
-         </label>
+            <label>
+               Description:
+               <textarea name="description" value={description} onChange={handleChange} />
+            </label>
 
-         <label> Price Info</label>
-         {variations.length === 0 && (
+            <label>
+               * Category:
+               <select required name="category" value={category} onChange={handleChange}>
+                  <option value=""> Select Category</option>
+                  <option value="A"> A</option>
+                  <option value="B"> B</option>
+                  <option value="C"> C</option>
+                  <option value="D"> D</option>
+               </select>
+            </label>
+            <label>
+               * Is in stock:
+               <input type="checkbox" name="isInStock" checked={isInStock} onChange={handleChange} />
+            </label>
+         </div>
+         <div className="price-info-container">
+            <h2> Price Info</h2>
             <label>
                * Price:
-               <input required type="number" name="price" step={0.1} min={0} value={price.toString()} onChange={handleChange} />
+               <input
+                  disabled={variations.length === 0 ? false : true}
+                  required
+                  type={variations.length === 0 ? "number" : "text"}
+                  name="price"
+                  step={0.1}
+                  min={0}
+                  value={variations.length === 0 ? price.toString() : "(disabled)"}
+                  onChange={handleChange}
+               />
             </label>
-         )}
-         <VariationInput
-            variations={variations}
-            setVariations={setVariations}
-            variationPriceList={variationPriceList}
-            setVariationPriceList={setVariationPriceList}
-         />
+            <VariationInput
+               variations={variations}
+               setVariations={setVariations}
+               variationPriceList={variationPriceList}
+               setVariationPriceList={setVariationPriceList}
+            />
+         </div>
 
-         <br />
          <input className="bg-color-green" type="submit" value={isEdit ? "Update" : "Add product"} />
          <button
             className="bg-color-red"

@@ -47,40 +47,48 @@ const VariationOptionInput = ({ variation, idx, variations, setVariations, varia
    };
    return (
       <div>
-         <button style={{ display: "inline" }} onClick={() => handleDeleteVariation(variation.id)}>
-            x
-         </button>
-         <label>
-            {`Variation ${idx + 1}`}:
-            <input
-               required
-               type="text"
-               placeholder="Variation name: size, color, etc."
-               value={variations[idx].variationName}
-               onChange={(e) => handleVariationNameChange(e, idx)}
-            />
-            Options:
-            {variation.options.map((option, idx2) => (
-               <div key={option.optionId}>
-                  <input
-                     required
-                     type="text"
-                     placeholder="Variation option: red, large, etc."
-                     value={variation.options[idx2].value}
-                     onChange={(e) => handleVariationOptionChange(e, idx, idx2)}
-                  />
-                  {idx2 >= 1 && (
-                     <button type="button" onClick={() => handleDeleteVariationOption(idx, option.optionId)}>
-                        x
-                     </button>
-                  )}
+         {`Variation ${idx + 1}`}
+         <div className="variation-container">
+            <label>
+               Variation name:
+               <input
+                  required
+                  type="text"
+                  placeholder="Variation name: size, color, etc."
+                  value={variations[idx].variationName}
+                  onChange={(e) => handleVariationNameChange(e, idx)}
+               />
+               <div>
+                  Options:
+                  {variation.options.map((option, idx2) => (
+                     <div className="variation-options-container" key={option.optionId}>
+                        <input
+                           required
+                           type="text"
+                           placeholder="Variation option: red, large, etc."
+                           value={variation.options[idx2].value}
+                           onChange={(e) => handleVariationOptionChange(e, idx, idx2)}
+                        />
+                        {variation.options.length > 1 && (
+                           <button
+                              className="delete-variation-option"
+                              type="button"
+                              onClick={() => handleDeleteVariationOption(idx, option.optionId)}
+                           >
+                              x
+                           </button>
+                        )}
+                     </div>
+                  ))}
                </div>
-            ))}
-         </label>
-         <button type="button" onClick={() => handleAddVariationOption(variation.id)}>
-            + Add options
-         </button>
-         <hr />
+            </label>
+            <button className="delete-variation" onClick={() => handleDeleteVariation(variation.id)}>
+               ❌
+            </button>
+            <button type="button" onClick={() => handleAddVariationOption(variation.id)}>
+               + Add options
+            </button>
+         </div>
       </div>
    );
 };

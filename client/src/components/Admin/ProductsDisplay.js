@@ -4,7 +4,7 @@ import axios from "axios";
 import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
-import placeholderImage from "../../assets/placeholder-image-2.png";
+import placeholderImage from "../../assets/placeholder-image.png";
 
 const ProductsDisplay = ({ history }) => {
    const authVerified = useVerifyAuth(history);
