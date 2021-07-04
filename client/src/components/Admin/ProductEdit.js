@@ -11,7 +11,7 @@ import {
    getFormattedVariationPriceList,
    getUnformattedVariations,
    getUnformattedVariationPriceList
-} from "../Common/PriceVariation/variationUtility.js";
+} from "../Common/PriceVariationInput/variationUtility.js";
 import { getFormattedImagePaths } from "../Common/ImageInput/imageUtility.js";
 import { getCookieValue } from "../../shared/util.js";
 

@@ -5,7 +5,7 @@ import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
 import placeholderImage from "../../assets/placeholder-image.png";
 import { ProductFieldsInput } from "../Common";
-import { getFormattedVariations, getFormattedVariationPriceList } from "../Common/PriceVariation/variationUtility.js";
+import { getFormattedVariations, getFormattedVariationPriceList } from "../Common/PriceVariationInput/variationUtility.js";
 import { getCookieValue } from "../../shared/util.js";
 
 const ProductAdd = ({ history }) => {
