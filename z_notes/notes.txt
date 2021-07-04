@@ -181,7 +181,7 @@ const priceEx = {
    
 }
 
-
+refactor getcookie
 x delete option, cannot delete the first one
 x only 2 variations allowed
 x price list
@@ -189,10 +189,11 @@ x productadd, extract price value to send to server
 x cannot have empty fields
 x extract variation component
 x same for product edit
-extract product fields input 
-cleaner ui
+x extract product fields input 
+x cleaner ui
 variation same name = same key error
-replace placeholder with nicer img
+x replace placeholder with nicer img
+protected middleware
 
 
 red => {id:1,red,0}

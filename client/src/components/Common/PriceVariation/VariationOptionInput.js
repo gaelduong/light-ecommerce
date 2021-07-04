@@ -1,12 +1,12 @@
 import React from "react";
 import { getVariationPriceList } from "./variationUtility.js";
-import { generateRandomKey } from "../commonUtility.js";
+import { generateUniqueId } from "../commonUtility.js";
 
 const VariationOptionInput = ({ variation, idx, variations, setVariations, variationPriceList, setVariationPriceList }) => {
    const handleAddVariationOption = (id) => {
       const newVariations = variations.map((variation) => {
          if (variation.id === id) {
-            variation.options.push({ optionId: generateRandomKey(), value: "" });
+            variation.options.push({ optionId: generateUniqueId(), value: "" });
          }
          return variation;
       });

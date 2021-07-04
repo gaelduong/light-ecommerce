@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../config";
+import { getCookieValue } from "../shared/util.js";
 
 const useVerifyAuth = (history) => {
    const [authVerified, setAuthVerified] = useState(false);
 
    useEffect(() => {
       const redirectToLogin = () => history.push("/login");
-      const getCookieValue = (name) => document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";
       const accessToken = getCookieValue("accessToken");
       if (!accessToken) redirectToLogin();
 

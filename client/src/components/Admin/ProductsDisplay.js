@@ -5,6 +5,7 @@ import { apiUrl } from "../../config";
 import useVerifyAuth from "../../hooks/useVerifyAuth.js";
 import AdminContainer from "./AdminContainer.js";
 import placeholderImage from "../../assets/placeholder-image.png";
+import { getCookieValue } from "../../shared/util.js";
 
 const ProductsDisplay = ({ history }) => {
    const authVerified = useVerifyAuth(history);
@@ -15,7 +16,11 @@ const ProductsDisplay = ({ history }) => {
       let mounted = true;
       const fetchProducts = async () => {
          try {
-            const { data } = await axios.get(`${apiUrl}/products_admin`);
+            const { data } = await axios.get(`${apiUrl}/products_admin`, {
+               headers: {
+                  Authorization: `Bearer ${getCookieValue("accessToken")}`
+               }
+            });
             if (!mounted) return;
             setProducts(data);
          } catch (error) {
@@ -27,7 +32,11 @@ const ProductsDisplay = ({ history }) => {
    }, []);
 
    const handleDeleteProduct = async (id) => {
-      const { data } = await axios.delete(`${apiUrl}/products_admin/${id}`);
+      const { data } = await axios.delete(`${apiUrl}/products_admin/${id}`, {
+         headers: {
+            Authorization: `Bearer ${getCookieValue("accessToken")}`
+         }
+      });
       const newProducts = [...products].filter((product) => product._id !== data._id);
       setProducts(newProducts);
    };
@@ -64,10 +73,10 @@ const ProductsDisplay = ({ history }) => {
                            {(price.multiplePrices && (
                               <>
                                  {price.multiplePrices.variationPriceList.map(({ options: [var1, var2], price }) => (
-                                    <div key={`${var1}${var2}`}>{price} đ </div>
+                                    <div key={`${var1}${var2}`}>{price} USD </div>
                                  ))}
                               </>
-                           )) || <div> {price.singlePrice} đ </div>}
+                           )) || <div> {price.singlePrice} USD </div>}
                         </td>
 
                         {/* Display variations */}

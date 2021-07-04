@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../../config";
+import { getCookieValue } from "../../shared/util.js";
 
 const Login = ({ history }) => {
    const [loading, setLoading] = useState(true);
@@ -11,7 +12,6 @@ const Login = ({ history }) => {
    useEffect(() => {
       // Redirect to /admin if already logged in
       const redirectToAdmin = () => history.push("/admin");
-      const getCookieValue = (name) => document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";
       const accessToken = getCookieValue("accessToken");
       if (!accessToken) return setLoading(false);
 
@@ -56,7 +56,7 @@ const Login = ({ history }) => {
       <div>
          <form onSubmit={loginHandle}>
             <label>
-               <b> Username </b>
+               <b> Admin username </b>
             </label>
             <input
                type="text"

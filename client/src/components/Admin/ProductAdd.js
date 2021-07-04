@@ -6,6 +6,7 @@ import AdminContainer from "./AdminContainer.js";
 import placeholderImage from "../../assets/placeholder-image.png";
 import { ProductFieldsInput } from "../Common";
 import { getFormattedVariations, getFormattedVariationPriceList } from "../Common/PriceVariation/variationUtility.js";
+import { getCookieValue } from "../../shared/util.js";
 
 const ProductAdd = ({ history }) => {
    const authVerified = useVerifyAuth(history);
@@ -35,7 +36,8 @@ const ProductAdd = ({ history }) => {
       try {
          const { data } = await axios.post(`${apiUrl}/imageupload`, formData, {
             headers: {
-               "Content-Type": "multipart/form-data"
+               "Content-Type": "multipart/form-data",
+               Authorization: `Bearer ${getCookieValue("accessToken")}`
             }
          });
 
@@ -60,14 +62,22 @@ const ProductAdd = ({ history }) => {
          };
 
          // Send POST request to add new product to DB
-         await axios.post(`${apiUrl}/products_admin`, {
-            name: productFields.name,
-            price: priceInfo,
-            description: productFields.description,
-            category: productFields.category,
-            isInStock: productFields.isInStock,
-            images: imageOrderPathList
-         });
+         await axios.post(
+            `${apiUrl}/products_admin`,
+            {
+               name: productFields.name,
+               price: priceInfo,
+               description: productFields.description,
+               category: productFields.category,
+               isInStock: productFields.isInStock,
+               images: imageOrderPathList
+            },
+            {
+               headers: {
+                  Authorization: `Bearer ${getCookieValue("accessToken")}`
+               }
+            }
+         );
 
          // Redirect to admin main page once add is done
          setTimeout(() => {

@@ -8,8 +8,8 @@ function displayMinMaxPrice(variationPriceList) {
    const prices = variationPriceList.map((variationPrice) => variationPrice.price);
    const min = Math.min(...prices);
    const max = Math.max(...prices);
-   if (min === max) return `${min}đ`;
-   return `${min}đ-${max}đ`;
+   if (min === max) return `${min} USD`;
+   return `${min}-${max} USD`;
 }
 
 const UserProducstDisplay = () => {
@@ -40,7 +40,7 @@ const UserProducstDisplay = () => {
                         </Link>
                      </div>
                      <div> {name} </div>
-                     <div> {(price.multiplePrices && displayMinMaxPrice(price.multiplePrices.variationPriceList)) || `${price.singlePrice}đ`}</div>
+                     <div> {(price.multiplePrices && displayMinMaxPrice(price.multiplePrices.variationPriceList)) || `${price.singlePrice}USD`}</div>
                      <div> Category: {category} </div>
                      <div> {isInStock ? "" : "(Out of stock)"} </div>
                      <br />

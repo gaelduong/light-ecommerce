@@ -2,15 +2,11 @@ import React from "react";
 import VariationPriceTable from "./VariationPriceTable.js";
 import VariationOptionInput from "./VariationOptionInput.js";
 import { getVariationPriceList } from "./variationUtility.js";
-import { generateRandomKey } from "../commonUtility.js";
+import { generateUniqueId } from "../commonUtility.js";
 
 const VariationInput = ({ variations, setVariations, variationPriceList, setVariationPriceList }) => {
-   const handleTurnOffVariations = () => {
-      setVariations([]);
-   };
-
    const handleAddVariationName = () => {
-      const newVariation = { variationName: "", options: [{ optionId: generateRandomKey(), value: "" }], id: generateRandomKey() };
+      const newVariation = { variationName: "", options: [{ optionId: generateUniqueId(), value: "" }], id: generateUniqueId() };
 
       const newVariations = [...variations, newVariation];
       const newVariationPriceList = getVariationPriceList(newVariations, variationPriceList);

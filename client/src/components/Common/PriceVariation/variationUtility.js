@@ -1,4 +1,4 @@
-import { generateRandomKey } from "../commonUtility.js";
+import { generateUniqueId } from "../commonUtility.js";
 
 function getVariationValueById(id, variations) {
    for (const variation of variations) {
@@ -67,9 +67,9 @@ export function getFormattedVariationPriceList(variationPriceList, variations) {
 export function getUnformattedVariations(formattedVariations) {
    if (!formattedVariations || formattedVariations.length === 0) return [];
    return formattedVariations.map((variation) => ({
-      id: generateRandomKey(),
+      id: generateUniqueId(),
       variationName: variation.name,
-      options: variation.values.map((value) => ({ optionId: generateRandomKey(), value }))
+      options: variation.values.map((value) => ({ optionId: generateUniqueId(), value }))
    }));
 }
 

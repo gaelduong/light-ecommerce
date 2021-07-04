@@ -1,17 +1,28 @@
 const express = require("express");
 const router = express.Router();
 const { Product } = require("../models/");
-const { toBase64, imageExists, deleteImage } = require("../utility");
+const { imageExists, deleteImage } = require("../utility");
 const { getProducts, getProductById } = require("./commonFunctions");
+const jwt = require("jsonwebtoken");
+
+const authMiddleware = async (req, res, next) => {
+   try {
+      const accessToken = req.headers["authorization"].split(" ")[1];
+      const decoded = jwt.verify(accessToken, process.env.JWT_ACCESS_TOKEN);
+      next();
+   } catch (e) {
+      res.sendStatus(403);
+   }
+};
 
 // Need to add protected middleware here
-router.get("/products_admin", getProducts);
+router.get("/products_admin", authMiddleware, getProducts);
 
 // Need to add protected middleware here
-router.get("/products_admin/:id", getProductById);
+router.get("/products_admin/:id", authMiddleware, getProductById);
 
 // Need to add protected middleware here
-router.post("/products_admin", async (req, res) => {
+router.post("/products_admin", authMiddleware, async (req, res) => {
    // Insert product to DB
    const product = req.body;
    const newProduct = new Product(product);
@@ -26,7 +37,7 @@ router.post("/products_admin", async (req, res) => {
 });
 
 // Need to add protected middleware here
-router.delete("/products_admin/:id", async (req, res) => {
+router.delete("/products_admin/:id", authMiddleware, async (req, res) => {
    try {
       // Remove image file
       const removedProduct = await Product.findById(req.params.id);
@@ -46,7 +57,7 @@ router.delete("/products_admin/:id", async (req, res) => {
 });
 
 // Need to add protected middleware here
-router.put("/products_admin/:id", async (req, res) => {
+router.put("/products_admin/:id", authMiddleware, async (req, res) => {
    // Update product in DB
    try {
       const productFields = req.body;

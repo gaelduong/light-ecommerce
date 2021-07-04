@@ -1,5 +1,6 @@
 const { Product } = require("../models");
 const { toBase64, imageExists } = require("../utility");
+const jwt = require("jsonwebtoken");
 
 async function getProducts(req, res) {
    // Retrieve products from DB

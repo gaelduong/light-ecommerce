@@ -1,6 +1,6 @@
 import placeholderImage from "../../../assets/placeholder-image.png";
 import ImageInput from "./ImageInput.js";
-import { generateRandomKey } from "../commonUtility.js";
+import { generateUniqueId } from "../commonUtility.js";
 
 const toBase64 = (file) =>
    new Promise((resolve, reject) => {
@@ -32,7 +32,7 @@ const ImageInputList = ({ imagesInput, setImagesInput }) => {
          path: "",
          imageFile: null,
          imageDisplay: placeholderImage,
-         inputKey: generateRandomKey()
+         inputKey: generateUniqueId()
       };
       setImagesInput(newImagesInput);
    };
@@ -41,7 +41,7 @@ const ImageInputList = ({ imagesInput, setImagesInput }) => {
       <>
          <label>Images</label>
          {imagesInput.map((imageInput) => (
-            <ImageInput key={generateRandomKey()} image={imageInput} handleImageUpload={handleImageUpload} handleImageReset={handleImageReset} />
+            <ImageInput key={generateUniqueId()} image={imageInput} handleImageUpload={handleImageUpload} handleImageReset={handleImageReset} />
          ))}
       </>
    );

@@ -13,6 +13,7 @@ import {
    getUnformattedVariationPriceList
 } from "../Common/PriceVariation/variationUtility.js";
 import { getFormattedImagePaths } from "../Common/ImageInput/imageUtility.js";
+import { getCookieValue } from "../../shared/util.js";
 
 const ProductEdit = ({ history }) => {
    const authVerified = useVerifyAuth(history);
@@ -31,7 +32,11 @@ const ProductEdit = ({ history }) => {
 
       const fetchProduct = async () => {
          try {
-            const { data } = await axios.get(`${apiUrl}/products_admin/${productId}`);
+            const { data } = await axios.get(`${apiUrl}/products_admin/${productId}`, {
+               headers: {
+                  Authorization: `Bearer ${getCookieValue("accessToken")}`
+               }
+            });
             const unFormattedVariations = getUnformattedVariations(data.price.multiplePrices?.variations);
 
             const unFormattedVariationPriceList = getUnformattedVariationPriceList(
@@ -102,14 +107,22 @@ const ProductEdit = ({ history }) => {
          };
 
          // Send PUT request to update product in DB
-         await axios.put(`${apiUrl}/products_admin/${productId}`, {
-            name: productFields.name,
-            price: priceInfo,
-            description: productFields.description,
-            category: productFields.category,
-            isInStock: productFields.isInStock,
-            images: formattedImagePaths
-         });
+         await axios.put(
+            `${apiUrl}/products_admin/${productId}`,
+            {
+               name: productFields.name,
+               price: priceInfo,
+               description: productFields.description,
+               category: productFields.category,
+               isInStock: productFields.isInStock,
+               images: formattedImagePaths
+            },
+            {
+               headers: {
+                  Authorization: `Bearer ${getCookieValue("accessToken")}`
+               }
+            }
+         );
 
          // Redirect to admin main page once edit is done
          setTimeout(() => {
