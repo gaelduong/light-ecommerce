@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../config";
@@ -7,12 +7,13 @@ import placeholderImage from "../../assets/placeholder-image.png";
 import { addToCart } from "../../features/cart/cartSlice.js";
 
 const ProductDetails = () => {
-   const count = useSelector((state) => state.cart.value);
    const dispatch = useDispatch();
 
    const [product, setProduct] = useState(null);
    const [variationSelection, setVariationSelection] = useState({});
-   const [displayPrice, setDisplayPrice] = useState(0);
+   const [displayPrice, setDisplayPrice] = useState(-1);
+   const [quantity, setQuantity] = useState(1);
+   const [addToCartSuccessMsg, setAddToCartSuccessMsg] = useState("");
 
    const { productId } = useParams();
 
@@ -24,15 +25,18 @@ const ProductDetails = () => {
             const productPrice = data.price;
 
             let displayPrice = -1;
-            if (productPrice.singlePrice) {
-               displayPrice = productPrice.singlePrice;
-            } else if (productPrice.multiplePrices) {
+            if (productPrice.multiplePrices) {
                const defaultPrice = productPrice.multiplePrices.variationPriceList[0].price;
                setDisplayPrice(defaultPrice);
-               displayPrice = productPrice.multiplePrices.variations.reduce((obj, item) => Object.assign(obj, { [item.name]: item.values[0] }), {});
+               const variation = productPrice.multiplePrices.variations.reduce(
+                  (obj, item) => Object.assign(obj, { [item.name]: item.values[0] }),
+                  {}
+               );
+               setVariationSelection(variation);
+            } else {
+               displayPrice = productPrice.singlePrice;
+               setDisplayPrice(displayPrice);
             }
-
-            setVariationSelection(displayPrice);
             setProduct(data);
          } catch (error) {
             console.error(error);
@@ -100,7 +104,35 @@ const ProductDetails = () => {
          <p>Category: {product.category}</p>
          <p>{product.isInStock ? "(In Stock)" : "(Out Of Stock)"}</p>
          <p> Quantity </p>
-         <button onClick={() => dispatch(addToCart({ productId, quantity: 3 }))}> Add to cart </button>
+         <button className="inline" onClick={() => setQuantity((quantity) => (quantity === 1 ? quantity : quantity - 1))}>
+            -
+         </button>
+         <span> {quantity} </span>
+         <button className="inline" onClick={() => setQuantity((quantity) => quantity + 1)}>
+            +
+         </button>
+         <p> {addToCartSuccessMsg}</p>
+         <button
+            onClick={() => {
+               setQuantity(1);
+               setAddToCartSuccessMsg(`Successfully added ${quantity} items to cart!`);
+               setTimeout(() => setAddToCartSuccessMsg(""), 700);
+               dispatch(
+                  addToCart({
+                     product: {
+                        productId,
+                        image: product.images[0].imageAsBase64,
+                        name: product.name,
+                        price: displayPrice,
+                        variation: variationSelection
+                     },
+                     quantity: quantity
+                  })
+               );
+            }}
+         >
+            Add to cart
+         </button>
       </React.Fragment>
    );
 };

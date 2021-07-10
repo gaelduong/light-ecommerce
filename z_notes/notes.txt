@@ -304,3 +304,4 @@ store.js
     store = config(
         reducers: sliceA.reducers, sliceB.reducers,...
 
+[] store in localstorage when refresh

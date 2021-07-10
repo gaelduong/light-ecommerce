@@ -12,6 +12,10 @@
    color: white;
 }
 
+.inline {
+   display: inline;
+}
+
 body {
    background-color: black;
    color: #d3d3d3;
