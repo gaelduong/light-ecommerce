@@ -94,6 +94,8 @@ const ProductDetails = () => {
          <p>Description: {product.description}</p>
          <p>Category: {product.category}</p>
          <p>{product.isInStock ? "(In Stock)" : "(Out Of Stock)"}</p>
+         <p> Quantity </p>
+         <button> Add to cart </button>
       </React.Fragment>
    );
 };

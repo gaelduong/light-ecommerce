@@ -25,19 +25,12 @@
 - save draft for add/edit?
 - min/max characters for name,desc,...
 - console.error instead of console.log
+- loading spinner
 
-* 2 ways to access the admin page
-1. access /admin route => check if contains valid jwt 
-=> if yes, show Admin page
-=> if no, redirect to /login
-
-2. login with username and password => submit => server verify credentials with DB
-=> if wrong credentials, reject
-=> if correct, send back jwt + redirect to /admin
 
 - [x] make new route product detail
 - [x] show cover image on product page only
-- protected route
+- [x] protected route
 - apply promotion to category/individual products (select?)
 - create new category
 - attributes with varying prices
@@ -57,8 +50,8 @@
 - need to find a way to ensure consistency between the image files and image paths in db
 - [x] extract imagesInput into component
 - [] price variation schemas are sketchy, dont feel safe at all
-- [] ui to add variations on product edit/add
-- [] display variations on product edit
+- [x] ui to add variations on product edit/add
+- [x] display variations on product edit
 
 - [x] get product by id
 - [x] more than 2 images per product
@@ -283,3 +276,19 @@ input:
 {options:[k2,k3], price: 0},
 
 xdeleteVar, xaddVar, xaddOption, xdeleteOption
+
+
+state
+    cart = [
+        {productId, productfields,quantity}
+    ]
+
+action:
+    user:
+    add_to_cart (product + qty)
+    admin:
+    add_product
+    edit_product
+    delete_product
+
+Redux

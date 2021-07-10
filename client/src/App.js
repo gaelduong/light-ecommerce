@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { UserProducstDisplay, ProductDetails, Login } from "./components/User";
+import { Home, UserProducstDisplay, ProductDetails, Cart, Login } from "./components/User";
 import { ProductsDisplay, ProductAdd, ProductEdit } from "./components/Admin";
 import "./App.css";
 
@@ -10,7 +10,13 @@ const App = () => {
             <nav>
                <ul>
                   <li>
+                     <Link to="/">Home</Link>
+                  </li>
+                  <li>
                      <Link to="/products">Products</Link>
+                  </li>
+                  <li>
+                     <Link to="/cart">Cart</Link>
                   </li>
                   <li>
                      <Link to="/admin">Admin</Link>
@@ -18,8 +24,10 @@ const App = () => {
                </ul>
             </nav>
             <Switch>
+               <Route exact path="/" component={Home} />
                <Route exact path="/products" component={UserProducstDisplay} />
                <Route exact path="/product-details/:productId" component={ProductDetails} />
+               <Route exact path="/cart" component={Cart} />
                <Route exact path="/admin" component={ProductsDisplay} />
                <Route exact path="/login" component={Login} />
                <Route exact path="/product-add" component={ProductAdd} />
