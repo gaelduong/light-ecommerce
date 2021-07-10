@@ -90,7 +90,7 @@ const ProductDetails = () => {
    return (
       <React.Fragment>
          <Link to={`/products`}>
-            <button> Back</button>{" "}
+            <button> Back</button>
          </Link>
          {product.images.length > 0 ? (
             product.images.map((image) => <img key={image.order} className="img-display" src={image.imageAsBase64} alt=" product" />)

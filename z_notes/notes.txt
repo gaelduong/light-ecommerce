@@ -307,3 +307,8 @@ store.js
 [] store in localstorage when refresh
 [] show num items in cart navbar
 [] different variations = different items
+[] need updateCart reducer?
+[] show total price in cart
+[] input qty
+[] checkbox select in cart
+[] reformat variation in cart
