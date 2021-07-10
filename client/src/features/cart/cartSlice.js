@@ -11,11 +11,11 @@ export const cartSlice = createSlice({
             payload: { product, quantity }
          } = action;
          const sameVariation = (v1, v2) => JSON.stringify(v1) === JSON.stringify(v2);
-         const foundIdx = state.findIndex(
+         const sameItemIdx = state.findIndex(
             (item) => item.product.productId === product.productId && sameVariation(item.product.variation, product.variation)
          );
-         if (foundIdx === -1) state.push(action.payload);
-         else state[foundIdx].quantity += quantity;
+         if (sameItemIdx === -1) state.push(action.payload);
+         else state[sameItemIdx].quantity += quantity;
       }
    }
 });
