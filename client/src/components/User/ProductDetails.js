@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../config";
 import placeholderImage from "../../assets/placeholder-image.png";
+import { addToCart } from "../../features/cart/cartSlice.js";
 
 const ProductDetails = () => {
+   const count = useSelector((state) => state.cart.value);
+   const dispatch = useDispatch();
+
    const [product, setProduct] = useState(null);
    const [variationSelection, setVariationSelection] = useState({});
    const [displayPrice, setDisplayPrice] = useState(0);
@@ -95,7 +100,7 @@ const ProductDetails = () => {
          <p>Category: {product.category}</p>
          <p>{product.isInStock ? "(In Stock)" : "(Out Of Stock)"}</p>
          <p> Quantity </p>
-         <button> Add to cart </button>
+         <button onClick={() => dispatch(addToCart({ productId, quantity: 3 }))}> Add to cart </button>
       </React.Fragment>
    );
 };

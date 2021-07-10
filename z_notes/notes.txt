@@ -292,3 +292,15 @@ action:
     delete_product
 
 Redux
+useSelector => select the state
+useDispatch => dispatch action
+
+//for state A
+sliceA.js
+    sliceA.reducers
+    sliceA.actions
+
+store.js
+    store = config(
+        reducers: sliceA.reducers, sliceB.reducers,...
+
