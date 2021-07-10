@@ -111,17 +111,17 @@ const ProductDetails = () => {
          <button className="inline" onClick={() => setQuantity((quantity) => quantity + 1)}>
             +
          </button>
-         <p> {addToCartSuccessMsg}</p>
+
          <button
             onClick={() => {
                setQuantity(1);
-               setAddToCartSuccessMsg(`Successfully added ${quantity} items to cart!`);
+               setAddToCartSuccessMsg(`Added ${quantity} items to cart!`);
                setTimeout(() => setAddToCartSuccessMsg(""), 700);
                dispatch(
                   addToCart({
                      product: {
                         productId,
-                        image: product.images[0].imageAsBase64,
+                        image: product.images[0] ? product.images[0].imageAsBase64 : placeholderImage,
                         name: product.name,
                         price: displayPrice,
                         variation: variationSelection
@@ -133,6 +133,7 @@ const ProductDetails = () => {
          >
             Add to cart
          </button>
+         <span> {addToCartSuccessMsg}</span>
       </React.Fragment>
    );
 };

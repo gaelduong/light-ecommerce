@@ -10,12 +10,13 @@ const Cart = () => {
       <div>
          <h3> Cart </h3>
          {cart.map((item) => (
-            <div key={item.product.productId}>
+            <div key={item.product.productId + JSON.stringify(item.product.variation)}>
                <span>
                   <img className="img-display" src={item.product.image} alt="product" />
                </span>
                <span> {item.product.name}</span>
                <span> {item.product.price}</span>
+               <span> {JSON.stringify(item.product.variation)}</span>
                <span> Qty: {item.quantity} </span>
             </div>
          ))}
