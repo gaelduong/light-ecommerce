@@ -6,40 +6,63 @@ const Cart = () => {
    const cart = useSelector((state) => state.cart);
    const dispatch = useDispatch();
 
-   if (cart.length === 0) return <> Your cart is empty </>;
+   if (cart.items.length === 0) return <> Your cart is empty </>;
 
    return (
       <div>
          <h3> Cart </h3>
-         {cart.map(({ product, quantity }) => (
+         {cart.items.map(({ product, quantity, subTotal }) => (
             <div key={product.productId + JSON.stringify(product.variation)}>
                <span>
                   <img className="img-display" src={product.image} alt="product" />
                </span>
                <span> {product.name}</span>
-               <span> {product.price}</span>
-               <span> {JSON.stringify(product.variation)}</span>
+               <span> Subtotal: {subTotal}</span>
+               <span> {Object.entries(product.variation).map((v) => v + " ")}</span>
                <span> Quantity: </span>
-               <button
-                  className="inline"
-                  onClick={() => {
-                     if (quantity - 1 === 0) {
-                        return dispatch(deleteCartItem({ productId: product.productId, productVariation: product.variation }));
+               <span>
+                  <button
+                     className="inline"
+                     onClick={() => {
+                        if (quantity - 1 === 0) {
+                           return dispatch(deleteCartItem({ productId: product.productId, productVariation: product.variation }));
+                        }
+                        dispatch(
+                           updateCartItemQuantity({ productId: product.productId, productVariation: product.variation, quantity: quantity - 1 })
+                        );
+                     }}
+                  >
+                     -
+                  </button>
+                  <span> {quantity} </span>
+                  {/* <input
+                     style={{ width: "32px", textAlign: "center" }}
+                     className="inline"
+                     type="tel"
+                     min="1"
+                     max="50"
+                     value={quantity}
+                     onChange={(e) =>
+                        dispatch(
+                           updateCartItemQuantity({
+                              productId: product.productId,
+                              productVariation: product.variation,
+                              quantity: !e.target.value ? 1 : parseFloat(e.target.value)
+                           })
+                        )
                      }
-                     dispatch(updateCartItemQuantity({ productId: product.productId, productVariation: product.variation, quantity: quantity - 1 }));
-                  }}
-               >
-                  -
-               </button>
-               <span> {quantity} </span>
-               <button
-                  className="inline"
-                  onClick={() =>
-                     dispatch(updateCartItemQuantity({ productId: product.productId, productVariation: product.variation, quantity: quantity + 1 }))
-                  }
-               >
-                  +
-               </button>
+                  /> */}
+                  <button
+                     className="inline"
+                     onClick={() =>
+                        dispatch(
+                           updateCartItemQuantity({ productId: product.productId, productVariation: product.variation, quantity: quantity + 1 })
+                        )
+                     }
+                  >
+                     +
+                  </button>
+               </span>
                &ensp;
                <button
                   className="inline"
@@ -49,6 +72,7 @@ const Cart = () => {
                </button>
             </div>
          ))}
+         <div>Total: {cart.total}</div>
          <button> Checkout (COD) </button>
       </div>
    );

@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = {
+   items: [],
+   total: 0
+};
 
 const sameVariation = (v1, v2) => JSON.stringify(v1) === JSON.stringify(v2);
 
@@ -12,20 +15,25 @@ export const cartSlice = createSlice({
          const {
             payload: { product, quantity }
          } = action;
-         const sameItemIdx = state.findIndex(
+         const sameItemIdx = state.items.findIndex(
             (item) => item.product.productId === product.productId && sameVariation(item.product.variation, product.variation)
          );
-         if (sameItemIdx === -1) state.push(action.payload);
-         else state[sameItemIdx].quantity += quantity;
+         if (sameItemIdx === -1) state.items.push({ product, quantity, subTotal: quantity * product.price });
+         else {
+            state.items[sameItemIdx].quantity += quantity;
+            state.items[sameItemIdx].subTotal += quantity * product.price;
+         }
+         state.total += quantity * product.price;
       },
       updateCartItemQuantity: (state, action) => {
          const {
             payload: { productId, productVariation, quantity }
          } = action;
 
-         state = state.map((item) => {
+         state.items = state.items.map((item) => {
             if (item.product.productId === productId && sameVariation(item.product.variation, productVariation)) {
-               return { product: item.product, quantity };
+               state.total += (quantity - item.quantity) * item.product.price;
+               return { product: item.product, quantity, subTotal: item.product.price * quantity };
             }
             return item;
          });
@@ -35,9 +43,12 @@ export const cartSlice = createSlice({
          const {
             payload: { productId, productVariation }
          } = action;
-         const foundIdx = state.findIndex((item) => item.product.productId === productId && sameVariation(item.product.variation, productVariation));
+         const foundIdx = state.items.findIndex(
+            (item) => item.product.productId === productId && sameVariation(item.product.variation, productVariation)
+         );
          if (foundIdx === -1) return;
-         state.splice(foundIdx, 1);
+         state.total -= state.items[foundIdx].subTotal;
+         state.items.splice(foundIdx, 1);
       }
    }
 });
