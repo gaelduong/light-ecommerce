@@ -311,5 +311,5 @@ store.js
 [x] show total & subtotal price in cart
 [] input qty
 [] checkbox select in cart
-[] reformat variation in cart
-[] show as table in cart
+[x] reformat variation in cart
+[x] show as table in cart
