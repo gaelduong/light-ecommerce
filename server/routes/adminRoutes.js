@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Product } = require("../models/");
 const { imageExists, deleteImage } = require("../utility");
-const { getProducts, getProductById } = require("./commonFunctions");
+const { getProducts, getProductById, getSearchedProducts } = require("./commonFunctions");
 const jwt = require("jsonwebtoken");
 
 const authMiddleware = async (req, res, next) => {
@@ -20,6 +20,8 @@ router.get("/products_admin", authMiddleware, getProducts);
 
 // Need to add protected middleware here
 router.get("/products_admin/:id", authMiddleware, getProductById);
+
+router.post("/search_admin", authMiddleware, getSearchedProducts);
 
 // Need to add protected middleware here
 router.post("/products_admin", authMiddleware, async (req, res) => {

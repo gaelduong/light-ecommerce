@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../config";
 import placeholderImage from "../../assets/placeholder-image.png";
+import { SearchBar } from "../Common";
 
 function displayMinMaxPrice(variationPriceList) {
    const prices = variationPriceList.map((variationPrice) => variationPrice.price);
@@ -25,7 +26,7 @@ const UserProducstDisplay = () => {
 
    return (
       <div className="Products">
-         <h2>Our products: </h2>
+         <SearchBar setProducts={setProducts} isPrivate={false} />
          <ul>
             {products.map(({ _id, name, price, category, isInStock, images }) => {
                return (

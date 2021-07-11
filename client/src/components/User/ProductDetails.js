@@ -97,8 +97,8 @@ const ProductDetails = () => {
          ) : (
             <img className="img-display" src={placeholderImage} alt=" product" />
          )}
-         <p>Name: {product.name}</p>
-         <p>Price: {displayPrice} USD</p>
+         <h3> {product.name}</h3>
+         <p> {displayPrice} USD</p>
          {variationsElems}
          <p>Description: {product.description}</p>
          <p>Category: {product.category}</p>

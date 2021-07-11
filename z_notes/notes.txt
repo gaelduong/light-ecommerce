@@ -304,7 +304,7 @@ store.js
     store = config(
         reducers: sliceA.reducers, sliceB.reducers,...
 
-[] store in localstorage when refresh
+[x] store in localstorage when refresh
 [x] show num items in cart navbar
 [x] different variations = different items
 [x] need updateCart reducer?
@@ -313,4 +313,9 @@ store.js
 [] checkbox select in cart
 [x] reformat variation in cart
 [x] show as table in cart
-[] stop users from altering cart data in localstorage
+[] stop users from altering cart data in localstorage (https://stackoverflow.com/questions/55851187/a-better-way-to-utilise-local-storage-to-store-shopping-cart-details)
+
+[] deploy to vercel
+
+[] Pagination
+[] search
