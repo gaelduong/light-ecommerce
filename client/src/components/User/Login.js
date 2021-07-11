@@ -56,7 +56,7 @@ const Login = ({ history }) => {
       <div>
          <form onSubmit={loginHandle}>
             <label>
-               <b> Admin username </b>
+               <b> Shopowner username </b>
             </label>
             <input
                type="text"

@@ -21,7 +21,7 @@ const App = () => {
                      <Link to="/cart">Cart</Link> <span style={{ color: "yellowgreen", fontWeight: "bold" }}>({cart.items.length}) </span>
                   </li>
                   <li>
-                     <Link to="/admin">Admin</Link>
+                     <Link to="/admin">Admin</Link> <span>(for shop owner)</span>
                   </li>
                </ul>
             </nav>
