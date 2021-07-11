@@ -26,7 +26,6 @@ const Cart = () => {
                            </div>
                         ))}
                      </td>
-                     <td> Quantity: </td>
                      <td>
                         <button
                            className="inline"

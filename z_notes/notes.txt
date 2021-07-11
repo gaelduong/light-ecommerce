@@ -305,7 +305,7 @@ store.js
         reducers: sliceA.reducers, sliceB.reducers,...
 
 [] store in localstorage when refresh
-[] show num items in cart navbar
+[x] show num items in cart navbar
 [x] different variations = different items
 [x] need updateCart reducer?
 [x] show total & subtotal price in cart

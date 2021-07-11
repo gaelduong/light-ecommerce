@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Home, UserProducstDisplay, ProductDetails, Cart, Login } from "./components/User";
 import { ProductsDisplay, ProductAdd, ProductEdit } from "./components/Admin";
 import "./App.css";
 
 const App = () => {
+   const cart = useSelector((state) => state.cart);
    return (
       <Router>
          <div className="App">
@@ -16,7 +18,7 @@ const App = () => {
                      <Link to="/products">Products</Link>
                   </li>
                   <li>
-                     <Link to="/cart">Cart</Link>
+                     <Link to="/cart">Cart</Link> <span style={{ color: "yellowgreen", fontWeight: "bold" }}>({cart.items.length}) </span>
                   </li>
                   <li>
                      <Link to="/admin">Admin</Link>
