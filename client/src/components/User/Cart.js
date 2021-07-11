@@ -21,7 +21,7 @@ const Cart = () => {
                      <td> {product.name}</td>
                      <td>
                         {Object.entries(product.variation).map(([variationName, value]) => (
-                           <div>
+                           <div key={`${variationName}-${value}`}>
                               {variationName}: {value}
                            </div>
                         ))}
