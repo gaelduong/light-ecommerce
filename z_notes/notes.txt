@@ -318,4 +318,4 @@ store.js
 [] deploy to vercel
 
 [] Pagination
-[] search
+[x] search
